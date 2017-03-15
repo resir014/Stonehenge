@@ -4,7 +4,7 @@
 const gutil = require('gulp-util');
 const clean = require('gulp-clean');
 const gulp = require('gulp');
-const gulpDotFlatten = require('gulp-dot-flatten');
+const gulpDotFlatten = require('./libs/gulp-dot-flatten.js');
 const gulpRename = require('gulp-rename');
 const gulpScreepsUpload = require('./libs/gulp-screeps-upload.js');
 const path = require('path');
@@ -74,7 +74,7 @@ const buildConfig = config.targets[buildTarget];
 gulp.task('lint', function(done) {
   if (buildConfig.lint) {
     gutil.log('linting ...');
-    return gulp.src('src/**/*.ts')
+    return gulp.src(['src/**/*.ts', '!src/lib/**/*.ts'])
       .pipe(tslint({ formatter: 'prose' }))
       .pipe(tslint.report({
         summarizeFailureOutput: true,
@@ -163,7 +163,7 @@ gulp.task('compile-flattened', gulp.series(
   function flatten() {
     return gulp.src('dist/tmp/**/*.js')
       .pipe(sourcemaps.init( { loadMaps: true } ))
-      .pipe(gulpDotFlatten())
+      .pipe(gulpDotFlatten(0))
       .pipe(sourcemaps.write(".", {
         includeContent: false,
         mapFile: f => { return f.replace('.js.map', '.map.js'); },

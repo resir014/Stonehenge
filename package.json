@@ -26,7 +26,6 @@
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-clean": "^0.3.2",
     "gulp-collect": "^0.1.0",
-    "gulp-dot-flatten": "^1.0.2",
     "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^2.2.0",
     "gulp-tslint": "^6.0.1",

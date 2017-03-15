@@ -1,3 +1,0 @@
-[submodule "src/lib/kernel"]
-	path = src/lib/kernel
-	url = https://github.com/NhanHo/screeps-kernel.git

@@ -1,6 +1,7 @@
 import * as CreepManager from "./components/creeps/creepManager";
 import * as Config from "./config/config";
 
+import scsh from "./core/scsh";
 import { log } from "./lib/logger/log";
 
 // Any code written outside the `loop()` method is executed only when the
@@ -24,6 +25,9 @@ log.info("load");
  * @export
  */
 export function loop() {
+  // Load the CLI module
+  global.scsh = scsh;
+
   // Check memory for null or out of bounds custom objects
   if (!Memory.uuid || Memory.uuid > 100) {
     Memory.uuid = 0;

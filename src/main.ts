@@ -30,8 +30,6 @@ log.info("Scripts bootstrapped.");
 export function loop() {
   MemoryManager.checkOutOfBounds();
 
-  // Load modules.
-
   // For each controlled room, run colony actions.
   for (let i in Game.rooms) {
     let room = Game.rooms[i];

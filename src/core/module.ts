@@ -1,11 +1,11 @@
 import * as MemoryManager from "./shared/memoryManager";
 
 export abstract class Module {
-  public globalId: number;
+  public guid: number;
   public payload: IModulePayload;
 
-  constructor(globalId: number, payload: IModulePayload) {
-    this.globalId = globalId || MemoryManager.getGlobalId();
+  constructor(guid: number, payload: IModulePayload) {
+    this.guid = guid || MemoryManager.getGuid();
     this.payload = payload;
   }
 

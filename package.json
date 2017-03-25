@@ -1,9 +1,8 @@
 {
-  "name": "screeps-starter",
+  "name": "@resir014/stonehenge",
   "version": "0.0.0",
-  "description": "",
+  "description": "Next-generation AI scripts for the game Screeps. Written in TypeScript.",
   "main": "./dist/main.js",
-  "repository": "screepers/screeps-typescript-starter",
   "scripts": {
     "commit": "git-cz",
     "deploy": "gulp build",
@@ -18,8 +17,16 @@
     "tslint": "tslint \"src/**/*.ts\"",
     "typings": "typings"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/resir014/Stonehenge.git"
+  },
+  "author": "Resi Respati <resir014@gmail.com>",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/resir014/Stonehenge/issues"
+  },
+  "homepage": "https://github.com/resir014/Stonehenge#readme",
   "devDependencies": {
     "cz-conventional-changelog": "^2.0.0",
     "deep-equal": "^1.0.1",

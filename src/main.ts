@@ -1,20 +1,23 @@
-import * as CreepManager from "./components/creeps/creepManager";
+/*
+ * Stonehenge - A modular colony management engine for Screeps.
+ *
+ * Stonehenge is a next-generation colony management system for the game Screeps.
+ * It is developed in TypeScript, and designed with modularity in mind.
+ */
+
+import * as MemoryManager from "./core/shared/memoryManager";
 import * as Config from "./config/config";
 
-import scsh from "./core/scsh";
-import { log } from "./lib/logger/log";
+import ControlledRoomColony from "./colony/controlledRoom";
 
-// Any code written outside the `loop()` method is executed only when the
-// Screeps system reloads your script.
-// Use this bootstrap wisely. You can cache some of your stuff to save CPU.
-// You should extend prototypes before the game loop executes here.
+import { log } from "./lib/logger/log";
 
 // This is an example for using a config variable from `config.ts`.
 if (Config.USE_PATHFINDER) {
   PathFinder.use(true);
 }
 
-log.info("load");
+log.info("Scripts bootstrapped.");
 
 /**
  * Screeps system expects this "loop" method in main.js to run the
@@ -25,29 +28,15 @@ log.info("load");
  * @export
  */
 export function loop() {
-  // Load the CLI module
-  global.scsh = scsh;
+  MemoryManager.checkOutOfBounds();
 
-  // Check memory for null or out of bounds custom objects
-  if (!Memory.uuid || Memory.uuid > 100) {
-    Memory.uuid = 0;
-  }
+  // Load modules.
 
+  // For each controlled room, run colony actions.
   for (let i in Game.rooms) {
-    let room: Room = Game.rooms[i];
+    let room = Game.rooms[i];
 
-    CreepManager.run(room);
-
-    // Clears any non-existing creep memory.
-    for (let name in Memory.creeps) {
-      let creep: any = Memory.creeps[name];
-
-      if (creep.room === room.name) {
-        if (!Game.creeps[name]) {
-          log.info("Clearing non-existing creep memory:", name);
-          delete Memory.creeps[name];
-        }
-      }
-    }
+    let colony = new ControlledRoomColony(room);
+    colony.run();
   }
 }

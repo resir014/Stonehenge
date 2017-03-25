@@ -1,3 +1,0 @@
-interface Structure {
-  needsEnergy(): boolean;
-}

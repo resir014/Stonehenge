@@ -7,13 +7,13 @@
   "targets": {
     "dev": {
       "branch": "staging",
-      "bundle": false,
+      "bundle": true,
       "lint": true,
       "lintRequired": false
     },
     "prod": {
       "branch": "default",
-      "bundle": false,
+      "bundle": true,
       "lint": true,
       "lintRequired": true
     },

@@ -1,3 +1,3 @@
 interface IJobAssignment {
-  [name: string]: number
+  [name: string]: number;
 }

@@ -54,7 +54,7 @@ function _buildMissingCreeps(room: Room) {
   let spawns: Spawn[] = room.find<Spawn>(FIND_MY_SPAWNS, {
     filter: (spawn: Spawn) => {
       return spawn.spawning === null;
-    },
+    }
   });
 
   if (Config.ENABLE_DEBUG_MODE) {
@@ -90,7 +90,7 @@ function _spawnCreep(spawn: Spawn, bodyParts: string[], role: string) {
 
   let properties: { [key: string]: any } = {
     role,
-    room: spawn.room.name,
+    room: spawn.room.name
   };
 
   status = _.isString(status) ? OK : status;

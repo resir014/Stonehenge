@@ -19,7 +19,7 @@ export function checkOutOfBounds() {
 }
 
 /**
- * Creates a unique guid for a queued task.
+ * Creates a unique guid for a module/queued task.
  *
  * @export
  * @returns The guid used for a task

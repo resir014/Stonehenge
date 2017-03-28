@@ -1,8 +1,8 @@
 import { Module } from "../core/module";
 
 export default class CreepBuilder extends Module {
-  constructor(globalId: number, payload: IModulePayload) {
-    super(globalId, payload);
+  constructor(guid: number, payload: IModulePayload) {
+    super(guid, payload);
   }
 
   public runModule(): IModuleResponse {
@@ -15,7 +15,7 @@ export default class CreepBuilder extends Module {
 
     if (status === OK) {
       let properties: { [key: string]: any } = {
-        globalId: this.globalId,
+        guid: this.guid,
         role: this.payload.role ? this.payload.role : "",
         room: this.payload.room ? this.payload.room : ""
       };

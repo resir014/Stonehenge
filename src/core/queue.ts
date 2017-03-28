@@ -8,7 +8,7 @@ export default class QueuedAction {
   public startTime: number;
 
   constructor(id: number, action: any, stopResult: any, tickLimit?: number, startTime?: number) {
-    this.id = id;
+    this.id = id || MemoryManager.getGuid();
     this.action = action;
     this.stopResult = stopResult;
     this.tickLimit = tickLimit || 100;

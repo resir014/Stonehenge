@@ -1,5 +1,6 @@
 export default class CreepState {
   private name: string;
+
   constructor(name: string) {
     this.name = name;
   }

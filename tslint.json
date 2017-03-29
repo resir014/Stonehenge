@@ -9,10 +9,7 @@
     "no-string-literal": false,
     "object-literal-sort-keys": false,
     "no-namespace": false,
-    "trailing-comma": [true, {
-      "multiline": "never",
-      "singleline": "never"
-    }],
+    "trailing-comma": [false],
     "variable-name": [
       true,
       "ban-keywords",

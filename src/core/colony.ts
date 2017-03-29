@@ -8,4 +8,4 @@ abstract class Colony {
   public abstract run(): void;
 }
 
-export default Colony
+export default Colony;

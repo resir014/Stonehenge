@@ -14,7 +14,7 @@
     "prod": "gulp watch --target prod",
     "start": "gulp watch",
     "test": "gulp test",
-    "tslint": "tslint \"src/**/*.ts\"",
+    "tslint": "tslint \"src/**/*.ts\" --exclude \"src/lib/**/*.ts\"",
     "typings": "typings"
   },
   "repository": {

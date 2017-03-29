@@ -12,4 +12,4 @@ abstract class Module {
   public abstract runModule(...args: any[]): IModuleResponse;
 }
 
-export default Module
+export default Module;

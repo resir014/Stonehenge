@@ -1,4 +1,4 @@
-export abstract class Colony {
+abstract class Colony {
   protected room: Room;
 
   constructor(room: Room) {
@@ -7,3 +7,5 @@ export abstract class Colony {
 
   public abstract run(): void;
 }
+
+export default Colony

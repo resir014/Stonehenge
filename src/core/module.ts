@@ -1,6 +1,6 @@
 import * as MemoryManager from "./shared/memoryManager";
 
-export abstract class Module {
+abstract class Module {
   public guid: number;
   public payload: IModulePayload;
 
@@ -11,3 +11,5 @@ export abstract class Module {
 
   public abstract runModule(...args: any[]): IModuleResponse;
 }
+
+export default Module

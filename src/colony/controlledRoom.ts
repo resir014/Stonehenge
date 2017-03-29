@@ -1,6 +1,6 @@
 import * as MemoryManager from "../core/shared/memoryManager";
 
-import { Colony } from "../core/colony";
+import Colony from "../core/colony";
 import CreepBuilder from "../modules/creepBuilder";
 
 export default class ControlledRoomColony extends Colony {

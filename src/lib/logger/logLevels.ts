@@ -3,4 +3,4 @@ export enum LogLevels {
   WARNING,
   INFO,
   DEBUG
-};
+}

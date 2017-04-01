@@ -11,6 +11,7 @@ import * as Config from "./config/config";
 import ControlledRoomColony from "./colony/controlledRoom";
 
 import { log } from "./lib/logger/log";
+import { startProfiling, saveProfilerStats } from "./lib/profiler/profile";
 
 // This is an example for using a config variable from `config.ts`.
 if (Config.USE_PATHFINDER) {
@@ -28,6 +29,8 @@ log.info("Scripts bootstrapped.");
  * @export
  */
 export function loop() {
+  startProfiling();
+
   MemoryManager.checkOutOfBounds();
 
   // For each controlled room, run colony actions.
@@ -37,4 +40,6 @@ export function loop() {
     let colony = new ControlledRoomColony(room);
     colony.run();
   }
+
+  saveProfilerStats();
 }

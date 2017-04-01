@@ -1,4 +1,4 @@
-import { profile } from "../lib/profiler/profile";
+import { profile } from "../lib/profiler";
 import Colony from "../core/colony";
 import CreepBuilder from "../modules/creepBuilder";
 

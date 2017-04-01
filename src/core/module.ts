@@ -1,15 +1,27 @@
-import * as MemoryManager from "./shared/memoryManager";
-
 abstract class Module {
-  public guid: number;
-  public payload: IModulePayload;
+  private className: string;
+  private config: IModuleConfig | undefined;
 
-  constructor(guid: number, payload: IModulePayload) {
-    this.guid = guid || MemoryManager.getGuid();
-    this.payload = payload;
+  constructor(className: string, config?: IModuleConfig) {
+    this.className = className;
+    this.config = config || undefined;
   }
 
-  public abstract runModule(...args: any[]): IModuleResponse;
+  public abstract run(...args: any[]): IModuleResponse;
+
+  /**
+   * Bootstrap the module. Create a memory entry for the module configs if
+   * it doesn't exist yet.
+   */
+  public bootstrap(): void {
+    if (!Memory.modules[this.className]) {
+      if (this.config) {
+        Memory.modules[this.className] = this.config;
+      } else {
+        Memory.modules[this.className] = {};
+      }
+    }
+  }
 }
 
 export default Module;

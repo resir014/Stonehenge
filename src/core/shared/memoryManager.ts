@@ -16,6 +16,9 @@ export function checkOutOfBounds() {
   if (!Memory.spawns) {
     Memory.spawns = {};
   }
+  if (!Memory.modules) {
+    Memory.modules = {};
+  }
 }
 
 /**
@@ -25,7 +28,7 @@ export function checkOutOfBounds() {
  * @returns The guid used for a task
  */
 export function getGuid() {
-  if (!Memory.guid || Memory.guid > 10000) {
+  if (!Memory.guid || Memory.guid > 100) {
     Memory.guid = 0;
   }
 

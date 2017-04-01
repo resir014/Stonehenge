@@ -1,5 +1,3 @@
-import * as MemoryManager from "../core/shared/memoryManager";
-
 import { profile } from "../lib/profiler/profile";
 import Colony from "../core/colony";
 import CreepBuilder from "../modules/creepBuilder";
@@ -28,6 +26,6 @@ export default class ControlledRoomColony extends Colony {
       bodyParts: bodyParts
     };
 
-    new CreepBuilder(MemoryManager.getGuid(), payload).runModule();
+    new CreepBuilder().run(payload);
   }
 }

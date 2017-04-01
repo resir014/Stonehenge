@@ -7,11 +7,13 @@
 
 import * as MemoryManager from "./core/shared/memoryManager";
 import * as Config from "./config/config";
-
+import * as ModuleConfig from "./config/modules";
 import ControlledRoomColony from "./colony/controlledRoom";
+import { log } from "./lib/logger";
+import { startProfiling, saveProfilerStats } from "./lib/profiler";
 
-import { log } from "./lib/logger/log";
-import { startProfiling, saveProfilerStats } from "./lib/profiler/profile";
+import CreepBuilder from "./modules/creepBuilder";
+import CreepBodyPartsBuilder from "./modules/bodyPartsBuilder";
 
 // This is an example for using a config variable from `config.ts`.
 if (Config.USE_PATHFINDER) {
@@ -32,6 +34,7 @@ export function loop() {
   startProfiling();
 
   MemoryManager.checkOutOfBounds();
+  bootstrapModules();
 
   // For each controlled room, run colony actions.
   for (let i in Game.rooms) {
@@ -42,4 +45,10 @@ export function loop() {
   }
 
   saveProfilerStats();
+}
+
+function bootstrapModules() {
+  // Include the modules you want to bootstrap here.
+  new CreepBuilder().bootstrap();
+  new CreepBodyPartsBuilder(ModuleConfig.bodyPartsBuilder).bootstrap();
 }

@@ -1,3 +1,6 @@
+// `config/modules.ts` is a place where you place default module configurations
+// which will be bootstrapped with your game loop.
+
 export const bodyPartsBuilder: IModuleConfig = {
   tier1: {
     worker: [WORK, CARRY, CARRY, MOVE, MOVE],

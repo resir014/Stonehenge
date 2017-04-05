@@ -1,10 +1,24 @@
-# resir014-screeps
+# Stonehenge
 
-> Personal AI code for the game [Screeps](https://screeps.com/). Written in [TypeScript](http://www.typescriptlang.org/).
+> Next-generation AI scripts for the game [Screeps](https://screeps.com/). Written in [TypeScript](http://www.typescriptlang.org/).
 
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
-This starter kit is a modified version of the original [Screeps/TypeScript sample project](https://github.com/MarkoSulamagi/Screeps-typescript-sample-project) by [Marko Sulamägi](https://github.com/MarkoSulamagi).
+Stonehenge is a next-generation AI system for the game [Screeps](https://screeps.com/). It is developed in [TypeScript](https://www.typescriptlang.org/), and designed with modularity in mind.
+
+## Design Principles
+
+### Maintainability
+
+The codebase has to be simple and easily readable in order for the code to be easily built upon. In this case, the code quality is kept to a high standard and every part of the Stonehenge codebase is painstakingly documented to improve the readability and maintainability.
+
+### Modularity
+
+Stonehenge acts as the "core engine" which drives the core modules that are needed to run a simple Screeps colony. All of these modules can be easily activated/deactivated according to your needs. It also provides a simple module API, allowing for players to develop their own custom modules.
+
+### Configuration over Convention
+
+**(debatable)** Anyone who wants to build their Screeps colony with with Stonehenge must not be forced to follow conventions beyond the initial setup. The configurations available in the `config/` folder will allow you to fine-tune the codebase according to your workflow and needs.
 
 ## Getting Started
 
@@ -69,66 +83,195 @@ You can also use `deploy-prod` instead of `deploy` for a bundled version of the 
 
 `deploy-local` will copy files into a local folder to be picked up by steam client and used with the official or a private server.
 
-## Notes
+---
 
-### Sample code
+## How It Works
 
-This starter kit includes a bit of sample code, which uses some of the new TS2 features mentioned earlier. Feel free to build upon this as you please, but if you don't want to use them, you can remove everything from within the `src/` directory and start from scratch.
+(WIP: This is a very early, rough description of how the core engine would work and is *definitely* subject to change.)
 
-When starting from scratch, make sure a `main.ts` file exists with a `loop()` function. This is necessary in order to run the game loop.
+### The Core Engine
 
-**Source:** http://support.screeps.com/hc/en-us/articles/204825672-New-main-loop-architecture
+During a whole tick, the Stonehenge core driver engine performs the following:
 
-### The `noImplicitAny` compiler flag
+* Bootstrap modules.
+* Run colony logic every tick (and run the underlying modules).
+* Track & manage CPU usage via [screeps-profiler](https://github.com/gdborton/screeps-profiler).
+* Perform memory clean-up tasks (like removing obsolete Creep memory, etc.)
 
-TypeScript developers disagree about whether the `noImplicitAny` flag should be `true` or `false`. There is no correct answer and you can change the flag later. But your choice now can make a difference in larger projects so it merits discussion.
+### Modules
 
-When the `noImplicitAny` flag is `false` (the default), the compiler silently defaults the type of a variable to `any` if it cannot infer the type based on how the variable is used.
+(WIP: These sample codes are still pretty much a work-in-progress.)
 
-When the `noImplicitAny` flag is `true` and the TypeScript compiler cannot infer the type, it still generates the JavaScript files. But it also reports an error. Many seasoned developers prefer this stricter setting because type checking catches more unintentional errors at compile time.
+Modules play an integral part on the Stonehenge structure. The core Stonehenge engine contains several core modules that performs basic tasks, like creating a creep, etc. Each module exchanges information with each other through the `IModulePayload` and `IModuleResponse` interfaces.
 
-In this starter kit, the `noImplicitAny` is set to `true` for a more stricter environment. If you don't like this, you can change the `noImplicitAny` flag to `false` on the `tsconfig.json` file.
+Modules **should** be written in TypeScript.
 
-**Source:** https://angular.io/docs/ts/latest/guide/typescript-configuration.html
+#### Interfaces & Abstracts
 
+* `IModulePayload` is an object containing all of the module's parameters.
+* `IModuleResponse` is the response object that a module throws out. It throws a `ModuleStatus` and an optional `data`.
 
-### TSLint
+```ts
+// ./typings/module.d.ts
+interface IModuleConfig {
+  [name: string]: any;
+}
 
-TSLint checks your TypeScript code for readability, maintainability, and functionality errors, and can also enforce coding style standards.
+interface IModulePayload {
+  [name: string]: any;
+}
 
-After each successful compiling of the project, TSLint will parse the TypeScript source files and display a warning for any issues it will find.
+interface IModuleResponse {
+  status: ModuleStatus;
+  data?: {
+    [name: string]: any
+  };
+}
 
-This project provides TSLint rules through a `tslint.json` file, which extends the recommended set of rules from TSLint github repository: https://github.com/palantir/tslint/blob/next/src/configs/recommended.ts
-
-We made some changes to those rules, which we considered necessary and/or relevant to a proper Screeps project:
-
- - set the [forin](http://palantir.github.io/tslint/rules/forin/) rule to `false`, it was forcing `for ( ... in ...)` loops to check if object members were not coming from the class prototype.
- - set the [interface-name](http://palantir.github.io/tslint/rules/interface-name/) rule to `false`, in order to allow interfaces that are not prefixed with `I`.
- - set the [no-console](http://palantir.github.io/tslint/rules/no-console/) rule to `false`, in order to allow using `console`.
- - in the [variable-name](http://palantir.github.io/tslint/rules/variable-name/) rule, added `allow-leading-underscore`.
-
-If you believe that some rules should not apply to a part of your code, you can use flags to let TSLint know about it: https://palantir.github.io/tslint/usage/rule-flags/
-
-**More info about TSLint:** https://palantir.github.io/tslint/
-
-### Source maps
-
-Works out of the box with "npm run deploy-prod" and default values from src/config/config.example.ts. Links back to source control when possible (currently understands only github and gitlab). Code has to be committed at build time and pushed to remote at run time for this to work correctly.
-
-Doesn't work in sim, because they do lots of evals with scripts in sim.
-
-Currently maps are generated, but "source-maps" module doesn't get uploaded for non-webpack builds.
-
-Log level and output can be controlled from console by setting level, showSource and showTick properties on log object.
-
-```js
-// print errors only, hide ticks and source locations
-log.level = 1;
-log.showSource = false;
-log.showTick = false;
+declare enum ModuleStatus {
+  OK = 0,
+  ERROR
+}
 ```
 
-![Console output example](/console.png "Console output example")
+```ts
+// ./core/module.ts
+abstract class Module {
+  private className: string;
+  private config: IModuleConfig | undefined;
+
+  constructor(className: string, config?: IModuleConfig) {
+    this.className = className;
+    this.config = config || undefined;
+  }
+
+  public abstract run(...args: any[]): IModuleResponse;
+
+  /**
+   * Bootstrap the module. Create a memory entry for the module configs if
+   * it doesn't exist yet.
+   */
+  public bootstrap(): void {
+    if (!Memory.modules[this.className]) {
+      if (this.config) {
+        Memory.modules[this.className] = this.config;
+      } else {
+        Memory.modules[this.className] = {};
+      }
+    }
+  }
+}
+
+export default Module;
+```
+
+#### Example Scenario
+
+The `creepBuilder` module creates a creep based on a set amount of parameters.
+
+```ts
+// ./modules/creepBuilder.ts
+import { Module } from "../core/module";
+
+interface IModuleResponse {
+  status: number;
+  data?: {
+    [name: string]: any
+  };
+}
+
+export default class CreepBuilder extends Module {
+  constructor(config?: IModuleConfig) {
+    super("bodyPartsBuilder", config);
+  }
+
+  public run(payload: IModulePayload): IModuleResponse {
+    if (!this.checkPayload(payload)) {
+      if (Config.ENABLE_DEBUG_MODE) {
+        log.error("[CreepBuilder] Invalid properties are supplied for this module.");
+      }
+      return {
+        status: ModuleStatus.ERROR
+      };
+    }
+
+    let guid: number = MemoryManager.getGuid();
+    let spawn: Spawn = payload.spawn;
+    let name: string | undefined = `${payload.room} - ${payload.role}#${guid}`;
+    let body: string[] = payload.bodyParts;
+    let status: number | string = spawn.canCreateCreep(body);
+
+    status = _.isString(status) ? OK : status;
+
+    if (status === OK) {
+      let properties: { [key: string]: any } = {
+        guid: guid,
+        role: payload.role,
+        room: payload.room
+      };
+
+      status = spawn.createCreep(body, name, properties);
+
+      let response: IModuleResponse = {
+        status: _.isString(status) ? OK : status,
+        data: properties
+      };
+      return response;
+    } else {
+      if (Config.ENABLE_DEBUG_MODE) {
+        log.error("[CreepBuilder] Failed creating new creep: " + status);
+      }
+
+      let response: IModuleResponse = {
+        status: status
+      };
+      return response;
+    }
+  }
+
+  private checkPayload(payload: IModulePayload): boolean {
+    let requiredProps = ["spawn", "room", "role", "bodyParts"];
+    let payloadKeys = _.intersection(_.keys(payload), requiredProps);
+
+    if (payloadKeys.length === requiredProps.length) {
+      return true;
+    }
+
+    return false;
+  }
+}
+```
+
+```ts
+// ./colony/controlledRoom.ts
+import * as MemoryManager from "../core/shared/memoryManager";
+
+import { Colony } from "../core/colony";
+import CreepBuilder from "../modules/creepBuilder";
+
+export default class ControlledRoomColony extends Colony {
+  constructor(room: Room) {
+    super(room);
+  }
+
+  // ...
+
+  private buildCreep(spawn: Spawn, role: string, bodyParts: string[]) {
+    let payload: IModulePayload = {
+      spawn: spawn,
+      role: role,
+      room: spawn.room.name,
+      bodyParts: bodyParts
+    };
+
+    new CreepBuilder().run(payload);
+  }
+}
+```
+
+More documentation coming soon.
+
+---
 
 ## Contributing
 

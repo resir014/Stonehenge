@@ -1,18 +1,19 @@
 import { profile } from "../lib/profiler";
 import { log } from "../lib/logger";
 import { controlledRoomJobs } from "../config/jobs";
-import Colony from "../core/colony";
-import CreepBuilder from "../modules/creepBuilder";
-import ControlledRoomCreepManager from "./creep/controlledRoomCreepManager";
+import ControlledRoomCreepManager from "./creep/manager/controlledRoomCreepManager";
 
-export default class ControlledRoomColony extends Colony {
+export default class ControlledRoomColony {
+  protected room: Room;
+
   constructor(room: Room) {
-    super(room);
+    this.room = room;
   }
 
   @profile
   public run(): void {
     this.initializeMemory();
+    this.refreshMiningPositions();
     this.cleanupCreepMemory();
 
     // TODO: probably break these down further into modules?
@@ -23,6 +24,7 @@ export default class ControlledRoomColony extends Colony {
   /**
    * Checks memory for null or out of bounds objects
    */
+  @profile
   private initializeMemory() {
     if (!Memory.rooms[this.room.name]) {
       Memory.rooms[this.room.name] = {};
@@ -38,8 +40,22 @@ export default class ControlledRoomColony extends Colony {
   }
 
   /**
+   * Refreshes every memory entry of mining positions available on the room.
+   */
+  @profile
+  private refreshMiningPositions() {
+    if (!Memory.rooms[this.room.name]) {
+      Memory.rooms[this.room.name] = {};
+    }
+    if (!Memory.rooms[this.room.name].unoccupied_mining_positions) {
+      Memory.rooms[this.room.name].unoccupied_mining_positions = [];
+    }
+  }
+
+  /**
    * Remove dead creeps in memory.
    */
+  @profile
   private cleanupCreepMemory() {
     for (let name in Memory.creeps) {
       let creep: any = Memory.creeps[name];
@@ -60,17 +76,5 @@ export default class ControlledRoomColony extends Colony {
         delete Memory.creeps[name];
       }
     }
-  }
-
-  @profile
-  private buildCreep(spawn: Spawn, role: string, bodyParts: string[]) {
-    let payload: IModulePayload = {
-      spawn: spawn,
-      role: role,
-      room: spawn.room.name,
-      bodyParts: bodyParts
-    };
-
-    new CreepBuilder().run(payload);
   }
 }

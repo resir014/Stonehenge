@@ -1,6 +1,6 @@
 import SourceManager from "../source/controlledRoomSourceManager";
 
-export default class CreepManager {
+export default class BaseManager {
   public creeps: Creep[];
   public creepCount: number;
   public room: Room;

@@ -1,8 +1,8 @@
-import { profile } from "../../lib/profiler";
-import CreepManager from "./creepManager";
-import SourceMiner from "./role/sourceMiner";
+import { profile } from "../../../lib/profiler";
+import BaseManager from "../baseManager";
+import SourceMiner from "../role/sourceMiner";
 
-export default class ControlledRoomCreepManager extends CreepManager {
+export default class ControlledRoomCreepManager extends BaseManager {
   private sourceMiners: Creep[];
   private haulers: Creep[];
   private builders: Creep[];

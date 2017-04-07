@@ -1,4 +1,4 @@
-export default class CreepState {
+export default class BaseState {
   private name: string;
 
   constructor(name: string) {

@@ -4,6 +4,10 @@
  * @export
  */
 export function checkOutOfBounds() {
+  if (!Memory.guid || Memory.guid > 100) {
+    Memory.guid = 0;
+  }
+
   if (!Memory.creeps) {
     Memory.creeps = {};
   }
@@ -20,6 +24,8 @@ export function checkOutOfBounds() {
     Memory.modules = {};
   }
 }
+
+
 
 /**
  * Creates a unique guid for a module/queued task.

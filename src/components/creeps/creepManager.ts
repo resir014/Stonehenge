@@ -1,13 +1,22 @@
 import * as Config from "../../config/config";
 
-import * as harvester from "./roles/harvester";
+import * as sourceMiner from "./roles/sourceMiner";
+import * as sourceHauler from "./roles/sourceHauler";
+import * as upgrader from "./roles/upgrader";
+import * as builder from "./roles/builder";
 
-import { log } from "../../lib/logger/log";
+import { log } from "../../lib/logger";
 
 export let creeps: Creep[];
+export let creepNames: string[] = [];
 export let creepCount: number = 0;
 
-export let harvesters: Creep[] = [];
+export let sourceMiners: Creep[] = [];
+export let sourceHaulers: Creep[] = [];
+export let upgraders: Creep[] = [];
+export let builders: Creep[] = [];
+export let repairers: Creep[] = [];
+export let wallRepairers: Creep[] = [];
 
 /**
  * Initialization scripts for CreepManager module.
@@ -20,8 +29,17 @@ export function run(room: Room): void {
   _buildMissingCreeps(room);
 
   _.each(creeps, (creep: Creep) => {
-    if (creep.memory.role === "harvester") {
-      harvester.run(creep);
+    if (creep.memory.role === "sourceMiner") {
+      sourceMiner.run(creep);
+    }
+    if (creep.memory.role === "sourceHauler") {
+      sourceHauler.run(creep);
+    }
+    if (creep.memory.role === "upgrader") {
+      upgrader.run(creep);
+    }
+    if (creep.memory.role === "builder") {
+      builder.run(creep);
     }
   });
 }
@@ -36,10 +54,15 @@ function _loadCreeps(room: Room) {
   creepCount = _.size(creeps);
 
   // Iterate through each creep and push them into the role array.
-  harvesters = _.filter(creeps, (creep) => creep.memory.role === "harvester");
+  sourceMiners = _.filter(creeps, (creep) => creep.memory.role === "sourceMiner");
+  sourceHaulers = _.filter(creeps, (creep) => creep.memory.role === "sourceHauler");
+  upgraders = _.filter(creeps, (creep) => creep.memory.role === "upgrader");
+  builders = _.filter(creeps, (creep) => creep.memory.role === "builder");
+  repairers = _.filter(creeps, (creep) => creep.memory.role === "repairer");
+  wallRepairers = _.filter(creeps, (creep) => creep.memory.role === "wallRepairer");
 
   if (Config.ENABLE_DEBUG_MODE) {
-    log.info(creepCount + " creeps found in the playground.");
+    log.debug(creepCount + " creeps found in the playground.");
   }
 }
 
@@ -49,30 +72,77 @@ function _loadCreeps(room: Room) {
  * @param {Room} room
  */
 function _buildMissingCreeps(room: Room) {
-  let bodyParts: string[];
+  let bodyParts: string[] = [];
 
   let spawns: Spawn[] = room.find<Spawn>(FIND_MY_SPAWNS, {
     filter: (spawn: Spawn) => {
       return spawn.spawning === null;
-    }
+    },
   });
 
-  if (Config.ENABLE_DEBUG_MODE) {
-    if (spawns[0]) {
-      log.info("Spawn: " + spawns[0].name);
-    }
+  if (room.energyCapacityAvailable < 550 && room.energyAvailable < 550) {
+    bodyParts = [WORK, CARRY, CARRY, MOVE, MOVE];
+  } else if (room.energyCapacityAvailable >= 550 && room.energyAvailable >= 550) {
+    bodyParts = [WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE];
   }
 
-  if (harvesters.length < 2) {
-    if (harvesters.length < 1 || room.energyCapacityAvailable <= 800) {
-      bodyParts = [WORK, WORK, CARRY, MOVE];
-    } else if (room.energyCapacityAvailable > 800) {
-      bodyParts = [WORK, WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE];
+  for (let spawn of spawns) {
+    if (Config.ENABLE_DEBUG_MODE) {
+      log.debug("Spawning from:", spawn.name);
     }
 
-    _.each(spawns, (spawn: Spawn) => {
-      _spawnCreep(spawn, bodyParts, "harvester");
-    });
+    if (spawn.canCreateCreep) {
+      if (sourceMiners.length >= 1) {
+        if (sourceHaulers.length < Memory.rooms[room.name].jobs.haulerJobs) {
+          if (room.energyCapacityAvailable < 550 && room.energyAvailable < 550) {
+            bodyParts = [CARRY, CARRY, CARRY, MOVE, MOVE, MOVE];
+          } else if (room.energyCapacityAvailable >= 550 && room.energyAvailable >= 550) {
+            bodyParts = [CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE];
+          } else if (sourceHaulers.length < 1) {
+            bodyParts = [CARRY, CARRY, CARRY, MOVE];
+          }
+          _spawnCreep(spawn, bodyParts, "sourceHauler");
+          break;
+        } else if (sourceMiners.length < Memory.rooms[room.name].jobs.sourceMiningJobs) {
+          if (room.energyCapacityAvailable < 550 && room.energyAvailable < 550) {
+            bodyParts = [WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE];
+          } else if (room.energyCapacityAvailable >= 550 && room.energyAvailable >= 550) {
+            bodyParts = [WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE];
+          }
+          _spawnCreep(spawn, bodyParts, "sourceMiner");
+        } else if (upgraders.length < Memory.rooms[room.name].jobs.upgraderJobs) {
+          // In case we ran out of creeps.
+          if (upgraders.length < 1) {
+            bodyParts = [WORK, WORK, CARRY, MOVE];
+          }
+          _spawnCreep(spawn, bodyParts, "upgrader");
+        } else if (builders.length < Memory.rooms[room.name].jobs.builderJobs) {
+          // In case we ran out of creeps.
+          if (builders.length < 1) {
+            bodyParts = [WORK, WORK, CARRY, MOVE];
+          }
+          _spawnCreep(spawn, bodyParts, "builder");
+        } else if (repairers.length < Memory.rooms[room.name].jobs.repairJobs) {
+          // In case we ran out of creeps.
+          if (repairers.length < 1) {
+            bodyParts = [WORK, WORK, CARRY, MOVE];
+          }
+          _spawnCreep(spawn, bodyParts, "repairer");
+        } else if (wallRepairers.length < Memory.rooms[room.name].jobs.wallRepairJobs) {
+          // In case we ran out of creeps.
+          if (repairers.length < 1) {
+            bodyParts = [WORK, WORK, CARRY, MOVE];
+          }
+          _spawnCreep(spawn, bodyParts, "wallRepairer");
+        }
+      } else {
+        if (sourceMiners.length < Memory.rooms[room.name].jobs.sourceMiningJobs) {
+          bodyParts = [WORK, WORK, MOVE, MOVE];
+          _spawnCreep(spawn, bodyParts, "sourceMiner");
+          break;
+        }
+      }
+    }
   }
 }
 
@@ -80,17 +150,16 @@ function _buildMissingCreeps(room: Room) {
  * Spawns a new creep.
  *
  * @param {Spawn} spawn
- * @param {string[]} bodyParts
  * @param {string} role
  * @returns
  */
 function _spawnCreep(spawn: Spawn, bodyParts: string[], role: string) {
   let uuid: number = Memory.uuid;
-  let status: number | string = spawn.canCreateCreep(bodyParts, undefined);
+  let status: number | string = spawn.canCreateCreep(bodyParts);
 
   let properties: { [key: string]: any } = {
     role,
-    room: spawn.room.name
+    room: spawn.room.name,
   };
 
   status = _.isString(status) ? OK : status;
@@ -100,7 +169,8 @@ function _spawnCreep(spawn: Spawn, bodyParts: string[], role: string) {
 
     log.info("Started creating new creep: " + creepName);
     if (Config.ENABLE_DEBUG_MODE) {
-      log.info("Body: " + bodyParts);
+      log.debug("Body: " + bodyParts);
+      log.debug("UUID: " + uuid);
     }
 
     status = spawn.createCreep(bodyParts, creepName, properties);
@@ -108,7 +178,7 @@ function _spawnCreep(spawn: Spawn, bodyParts: string[], role: string) {
     return _.isString(status) ? OK : status;
   } else {
     if (Config.ENABLE_DEBUG_MODE) {
-      log.info("Failed creating new creep: " + status);
+      log.error("Failed creating new creep: " + status);
     }
 
     return status;

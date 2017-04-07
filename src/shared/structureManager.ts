@@ -1,5 +1,5 @@
-import * as Config from "../../config/config";
-import { log } from "../../lib/logger/log";
+import * as Config from "../config/config";
+import { log } from "../lib/logger/log";
 
 export default class SharedStructureManager {
   public structures: Structure[];

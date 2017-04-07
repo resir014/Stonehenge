@@ -1,5 +1,5 @@
 import { profile } from "../../../lib/profiler";
-import BaseRole from "../../../core/creep/baseRole";
+import BaseRole from "../baseRole";
 
 export default class SourceMiner extends BaseRole {
   constructor(creep: Creep) {

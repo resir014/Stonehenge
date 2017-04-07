@@ -8,7 +8,24 @@ import * as Config from "../../config/config";
  * @param {(Structure | RoomPosition)} target
  * @returns {number}
  */
-export function moveTo(creep: Creep, target: Structure | RoomPosition): number {
+export function moveTo(creep: Creep, target: Structure | ConstructionSite | RoomPosition): number {
+  let result: number = 0;
+
+  // Execute moves by cached paths at first
+  result = creep.moveTo(target);
+
+  return result;
+}
+
+/**
+ * Shorthand method for `Creep.moveTo()`, adjusted for Resource.
+ *
+ * @export
+ * @param {Creep} creep
+ * @param {(Structure | RoomPosition)} target
+ * @returns {number}
+ */
+export function moveToResource(creep: Creep, target: Resource | RoomPosition): number {
   let result: number = 0;
 
   // Execute moves by cached paths at first
@@ -51,6 +68,37 @@ export function tryRenew(creep: Creep, spawn: Spawn): number {
 export function moveToRenew(creep: Creep, spawn: Spawn): void {
   if (tryRenew(creep, spawn) === ERR_NOT_IN_RANGE) {
     creep.moveTo(spawn);
+  }
+}
+
+export function tryRetrieveEnergy(creep: Creep): void {
+  let targetSource = creep.pos.findClosestByPath<Resource>(FIND_DROPPED_RESOURCES);
+
+  if (targetSource) {
+    if (creep.pos.isNearTo(targetSource)) {
+      creep.pickup(targetSource);
+    } else {
+      moveToResource(creep, targetSource);
+    }
+  } else {
+    let targetContainer = creep.pos.findClosestByPath<Container>(FIND_STRUCTURES, {
+      filter: ((structure: Structure) => {
+        if (structure.structureType === STRUCTURE_CONTAINER) {
+          let container = <Container> structure;
+          if (_.sum(container.store) > (500)) {
+            return container;
+          }
+        }
+      })
+    });
+
+    if (targetContainer) {
+      if (creep.pos.isNearTo(targetContainer)) {
+        creep.withdraw(targetContainer, RESOURCE_ENERGY);
+      } else {
+        moveTo(creep, targetContainer);
+      }
+    }
   }
 }
 

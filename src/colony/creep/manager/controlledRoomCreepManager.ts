@@ -3,6 +3,9 @@ import BaseManager from "../baseManager";
 import SourceMiner from "../role/sourceMiner";
 
 export default class ControlledRoomCreepManager extends BaseManager {
+  protected creeps: Creep[];
+  protected creepCount: number;
+
   private sourceMiners: Creep[];
   private haulers: Creep[];
   private builders: Creep[];

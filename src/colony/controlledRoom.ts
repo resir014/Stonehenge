@@ -47,8 +47,8 @@ export default class ControlledRoomColony {
     if (!Memory.rooms[this.room.name]) {
       Memory.rooms[this.room.name] = {};
     }
-    if (!Memory.rooms[this.room.name].unoccupied_mining_positions) {
-      Memory.rooms[this.room.name].unoccupied_mining_positions = [];
+    if (!Memory.rooms[this.room.name].unoccupiedMiningPositions) {
+      Memory.rooms[this.room.name].unoccupiedMiningPositions = [];
     }
   }
 

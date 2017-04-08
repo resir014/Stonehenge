@@ -1,6 +1,5 @@
 import { log } from "../lib/logger";
 import { profile } from "../lib/profiler";
-import * as MemoryManager from "../shared/memoryManager";
 import ColonyManager from "../colony/colonyManager";
 
 /**

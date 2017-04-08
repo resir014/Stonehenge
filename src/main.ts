@@ -5,9 +5,8 @@
  * It is developed in TypeScript, and designed with modularity in mind.
  */
 
-import * as MemoryManager from "./shared/memoryManager";
 import * as Config from "./config/config";
-import ControlledRoomColony from "./colony/controlledRoom";
+import Stonehenge from "./core/stonehenge";
 import { log } from "./lib/logger";
 import { startProfiling, saveProfilerStats } from "./lib/profiler";
 
@@ -29,16 +28,9 @@ log.info("Scripts bootstrapped.");
 export function loop() {
   startProfiling();
 
-  // Check memory for null or out of bounds custom objects.
-  MemoryManager.checkOutOfBounds();
-
-  // For each controlled room, run colony actions.
-  for (let i in Game.rooms) {
-    let room = Game.rooms[i];
-
-    let colony = new ControlledRoomColony(room);
-    colony.run();
-  }
+  // Run the Stonehenge core engine.
+  let stonehenge = new Stonehenge();
+  stonehenge.run();
 
   saveProfilerStats();
 }

@@ -9,22 +9,22 @@ export default class SourceMiner extends BaseRole {
   @profile
   public run() {
     let availablePositions: RoomPosition[] = Memory.rooms[this.creep.room.name]
-      .unoccupied_mining_positions;
+      .unoccupiedMiningPositions;
     let assignedPosition: RoomPosition;
 
-    if (availablePositions.length > 0 && !this.creep.memory.occupied_mining_position) {
-      this.creep.memory.occupied_mining_position = availablePositions.pop();
+    if (availablePositions.length > 0 && !this.creep.memory.occupiedMiningPosition) {
+      this.creep.memory.occupiedMiningPosition = availablePositions.pop();
       assignedPosition = new RoomPosition(
-        this.creep.memory.occupied_mining_position.x,
-        this.creep.memory.occupied_mining_position.y,
-        this.creep.memory.occupied_mining_position.roomName
+        this.creep.memory.occupiedMiningPosition.x,
+        this.creep.memory.occupiedMiningPosition.y,
+        this.creep.memory.occupiedMiningPosition.roomName
       );
-      Memory.rooms[this.creep.room.name].unoccupied_mining_positions = availablePositions;
+      Memory.rooms[this.creep.room.name].unoccupiedMiningPositions = availablePositions;
     } else {
       assignedPosition = new RoomPosition(
-        this.creep.memory.occupied_mining_position.x,
-        this.creep.memory.occupied_mining_position.y,
-        this.creep.memory.occupied_mining_position.roomName
+        this.creep.memory.occupiedMiningPosition.x,
+        this.creep.memory.occupiedMiningPosition.y,
+        this.creep.memory.occupiedMiningPosition.roomName
       );
     }
 

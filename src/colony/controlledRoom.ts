@@ -6,10 +6,18 @@ import ControlledRoomCreepManager from "./creep/manager/controlledRoomCreepManag
 export default class ControlledRoomColony {
   protected room: Room;
 
+  /**
+   * Creates an instance of ControlledRoomColony.
+   *
+   * @param room The current room.
+   */
   constructor(room: Room) {
     this.room = room;
   }
 
+  /**
+   * Run the module.
+   */
   @profile
   public run(): void {
     this.initializeMemory();

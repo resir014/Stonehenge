@@ -23,6 +23,9 @@ export default class ControlledRoomCreepManager extends BaseManager {
     this.loadCreeps();
   }
 
+  /**
+   * Run the module.
+   */
   @profile
   public run() {
     this.sourceMiners.forEach(function (creep: Creep) {

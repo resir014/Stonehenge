@@ -1,7 +1,7 @@
 import * as Config from "../config/config";
 import { log } from "../lib/logger/log";
 
-export default class SharedSourceManager {
+export default class SourceManager {
   public memory: Memory;
   public sources: Source[];
   public sourceCount: number;

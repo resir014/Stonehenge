@@ -130,7 +130,7 @@ export function printProfilerStats() {
   log.info(output.join(""));
 }
 
-(global as any).printMemProfilerStats = function () {
+(global as any).printMemProfilerStats = () => {
   let mp = Memory.profiler as MemProfile;
   let profiles = _.sortBy(
     _.values(mp.fns),
@@ -196,7 +196,7 @@ export function printProfilerStats() {
 export function profile<T extends Function>(target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<T>) {
   let _fn = descriptor.value;
   if (!_fn) {
-    console.log("descriptor.value is empty?", target, propertyKey, descriptor);
+    log.error("descriptor.value is empty?", target, propertyKey, descriptor);
     return;
   }
 

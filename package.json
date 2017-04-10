@@ -4,6 +4,7 @@
   "description": "Next-generation AI scripts for the game Screeps. Written in TypeScript.",
   "main": "./dist/main.js",
   "scripts": {
+    "commit": "git-cz",
     "gulp": "gulp",
     "postinstall": "typings install",
     "deploy": "gulp build",

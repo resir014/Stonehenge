@@ -32,7 +32,7 @@ export default class SourceManager {
           true
         );
 
-        for (let result of <LookAtResultWithPos[]> this.lookResults) {
+        for (let result of this.lookResults as LookAtResultWithPos[]) {
           if (result.terrain === "plain" || result.terrain === "swamp") {
             self.memory.unoccupiedMiningPositions
               .push(new RoomPosition(result.x, result.y, source.room.name));

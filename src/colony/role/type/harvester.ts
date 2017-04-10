@@ -35,7 +35,7 @@ export default class Harvester extends Role {
       let targetSource = this.creep.pos.findClosestByPath<Source>(FIND_SOURCES);
       this.tryHarvest(targetSource);
     } else {
-      this.moveTo(assignedPosition, 1);
+      this.moveToPosition(assignedPosition, 1);
     }
   }
 

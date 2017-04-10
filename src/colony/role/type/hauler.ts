@@ -2,12 +2,12 @@ import { profile } from "../../../lib/profiler";
 import Role from "../role";
 
 /**
- * A SourceHauler retrieves energy harvested by a Harvester and carries them to
+ * A Hauler retrieves energy harvested by a Harvester and carries them to
  * the nearest spawn, extension, container, storage, or tower.
  *
  * @todo Refactor this.
  */
-export default class SourceHauler extends Role {
+export default class Hauler extends Role {
   constructor(creep: Creep) {
     super(creep);
   }

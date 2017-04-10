@@ -9,7 +9,7 @@ export default class Role {
   /**
    * Creates an instance of Role.
    *
-   * @param {Creep} creep The creep.
+   * @param creep The creep.
    */
   constructor(creep: Creep) {
     this.creep = creep;
@@ -20,9 +20,9 @@ export default class Role {
   /**
    * Extended method of `Creep.moveTo()`.
    *
-   * @param {(RoomPosition | { pos: RoomPosition })} target
-   * @param {number} maxRooms
-   * @returns {number}
+   * @param target The target room object.
+   * @param maxRooms The maximum allowed rooms to search. The default (and
+   *   maximum) is 16. This is only used when the new `PathFinder` is enabled.
    */
   public moveTo<T extends RoomObject>(target: T, maxRooms: number): number {
     let self = this;
@@ -43,9 +43,9 @@ export default class Role {
   /**
    * Extended method of `Creep.moveTo()`, adjusted for RoomPosition.
    *
-   * @param {(RoomPosition | { pos: RoomPosition })} target
-   * @param {number} maxRooms
-   * @returns {number}
+   * @param target The target room position.
+   * @param maxRooms The maximum allowed rooms to search. The default (and
+   *   maximum) is 16. This is only used when the new `PathFinder` is enabled.
    */
   public moveToPosition(target: RoomPosition, maxRooms: number): number {
     let self = this;
@@ -66,8 +66,7 @@ export default class Role {
   /**
    * Shorthand method for `renewCreep()`.
    *
-   * @param {Spawn} spawn
-   * @returns {number}
+   * @param spawn The current room's spawn.
    */
   public tryRenew(spawn: Spawn): number {
     return spawn.renewCreep(this.creep);
@@ -76,7 +75,7 @@ export default class Role {
   /**
    * Moves a creep to a designated renew spot (in this case the spawn).
    *
-   * @param {Spawn} spawn
+   * @param spawn The current room's spawn.
    */
   public moveToRenew(spawn: Spawn): void {
     if (this.tryRenew(spawn) === ERR_NOT_IN_RANGE) {

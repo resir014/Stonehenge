@@ -3,7 +3,7 @@ import ColonyManager from "../colonyManager";
 
 import Harvester from "./type/harvester";
 
-export default class ControlledRoomCreepManager extends ColonyManager {
+export default class RoleManager extends ColonyManager {
   protected creeps: Creep[];
   protected creepCount: number;
 

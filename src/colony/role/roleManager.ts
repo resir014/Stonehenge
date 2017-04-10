@@ -32,8 +32,8 @@ export default class RoleManager extends ColonyManager {
     this.buildMissingCreeps();
 
     this.harvesters.forEach((creep: Creep) => {
-      let sourceMiner = new Harvester(creep);
-      sourceMiner.run();
+      let harvester = new Harvester(creep);
+      harvester.run();
     });
   }
 

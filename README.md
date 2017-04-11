@@ -14,11 +14,11 @@ The codebase has to be simple and easily readable in order for the code to be ea
 
 ### Modularity
 
-Stonehenge acts as the "core engine" which drives the core modules that are needed to run a simple Screeps colony. All of these modules can be easily activated/deactivated according to your needs. It also provides a simple module API, allowing for players to develop their own custom modules.
+Stonehenge acts as the "core engine" which drives the modular game logic. The `Orchestrator` object contains a shared API used for colony-wide managerial tasks, which allows each colony to be independently managed if need be. A common class structure is also established to improve modularity.
 
 ### Configuration over Convention
 
-**(debatable)** Anyone who wants to build their Screeps colony with with Stonehenge must not be forced to follow conventions beyond the initial setup. The configurations available in the `config/` folder will allow you to fine-tune the codebase according to your workflow and needs.
+Anyone who wants to build their Screeps colony with with Stonehenge must not be forced to follow conventions beyond the initial setup. The configurations available in the `config/` folder will allow you to fine-tune the codebase according to your workflow and needs.
 
 ## Getting Started
 

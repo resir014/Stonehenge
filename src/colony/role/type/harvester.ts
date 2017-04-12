@@ -1,4 +1,4 @@
-import { profile } from "../../../lib/profiler";
+import { Profile } from "../../../lib/profiler";
 import Role from "../role";
 
 export default class Harvester extends Role {
@@ -9,7 +9,7 @@ export default class Harvester extends Role {
   /**
    * Run the module.
    */
-  @profile
+  @Profile
   public run() {
     let availablePositions: RoomPosition[] = Memory.rooms[this.creep.room.name]
       .unoccupiedMiningPositions;
@@ -44,7 +44,7 @@ export default class Harvester extends Role {
    *
    * @param target
    */
-  @profile
+  @Profile
   private tryHarvest(target: Source): number {
     return this.creep.harvest(target);
   }

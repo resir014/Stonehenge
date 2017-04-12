@@ -1,5 +1,5 @@
 import { log } from "../lib/logger";
-import { profile } from "../lib/profiler";
+import { Profile } from "../lib/profiler";
 import ColonyManager from "../colony/colonyManager";
 
 /**
@@ -7,7 +7,7 @@ import ColonyManager from "../colony/colonyManager";
  * modularity in mind.
  */
 export default class Stonehenge {
-  @profile
+  @Profile
   public run() {
     // Check memory for null or out of bounds custom objects.
     this.checkOutOfBoundsMemory();

@@ -1,4 +1,4 @@
-import { profile } from "../../lib/profiler";
+import { Profile } from "../../lib/profiler";
 import ColonyManager from "../colonyManager";
 
 import Harvester from "./type/harvester";
@@ -27,7 +27,7 @@ export default class RoleManager extends ColonyManager {
   /**
    * Run the module.
    */
-  @profile
+  @Profile
   public run() {
     this.buildMissingCreeps();
 
@@ -67,7 +67,7 @@ export default class RoleManager extends ColonyManager {
     });
   }
 
-  @profile
+  @Profile
   private buildMissingCreeps() {
     //
   }

@@ -1,6 +1,6 @@
 import Stonehenge from "../core/stonehenge";
 import Orchestrator from "../core/orchestrator";
-import { profile } from "../lib/profiler";
+import { Profile } from "../lib/profiler";
 import { log } from "../lib/logger";
 
 export default class ColonyManager extends Stonehenge {
@@ -27,7 +27,7 @@ export default class ColonyManager extends Stonehenge {
   /**
    * Run the module.
    */
-  @profile
+  @Profile
   public run(): void {
     this.initializeMemory();
     this.refreshMiningPositions();
@@ -38,7 +38,7 @@ export default class ColonyManager extends Stonehenge {
   /**
    * Checks memory for null or out of bounds objects
    */
-  @profile
+  @Profile
   private initializeMemory() {
     if (!this.memory) {
       this.memory = {};
@@ -60,7 +60,7 @@ export default class ColonyManager extends Stonehenge {
   /**
    * Refreshes every memory entry of mining positions available on the room.
    */
-  @profile
+  @Profile
   private refreshMiningPositions() {
     if (!this.memory) {
       this.memory = {};
@@ -74,7 +74,7 @@ export default class ColonyManager extends Stonehenge {
   /**
    * Remove dead creeps in memory.
    */
-  @profile
+  @Profile
   private cleanupCreepMemory() {
     for (let name in Memory.creeps) {
       let creep: any = Memory.creeps[name];

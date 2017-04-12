@@ -1,4 +1,4 @@
-import { profile } from "../../../lib/profiler";
+import { Profile } from "../../../lib/profiler";
 import Role from "../role";
 
 /**
@@ -12,7 +12,7 @@ export default class Hauler extends Role {
     super(creep);
   }
 
-  @profile
+  @Profile
   public run() {
     if (!this.memory.state) {
       this.memory.state = "idle";

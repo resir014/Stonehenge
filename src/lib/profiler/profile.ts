@@ -183,7 +183,7 @@ export function printProfilerStats() {
  *
  *     class MyProfiledClass {
  *       // ...
- *       @profile
+ *       @Profile
  *       public someExpensiveFunction() {
  *         //...
  *       }
@@ -193,7 +193,7 @@ export function printProfilerStats() {
  * @param {string} propertyKey The property key.
  * @param {TypedPropertyDescriptor<T>} descriptor The property descriptor.
  */
-export function profile<T extends Function>(target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<T>) {
+export function Profile<T extends Function>(target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<T>) {
   let _fn = descriptor.value;
   if (!_fn) {
     log.error("descriptor.value is empty?", target, propertyKey, descriptor);

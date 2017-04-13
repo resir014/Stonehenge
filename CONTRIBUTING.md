@@ -4,11 +4,11 @@ This document outlines the steps to get started on working with Stonehenge.
 
 ## The Simple Five Steps
 
-1. [Fork it](https://github.com/resir014/Stonehenge/fork)
+1. [Fork it](https://github.com/resir014/Stonehenge/fork).
 2. Create your feature branch: `git checkout -b my-new-feature`
 3. Commit your changes: `git commit -am 'Add some feature'`
 4. Push to the branch: `git push origin my-new-feature`
-5. Create a new Pull Request
+5. Create a new [Pull Request](https://github.com/resir014/Stonehenge/pulls).
 
 ## Commiting
 

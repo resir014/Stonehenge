@@ -19,8 +19,8 @@ export const controlledRoomJobs: string[] = [
 export const reservedRoomJobs: string[] = [
   "scout",
   "reserver",
-  "remoteConstructor",
-  "remoteSourceMiner",
+  "remoteBuilder",
+  "remoteHarvester",
   "remoteHauler",
   "remoteUpgrader",
   "remoteDefender"

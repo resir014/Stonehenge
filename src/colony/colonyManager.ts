@@ -82,6 +82,8 @@ export class ColonyManager {
           log.info("[MemoryManager] Clearing non-existing creep memory:", name);
 
           if (Memory.creeps[name].role === "sourceMiner") {
+            // Push the now-dead creep's mining position back to the
+            // unoccupiedMiningPosition entry
             this.memory.unoccupiedMiningPositions.push(Memory.creeps[name].occupiedMiningPosition);
           }
 

@@ -84,18 +84,20 @@ export class Role {
   }
 
   /**
-   * Attempts retrieving and dropped resources and/or resources in a container.
+   * Attempts retrieving any dropped resources and/or resources in a container.
    */
   public tryRetrieveEnergy(): void {
     let targetSource = this.creep.pos.findClosestByPath<Resource>(FIND_DROPPED_RESOURCES);
 
     if (targetSource) {
+      // Locate a dropped resource, for starter.
       if (this.creep.pos.isNearTo(targetSource)) {
         this.creep.pickup(targetSource);
       } else {
         this.moveTo(targetSource);
       }
     } else {
+      // Locate a container in case we can't find any dropped resources.
       let targetContainer = this.creep.pos.findClosestByPath<Container>(FIND_STRUCTURES, {
         filter: ((structure: Structure) => {
           if (structure.structureType === STRUCTURE_CONTAINER) {

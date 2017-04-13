@@ -20,6 +20,8 @@ export class Orchestrator {
   constructor(room: Room) {
     this.room = room;
     this.memory = room.memory;
+
+    // Load any manager objects we have down here.
     this.sourceManager = new SourceManager(room);
   }
 

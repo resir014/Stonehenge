@@ -3,6 +3,11 @@ import { ColonyManager } from "../colonyManager";
 
 import { Harvester } from "./type/harvester";
 
+/**
+ * This class is basically a "creep manager" - it's nearly the same in
+ * functionality as my old `CreepManager` class, but with a more well-structured
+ * class tree.
+ */
 export class RoleManager extends ColonyManager {
   protected creeps: Creep[];
   protected creepCount: number;
@@ -17,6 +22,11 @@ export class RoleManager extends ColonyManager {
   private defenders: Creep[];
   private mineralMiners: Creep[];
 
+  /**
+   * Creates an instance of RoleManager
+   *
+   * @param room The current room.
+   */
   constructor(room: Room) {
     super(room);
     this.creeps = this.room.find<Creep>(FIND_MY_CREEPS);
@@ -37,6 +47,9 @@ export class RoleManager extends ColonyManager {
     });
   }
 
+  /**
+   * Filters out each Creep by its associated role.
+   */
   private loadCreeps() {
     this.harvesters = this.creeps.filter((creep: Creep) => {
       return creep.memory.role === "harvester";
@@ -67,6 +80,9 @@ export class RoleManager extends ColonyManager {
     });
   }
 
+  /**
+   * Builds any missing creeps for that colony.
+   */
   @Profile
   private buildMissingCreeps() {
     //

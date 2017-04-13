@@ -22,7 +22,7 @@ Stonehenge is a next-generation AI system for the game [Screeps](https://screeps
   * [Writing Tests](#writing-tests)
 * [To-Do](#to-do)
   * [Unfinished Components](#unfinished-components)
-  * [Long-Term Tasks](#long-term-tasks)
+  * [Future Tasks](#future-tasks)
 
 ## Design Principles
 
@@ -149,6 +149,7 @@ List of things that need to be finished.
 
 ### Unfinished Components
 
+* Actual room logic
 * Actual defensive/war code
 * Controlled room job assignments:
   * Wall maintainers
@@ -167,8 +168,9 @@ List of things that need to be finished.
     * Remote upgrader
     * Remote defender
 
-### Long-Term Tasks
+### Future Tasks
 
+* Write tests
 * Continue refactoring process. Move all managerial logic (e.g. job assignment, structure priority, etc.) into the Orchestrator object.
 * Write up a proper documentation of code.
 

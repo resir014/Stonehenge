@@ -1,9 +1,9 @@
 import { Profile } from "../../lib/profiler";
-import ColonyManager from "../colonyManager";
+import { ColonyManager } from "../colonyManager";
 
-import Harvester from "./type/harvester";
+import { Harvester } from "./type/harvester";
 
-export default class RoleManager extends ColonyManager {
+export class RoleManager extends ColonyManager {
   protected creeps: Creep[];
   protected creepCount: number;
 

@@ -1,7 +1,7 @@
 import { Profile } from "../../../lib/profiler";
-import Role from "../role";
+import { Role } from "../role";
 
-export default class Harvester extends Role {
+export class Harvester extends Role {
   constructor(creep: Creep) {
     super(creep);
   }

@@ -1,12 +1,12 @@
 import { controlledRoomJobs } from "../config/jobs";
-import SourceManager from "../shared/sourceManager";
+import { SourceManager } from "../shared/sourceManager";
 
 /**
  * Orchestrator is the brain of each Colony. It provides a facility to perform
  * global managerial tasks within a Colony, including managing job assignment,
  * job priorities, mining/construction positions, etc.
  */
-export default class Orchestrator {
+export class Orchestrator {
   public room: Room;
   public sourceManager: SourceManager;
 

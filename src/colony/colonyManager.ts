@@ -1,9 +1,9 @@
-import Stonehenge from "../core/stonehenge";
-import Orchestrator from "../core/orchestrator";
+import { Stonehenge } from "../core/stonehenge";
+import { Orchestrator } from "../core/orchestrator";
 import { Profile } from "../lib/profiler";
 import { log } from "../lib/logger";
 
-export default class ColonyManager extends Stonehenge {
+export class ColonyManager extends Stonehenge {
   protected room: Room;
   protected memory: { [key: string]: any };
   protected orchestrator: Orchestrator;

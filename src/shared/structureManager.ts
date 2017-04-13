@@ -1,7 +1,7 @@
 import * as Config from "../config/config";
 import { log } from "../lib/logger/log";
 
-export default class StructureManager {
+export class StructureManager {
   public structures: Structure[];
   public structureCount: number;
 

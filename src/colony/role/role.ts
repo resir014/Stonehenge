@@ -1,7 +1,7 @@
 /**
  * Shared role for all Creeps.
  */
-export default class Role {
+export class Role {
   protected memory: Memory;
   protected creep: Creep;
   protected state: string;

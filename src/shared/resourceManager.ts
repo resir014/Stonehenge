@@ -1,7 +1,7 @@
 import * as Config from "../config/config";
 import { log } from "../lib/logger/log";
 
-export default class ResourceManager {
+export class ResourceManager {
   public resources: Resource[];
   public resourceCount: number;
 

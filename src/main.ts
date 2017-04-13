@@ -6,7 +6,7 @@
  */
 
 import * as Config from "./config/config";
-import Stonehenge from "./core/stonehenge";
+import { Stonehenge } from "./core/stonehenge";
 import { log } from "./lib/logger";
 import { startProfiling, saveProfilerStats } from "./lib/profiler";
 

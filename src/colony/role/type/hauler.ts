@@ -1,5 +1,5 @@
 import { Profile } from "../../../lib/profiler";
-import Role from "../role";
+import { Role } from "../role";
 
 /**
  * A Hauler retrieves energy harvested by a Harvester and carries them to
@@ -7,7 +7,7 @@ import Role from "../role";
  *
  * @todo Refactor this.
  */
-export default class Hauler extends Role {
+export class Hauler extends Role {
   constructor(creep: Creep) {
     super(creep);
   }

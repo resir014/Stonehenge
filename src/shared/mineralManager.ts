@@ -1,7 +1,7 @@
 import * as Config from "../config/config";
 import { log } from "../lib/logger/log";
 
-export default class MineralManager {
+export class MineralManager {
   public minerals: Mineral[];
   public mineralCount: number;
 

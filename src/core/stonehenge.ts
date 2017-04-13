@@ -1,12 +1,13 @@
+import * as Config from "../config/config"
 import { log } from "../lib/logger";
 import { Profile } from "../lib/profiler";
-import ColonyManager from "../colony/colonyManager";
+import { ColonyManager } from "../colony/colonyManager";
 
 /**
  * Stonehenge is a colony management system for the game Screeps designed with
  * modularity in mind.
  */
-export default class Stonehenge {
+export class Stonehenge {
   @Profile
   public run() {
     // Check memory for null or out of bounds custom objects.
@@ -20,7 +21,9 @@ export default class Stonehenge {
       colony.run();
     }
 
-    log.info("Stonehenge.run()");
+    if (Config.ENABLE_DEBUG_MODE) {
+      log.info("Stonehenge.run()");
+    }
   }
 
   /**

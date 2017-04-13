@@ -1,7 +1,5 @@
 import * as Config from "../../config/config";
 
-import * as sourceMiner from "./roles/sourceMiner";
-import * as sourceHauler from "./roles/sourceHauler";
 import * as upgrader from "./roles/upgrader";
 import * as builder from "./roles/builder";
 
@@ -29,12 +27,6 @@ export function run(room: Room): void {
   _buildMissingCreeps(room);
 
   _.each(creeps, (creep: Creep) => {
-    if (creep.memory.role === "sourceMiner") {
-      sourceMiner.run(creep);
-    }
-    if (creep.memory.role === "sourceHauler") {
-      sourceHauler.run(creep);
-    }
     if (creep.memory.role === "upgrader") {
       upgrader.run(creep);
     }

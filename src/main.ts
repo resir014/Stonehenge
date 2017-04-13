@@ -7,8 +7,8 @@
 
 import * as Config from "./config/config";
 import { Stonehenge } from "./core/stonehenge";
-import { log } from "./lib/logger";
-import { startProfiling, saveProfilerStats } from "./lib/profiler";
+import { log } from "./lib/logger/log";
+import { startProfiling, saveProfilerStats } from "./lib/profiler/profile";
 
 // This is an example for using a config variable from `config.ts`.
 if (Config.USE_PATHFINDER) {

@@ -1,4 +1,4 @@
-import { Profile } from "../../lib/profiler";
+import { Profile } from "../../lib/profiler/profile";
 import { ColonyManager } from "../colonyManager";
 
 import { Harvester } from "./type/harvester";

@@ -1,7 +1,7 @@
 import * as Config from "../config/config";
 
-import { log } from "../lib/logger";
-import { Profile } from "../lib/profiler";
+import { log } from "../lib/logger/log";
+import { Profile } from "../lib/profiler/profile";
 import { ColonyManager } from "../colony/colonyManager";
 
 /**

@@ -1,4 +1,4 @@
-import { Profile } from "../../../lib/profiler";
+import { Profile } from "../../../lib/profiler/profile";
 import { Role } from "../role";
 
 import { ConstructionSiteManager } from "../../../shared/constructionSiteManager";

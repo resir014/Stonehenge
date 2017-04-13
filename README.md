@@ -6,6 +6,16 @@
 
 Stonehenge is a next-generation AI system for the game [Screeps](https://screeps.com/). It is developed in [TypeScript](https://www.typescriptlang.org/), and designed with modularity in mind.
 
+## Table of Contents
+
+* [Design Principles](#design-principles)
+  * [Maintainability](#maintainability)
+  * [Modularity](#modularity)
+  * [Configuration over Convention](#configuration-over-convention)
+* [Getting Started](#getting-started)
+  * [Requirements](#requirements)
+  * [Quick Setup](#quick-setup)
+
 ## Design Principles
 
 ### Maintainability
@@ -31,7 +41,7 @@ For testing:
 * [Mocha](https://mochajs.org/) test runner and [NYC](https://istanbul.js.org/) for code coverage
     `sudo npm install -g nyc mocha`
 
-### Quick setup
+### Quick Setup
 
 First, clone and install the submodules.
 
@@ -46,9 +56,11 @@ Then, you will have to set up your config files. Create a copy of `config.exampl
 # config.json
 $ cp config.example.json config.json
 
-# config.ts
+# config/config.ts
 $ cd src/config
 $ cp config.example.ts config.ts
+
+# Do the same for the rest of the config files
 ```
 
 Then, on the `config.json` file, change the `username` and `password` properties with your Screeps credentials.
@@ -133,11 +145,7 @@ More documentation coming soon.
 
 ## Contributing
 
-1. [Fork it](https://github.com/screepers/screeps-typescript-starter/fork)
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Create a new Pull Request
+Issues and Pull Requests are welcome! Please read the [Contributing Guidelines](CONTRIBUTING.md) beforehand.
 
 ## Special thanks
 

@@ -151,6 +151,7 @@ List of things that need to be finished.
 
 * Actual room logic
 * Actual defensive/war code
+* Creep State code
 * Controlled room job assignments:
   * Wall maintainers
   * Rampart maintainers

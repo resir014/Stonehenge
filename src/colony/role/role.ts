@@ -24,7 +24,7 @@ export class Role {
    * @param maxRooms The maximum allowed rooms to search. The default (and
    *   maximum) is 16. This is only used when the new `PathFinder` is enabled.
    */
-  public moveTo<T extends RoomObject>(target: T, maxRooms: number): number {
+  public moveTo<T extends RoomObject>(target: T, maxRooms?: number): number {
     let self = this;
     let result: number = 0;
 
@@ -34,7 +34,7 @@ export class Role {
     // Perform pathfinding only if we have enough CPU
     if (result !== 0) {
       if (Game.cpu.tickLimit - Game.cpu.getUsed() > 20) {
-        result = self.creep.moveTo(target, { maxRooms: maxRooms });
+        result = self.creep.moveTo(target, { maxRooms: maxRooms || 1 });
       }
     }
     return result;
@@ -47,7 +47,7 @@ export class Role {
    * @param maxRooms The maximum allowed rooms to search. The default (and
    *   maximum) is 16. This is only used when the new `PathFinder` is enabled.
    */
-  public moveToPosition(target: RoomPosition, maxRooms: number): number {
+  public moveToPosition(target: RoomPosition, maxRooms?: number): number {
     let self = this;
     let result: number = 0;
 
@@ -57,7 +57,7 @@ export class Role {
     // Perform pathfinding only if we have enough CPU
     if (result !== 0) {
       if (Game.cpu.tickLimit - Game.cpu.getUsed() > 20) {
-        result = self.creep.moveTo(target, { maxRooms: maxRooms });
+        result = self.creep.moveTo(target, { maxRooms: maxRooms || 1 });
       }
     }
     return result;
@@ -80,6 +80,37 @@ export class Role {
   public moveToRenew(spawn: Spawn): void {
     if (this.tryRenew(spawn) === ERR_NOT_IN_RANGE) {
       this.creep.moveTo(spawn);
+    }
+  }
+
+  public tryRetrieveEnergy(creep: Creep): void {
+    let targetSource = creep.pos.findClosestByPath<Resource>(FIND_DROPPED_RESOURCES);
+
+    if (targetSource) {
+      if (creep.pos.isNearTo(targetSource)) {
+        creep.pickup(targetSource);
+      } else {
+        this.moveTo(targetSource);
+      }
+    } else {
+      let targetContainer = creep.pos.findClosestByPath<Container>(FIND_STRUCTURES, {
+        filter: ((structure: Structure) => {
+          if (structure.structureType === STRUCTURE_CONTAINER) {
+            let container = <Container> structure;
+            if (_.sum(container.store) > (500)) {
+              return container;
+            }
+          }
+        })
+      });
+
+      if (targetContainer) {
+        if (creep.pos.isNearTo(targetContainer)) {
+          creep.withdraw(targetContainer, RESOURCE_ENERGY);
+        } else {
+          moveTo(creep, targetContainer);
+        }
+      }
     }
   }
 }

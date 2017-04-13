@@ -1,6 +1,9 @@
 import { Profile } from "../../../lib/profiler";
 import { Role } from "../role";
 
+/**
+ * A Harvester occupies a mining position and harvests energy.
+ */
 export class Harvester extends Role {
   constructor(creep: Creep) {
     super(creep);

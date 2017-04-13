@@ -15,6 +15,14 @@ Stonehenge is a next-generation AI system for the game [Screeps](https://screeps
 * [Getting Started](#getting-started)
   * [Requirements](#requirements)
   * [Quick Setup](#quick-setup)
+  * [Installing npm Modules](#installing-npm-modules)
+  * [Running the Compiler](#running-the-compiler)
+* [Testing](#testing)
+  * [Running Tests](#running-tests)
+  * [Writing Tests](#writing-tests)
+* [To-Do](#to-do)
+  * [Unfinished Components](#unfinished-components)
+  * [Long-Term Tasks](#long-term-tasks)
 
 ## Design Principles
 
@@ -77,7 +85,7 @@ Then simply call the config variables with `Config.CONFIG_VARIABLE`.
 
 **WARNING: DO NOT** commit these files into your repository!
 
-### Installing npm modules
+### Installing npm Modules
 
 Then run the following the command to install the required npm packages and TypeScript type definitions.
 
@@ -85,7 +93,7 @@ Then run the following the command to install the required npm packages and Type
 $ npm install
 ```
 
-### Running the compiler
+### Running the Compiler
 
 ```bash
 # To compile your TypeScript files on the fly
@@ -135,13 +143,34 @@ For writing assertions we provide [chai](http://chaijs.com). Check out their
 import * as _  from "lodash"
 ```
 
----
+## To-Do
 
-## How It Works
+List of things that need to be finished.
 
-More documentation coming soon.
+### Unfinished Components
 
----
+* Actual defensive/war code
+* Controlled room job assignments:
+  * Wall maintainers
+  * Rampart maintainers
+  * Road maintainers
+  * Defender
+  * Mineral miners
+* Reserved rooms
+  * Colony management logic
+  * Job assignments
+    * Scout
+    * Reserver
+    * Remote builder
+    * Remote harvester
+    * Remote hauler
+    * Remote upgrader
+    * Remote defender
+
+### Long-Term Tasks
+
+* Continue refactoring process. Move all managerial logic (e.g. job assignment, structure priority, etc.) into the Orchestrator object.
+* Write up a proper documentation of code.
 
 ## Contributing
 

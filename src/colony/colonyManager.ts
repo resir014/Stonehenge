@@ -1,9 +1,8 @@
-import { Stonehenge } from "../core/stonehenge";
 import { Orchestrator } from "../core/orchestrator";
 import { Profile } from "../lib/profiler/profile";
 import { log } from "../lib/logger/log";
 
-export class ColonyManager extends Stonehenge {
+export class ColonyManager {
   protected room: Room;
   protected memory: { [key: string]: any };
   protected orchestrator: Orchestrator;
@@ -14,7 +13,6 @@ export class ColonyManager extends Stonehenge {
    * @param room The current room.
    */
   constructor(room: Room) {
-    super();
     this.room = room;
     this.memory = room.memory;
 

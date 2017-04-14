@@ -3,6 +3,28 @@
  *
  * Originally written by ricochet1k, refined by resir014.
  * https://screeps.slack.com/files/ricochet1k/F3S038L3Y/profile_ts.txt
+ *
+ * ## Example usage
+ *
+ * Include it on top of the function you want to measure as a decorator, like so:
+ *
+ * ```ts
+ * class MyProfiledClass {
+ *   // ...
+ *   @Profile
+ *   public someExpensiveFunction() {
+ *     //...
+ *   }
+ * }
+ * ```
+ *
+ * You can also use it to profile a wrapped function, like so:
+ *
+ * ```ts
+ * import { profileFn } from "path/to/profile";
+ *
+ * profileFn(wrappedFunction);
+ * ```
  */
 
 import { log } from "../logger/log";
@@ -179,16 +201,6 @@ export function printProfilerStats() {
 /**
  * The profile decorator.
  *
- * Include it on top of the function you want to measure as a decorator, like so:
- *
- *     class MyProfiledClass {
- *       // ...
- *       @Profile
- *       public someExpensiveFunction() {
- *         //...
- *       }
- *     }
- *
  * @param {any} target The target function.
  * @param {string} propertyKey The property key.
  * @param {TypedPropertyDescriptor<T>} descriptor The property descriptor.
@@ -213,11 +225,7 @@ export function Profile<T extends Function>(target: any, propertyKey: string, de
 }
 
 /**
- * Profile a wrapped function. Example usage:
- *
- *     import { profileFn } from "path/to/profile";
- *
- *     profileFn(wrappedFunction);
+ * Profile a wrapped function.
  *
  * @param {T} fn The target function.
  */

@@ -1,28 +1,33 @@
 import { controlledRoomJobs } from "../config/jobs";
-import { SourceManager } from "../shared/sourceManager";
 
 /**
- * Orchestrator is the brain of each Colony. It provides a facility to perform
- * global managerial tasks within a Colony, including managing job assignment,
- * job priorities, mining/construction positions, etc.
+ * Orchestrator is the brain of each Colony. It provides several useful APIs to
+ * perform global managerial tasks within a Colony, including managing memory,
+ * job assignment, job priorities, mining/construction positions, etc.
+ *
+ * The Orchestrator is a singleton class, meaning that its instantiation is
+ * restricted to one object:
+ *
+ * ```ts
+ * const orchestrator = Orchestrator.getInstance();
+ * ```
  */
 export class Orchestrator {
-  public room: Room;
-  public sourceManager: SourceManager;
+  private static instance: Orchestrator = new Orchestrator();
 
-  private memory: { [key: string]: any };
+  constructor() {
+    if (Orchestrator.instance) {
+      throw new Error("The Orchestrator is a singleton class and cannot be created!");
+    }
+
+    Orchestrator.instance = this;
+  }
 
   /**
-   * Creates an instance of Orchestrator.
-   *
-   * @param room The current room.
+   * Creates a singleton instance of Orchestrator.
    */
-  constructor(room: Room) {
-    this.room = room;
-    this.memory = room.memory;
-
-    // Load any manager objects we have down here.
-    this.sourceManager = new SourceManager(room);
+  public static getInstance(): Orchestrator {
+    return Orchestrator.instance;
   }
 
   /**
@@ -31,19 +36,21 @@ export class Orchestrator {
    * @todo If `manualJobControl` is set to `false in the room memory, it's going
    * to invoke a method which will ~automagically~ define job assignments based
    * on some parameters. We don't even have that function yet.
+   *
+   * @param room The target room.
    */
-  public refreshJobAssignments() {
+  public refreshJobAssignments(room: Room) {
     // Check if all job assignments are initialised properly.
-    let availableJobs = _.intersection(_.keys(this.memory.jobs), controlledRoomJobs);
+    let availableJobs = _.intersection(_.keys(room.memory.jobs), controlledRoomJobs);
     if (!availableJobs) {
       for (let i in controlledRoomJobs) {
-        this.memory.jobs[controlledRoomJobs[i]] = 0;
+        room.memory.jobs[controlledRoomJobs[i]] = 0;
       }
     }
     if (availableJobs.length !== controlledRoomJobs.length) {
-      let jobsToAdd = _.difference(_.keys(this.memory.jobs), controlledRoomJobs);
+      let jobsToAdd = _.difference(_.keys(room.memory.jobs), controlledRoomJobs);
       for (let i in jobsToAdd) {
-        this.memory.jobs[jobsToAdd[i]] = 0;
+        room.memory.jobs[jobsToAdd[i]] = 0;
       }
     }
   }

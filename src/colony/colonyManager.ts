@@ -19,7 +19,7 @@ export class ColonyManager {
     // We instantiate the Orchestrator object here. I know it's not that good
     // of an implementation, but hey, it's the only way I could think how this
     // thing would work.
-    this.orchestrator = new Orchestrator(room);
+    this.orchestrator = Orchestrator.getInstance();
   }
 
   /**
@@ -30,7 +30,8 @@ export class ColonyManager {
     this.initializeMemory();
     this.refreshMiningPositions();
     this.cleanupCreepMemory();
-    this.orchestrator.refreshJobAssignments();
+
+    this.orchestrator.refreshJobAssignments(this.room);
   }
 
   /**

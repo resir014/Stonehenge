@@ -1,4 +1,4 @@
-import { controlledRoomJobs } from "../config/jobs";
+import { controlledRoomJobs, partsCost } from "../config/jobs";
 
 /**
  * Orchestrator is the brain of each Colony. It provides several useful APIs to
@@ -60,5 +60,36 @@ export class Orchestrator {
         room.memory.jobs[jobsToAdd[i]] = 0;
       }
     }
+  }
+
+
+
+  /**
+   * Calculates the body part for the creeps we'll have to spawn. Should return
+   * body parts which are proportional to a creep's role.
+   *
+   * @param role The expected creep role.
+   * @param room The room in which this creep will live.
+   */
+  public getBodyParts(role: string, room: Room) {
+    let bodyParts: string[] = [];
+
+    // TODO: Here's how this method would work:
+    //
+    // So here we have an API call to build the required bodyparts for our
+    // creep. First it checks the maximum amount of energy the passed room can
+    // hold, as well as how much energy the entire room has right now, and
+    // determines the "room tier" (with arbitrary energy limits for each tier).
+    //
+    // Then, it will generate the required bodypart proportions based on the
+    // passed role. For example, a Harvester should have 50% WORK and 50% MOVE
+    // parts, a Builder should have 50% MOVE parts, 25% CARRY parts, and 25%
+    // WORK parts, and so on, and so on.
+    //
+    // Now, it will try to add as much proportioned body parts as possible
+    // without passing the room tier limit. And now we have the body parts for
+    // our new creep!
+
+    return bodyParts;
   }
 }

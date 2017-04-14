@@ -6,10 +6,11 @@ import { controlledRoomJobs } from "../config/jobs";
  * job assignment, job priorities, mining/construction positions, etc.
  *
  * The Orchestrator is a singleton class, meaning that its instantiation is
- * restricted to one object:
+ * restricted to one object.
  *
  * ```ts
  * const orchestrator = Orchestrator.getInstance();
+ * orchestrator.someOrchestratorFunction();
  * ```
  */
 export class Orchestrator {
@@ -28,6 +29,18 @@ export class Orchestrator {
    */
   public static getInstance(): Orchestrator {
     return Orchestrator.instance;
+  }
+
+  /**
+   * Creates a unique guid for a creep/queued task.
+   */
+  public getGuid() {
+    if (!Memory.guid || Memory.guid > 100) {
+      Memory.guid = 0;
+    }
+
+    Memory.guid = Memory.guid + 1;
+    return Memory.guid;
   }
 
   /**

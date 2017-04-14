@@ -28,21 +28,6 @@ export class Stonehenge {
   }
 
   /**
-   * Creates a unique guid for a creep/queued task.
-   *
-   * @export
-   * @returns The guid used for a task
-   */
-  protected getGuid() {
-    if (!Memory.guid || Memory.guid > 100) {
-      Memory.guid = 0;
-    }
-
-    Memory.guid = Memory.guid + 1;
-    return Memory.guid;
-  }
-
-  /**
    * Check memory for null or out of bounds custom objects
    *
    * @export

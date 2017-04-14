@@ -1,21 +1,37 @@
+import * as Config from "../../../config/config";
+import { log } from "../../../lib/logger/log";
 import { Profile } from "../../../lib/profiler/profile";
 import { Role } from "../role";
 
-import { ConstructionSiteManager } from "../../../shared/constructionSiteManager";
-
 /**
- * A Builder builds construction sites. When given a list of structures to
- * build, it will always builds by its order in the array, so it might be wise
- * to pass a pre-sorted array of construction sites to build.
+ * A Builder builds construction sites.
  *
- * @todo Refactor this.
+ * When given a list of structures to build, it will always builds by its order
+ * in the array, so it might be wise to pass a pre-sorted array of construction
+ * sites to build.
  */
 export class Harvester extends Role {
-  private constructionSiteManager: ConstructionSiteManager;
+  private constructionSites: ConstructionSite[];
+  private constructionSiteCount: number;
+
+  private roads: ConstructionSite[] = [];
+  private extensions: ConstructionSite[] = [];
+  private containers: ConstructionSite[] = [];
+  private walls: ConstructionSite[] = [];
+  private ramparts: ConstructionSite[] = [];
+  private towers: ConstructionSite[] = [];
+  private storages: ConstructionSite[] = [];
 
   constructor(creep: Creep) {
     super(creep);
-    this.constructionSiteManager = new ConstructionSiteManager(creep.room);
+    this.constructionSites = creep.room.find<ConstructionSite>(FIND_CONSTRUCTION_SITES);
+    this.constructionSiteCount = _.size(this.constructionSites);
+    this.getConstructionSites();
+
+    if (Config.ENABLE_DEBUG_MODE) {
+      log.debug("[Builder]", this.constructionSiteCount + " construction sites in room" +
+        creep.room.name + ".");
+    }
   }
 
   /**
@@ -35,7 +51,7 @@ export class Harvester extends Role {
       this.tryRetrieveEnergy();
     } else {
       this.memory.state = "building";
-      let targetConstructionSite = this.getConstructionSite(this.constructionSiteManager.constructionSites);
+      let targetConstructionSite = this.getConstructionSite(this.constructionSites);
 
       if (targetConstructionSite) {
         if (this.creep.pos.isNearTo(targetConstructionSite)) {
@@ -47,6 +63,36 @@ export class Harvester extends Role {
     }
   }
 
+  private getConstructionSites() {
+    this.roads = this.constructionSites.filter((structure) => {
+      return structure.structureType === STRUCTURE_ROAD;
+    });
+
+    this.extensions = this.constructionSites.filter((structure) => {
+      return structure.structureType === STRUCTURE_EXTENSION;
+    });
+
+    this.containers = this.constructionSites.filter((structure) => {
+      return structure.structureType === STRUCTURE_CONTAINER;
+    });
+
+    this.walls = this.constructionSites.filter((structure) => {
+      return structure.structureType === STRUCTURE_WALL;
+    });
+
+    this.ramparts = this.constructionSites.filter((structure) => {
+      return structure.structureType === STRUCTURE_RAMPART;
+    });
+
+    this.towers = this.constructionSites.filter((structure) => {
+      return structure.structureType === STRUCTURE_TOWER;
+    });
+
+    this.storages = this.constructionSites.filter((structure) => {
+      return structure.structureType === STRUCTURE_STORAGE;
+    });
+  }
+
   /**
    * Gets a prioritised list of construction sites to maintain.
    * @todo This really needs to be refactored to Orchestrator.
@@ -56,20 +102,20 @@ export class Harvester extends Role {
   private getConstructionSite(constructionSites: ConstructionSite[]) {
     let target: ConstructionSite;
 
-    if (this.constructionSiteManager.roads.length > 0) {
-      target = this.constructionSiteManager.roads[0];
-    } else if (this.constructionSiteManager.extensions.length > 0) {
-      target = this.constructionSiteManager.extensions[0];
-    } else if (this.constructionSiteManager.containers.length > 0) {
-      target = this.constructionSiteManager.containers[0];
-    } else if (this.constructionSiteManager.walls.length > 0) {
-      target = this.constructionSiteManager.walls[0];
-    } else if (this.constructionSiteManager.ramparts.length > 0) {
-      target = this.constructionSiteManager.ramparts[0];
-    } else if (this.constructionSiteManager.towers.length > 0) {
-      target = this.constructionSiteManager.towers[0];
-    } else if (this.constructionSiteManager.storages.length > 0) {
-      target = this.constructionSiteManager.storages[0];
+    if (this.roads.length > 0) {
+      target = this.roads[0];
+    } else if (this.extensions.length > 0) {
+      target = this.extensions[0];
+    } else if (this.containers.length > 0) {
+      target = this.containers[0];
+    } else if (this.walls.length > 0) {
+      target = this.walls[0];
+    } else if (this.ramparts.length > 0) {
+      target = this.ramparts[0];
+    } else if (this.towers.length > 0) {
+      target = this.towers[0];
+    } else if (this.storages.length > 0) {
+      target = this.storages[0];
     } else {
       target = constructionSites[0];
     }

@@ -64,8 +64,5 @@ export class Stonehenge {
     if (!Memory.spawns) {
       Memory.spawns = {};
     }
-    if (!Memory.modules) {
-      Memory.modules = {};
-    }
   }
 }

@@ -41,14 +41,8 @@ export class Orchestrator {
    */
   public refreshJobAssignments(room: Room) {
     // Check if all job assignments are initialised properly.
-    let availableJobs = _.intersection(_.keys(room.memory.jobs), controlledRoomJobs);
-    if (!availableJobs) {
-      for (let i in controlledRoomJobs) {
-        room.memory.jobs[controlledRoomJobs[i]] = 0;
-      }
-    }
-    if (availableJobs.length !== controlledRoomJobs.length) {
-      let jobsToAdd = _.difference(_.keys(room.memory.jobs), controlledRoomJobs);
+    if (_.keys(room.memory.jobs).length !== _.keys(controlledRoomJobs).length) {
+      let jobsToAdd = _.difference(controlledRoomJobs, _.keys(room.memory.jobs));
       for (let i in jobsToAdd) {
         room.memory.jobs[jobsToAdd[i]] = 0;
       }

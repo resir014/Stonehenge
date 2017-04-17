@@ -1,7 +1,7 @@
 import { Profile } from "../../lib/profiler/profile";
 import { RoomManager } from "../roomManager";
 
-import { Harvester } from "./type/harvester";
+import { Harvester } from "./role/harvester";
 
 /**
  * This class is basically a "creep manager" - it's nearly the same in

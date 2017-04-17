@@ -1,4 +1,4 @@
-import { controlledRoomJobs, partsCost } from "../config/jobs";
+import { controlledRoomJobs, /* partsCost */ } from "../config/jobs";
 
 /**
  * Orchestrator is the brain of each Colony. It provides several useful APIs to
@@ -62,8 +62,6 @@ export class Orchestrator {
     }
   }
 
-
-
   /**
    * Calculates the body part for the creeps we'll have to spawn. Should return
    * body parts which are proportional to a creep's role.
@@ -71,7 +69,7 @@ export class Orchestrator {
    * @param role The expected creep role.
    * @param room The room in which this creep will live.
    */
-  public getBodyParts(role: string, room: Room) {
+  public getBodyParts(/* role: string, room: Room */) {
     let bodyParts: string[] = [];
 
     // TODO: Here's how this method would work:

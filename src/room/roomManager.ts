@@ -2,7 +2,7 @@ import { Orchestrator } from "../core/orchestrator";
 import { Profile } from "../lib/profiler/profile";
 import { log } from "../lib/logger/log";
 
-export class ColonyManager {
+export class RoomManager {
   protected room: Room;
   protected memory: { [key: string]: any };
   protected orchestrator: Orchestrator;

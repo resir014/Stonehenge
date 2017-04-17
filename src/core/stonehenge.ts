@@ -2,7 +2,7 @@ import * as Config from "../config/config";
 
 import { log } from "../lib/logger/log";
 import { Profile } from "../lib/profiler/profile";
-import { ColonyManager } from "../colony/colonyManager";
+import { RoomManager } from "../room/roomManager";
 
 /**
  * Stonehenge is a colony management system for the game Screeps designed with
@@ -18,7 +18,7 @@ export class Stonehenge {
     for (let i in Game.rooms) {
       let room: Room = Game.rooms[i];
 
-      let colony = new ColonyManager(room);
+      let colony = new RoomManager(room);
       colony.run();
     }
 

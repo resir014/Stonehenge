@@ -1,5 +1,5 @@
 import { Profile } from "../../lib/profiler/profile";
-import { ColonyManager } from "../colonyManager";
+import { RoomManager } from "../roomManager";
 
 import { Harvester } from "./type/harvester";
 
@@ -8,7 +8,7 @@ import { Harvester } from "./type/harvester";
  * functionality as my old `CreepManager` class, but with a more well-structured
  * class tree.
  */
-export class RoleManager extends ColonyManager {
+export class RoleManager extends RoomManager {
   protected creeps: Creep[];
   protected creepCount: number;
 

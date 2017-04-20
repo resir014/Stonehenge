@@ -28,7 +28,9 @@
     "url": "https://github.com/resir014/Stonehenge/issues"
   },
   "homepage": "https://github.com/resir014/Stonehenge#readme",
-  "dependencies": {},
+  "dependencies": {
+    "screeps-profiler": "^1.2.2"
+  },
   "devDependencies": {
     "@types/chai": "^3.4.35",
     "@types/mocha": "^2.2.40",

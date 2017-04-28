@@ -25,7 +25,7 @@ export class RoomManager {
   /**
    * Run the module.
    */
-  @Profile
+  @Profile()
   public run(): void {
     this.initializeMemory();
     this.refreshMiningPositions();
@@ -37,7 +37,7 @@ export class RoomManager {
   /**
    * Checks memory for null or out of bounds objects
    */
-  @Profile
+  @Profile()
   private initializeMemory() {
     if (!this.memory) {
       this.memory = {};
@@ -59,7 +59,7 @@ export class RoomManager {
   /**
    * Refreshes every memory entry of mining positions available on the room.
    */
-  @Profile
+  @Profile()
   private refreshMiningPositions() {
     if (!this.memory) {
       this.memory = {};
@@ -73,7 +73,7 @@ export class RoomManager {
   /**
    * Remove dead creeps in memory.
    */
-  @Profile
+  @Profile()
   private cleanupCreepMemory() {
     for (let name in Memory.creeps) {
       let creep: any = Memory.creeps[name];

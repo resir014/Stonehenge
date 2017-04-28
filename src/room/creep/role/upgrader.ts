@@ -14,7 +14,7 @@ export class Upgrader extends Role {
   /**
    * Run the module.
    */
-  @Profile
+  @Profile()
   public run() {
     let roomController: StructureController | undefined = this.creep.room.controller;
 

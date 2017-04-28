@@ -37,7 +37,7 @@ export class Harvester extends Role {
   /**
    * Run the module.
    */
-  @Profile
+  @Profile()
   public run() {
     if (!this.memory.state) {
       this.memory.state = "idle";

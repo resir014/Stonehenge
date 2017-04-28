@@ -9,7 +9,7 @@ import { RoomManager } from "../room/roomManager";
  * modularity in mind.
  */
 export class Stonehenge {
-  @Profile
+  @Profile()
   public run() {
     // Check memory for null or out of bounds custom objects.
     this.checkOutOfBoundsMemory();

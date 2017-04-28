@@ -35,4 +35,4 @@ interface Global {
 /**
  * Global objects that can be called from the Screeps console.
  */
-declare var global: Global;
+declare const global: Global;

@@ -8,12 +8,15 @@
 import * as Config from "./config/config";
 import { Stonehenge } from "./core/stonehenge";
 import { log } from "./lib/logger/log";
-import { startProfiling, saveProfilerStats } from "./lib/profiler/profile";
+import * as profiler from "screeps-profiler";
+// import { startProfiling, saveProfilerStats } from "./lib/profiler/profile";
 
 // This is an example for using a config variable from `config.ts`.
 if (Config.USE_PATHFINDER) {
   PathFinder.use(true);
 }
+
+profiler.enable();
 
 log.info("Scripts bootstrapped.");
 
@@ -26,11 +29,11 @@ log.info("Scripts bootstrapped.");
  * @export
  */
 export function loop() {
-  startProfiling();
 
   // Run the Stonehenge core engine.
   let stonehenge = new Stonehenge();
-  stonehenge.run();
+  profiler.wrap(() => {
+    stonehenge.run();
+  });
 
-  saveProfilerStats();
 }

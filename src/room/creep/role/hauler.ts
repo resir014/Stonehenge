@@ -12,7 +12,7 @@ export class Hauler extends Role {
     super(creep);
   }
 
-  @Profile
+  @Profile()
   public run() {
     if (!this.memory.state) {
       this.memory.state = "idle";

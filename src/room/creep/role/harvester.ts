@@ -12,7 +12,7 @@ export class Harvester extends Role {
   /**
    * Run the module.
    */
-  @Profile
+  @Profile()
   public run() {
     let availablePositions: RoomPosition[] = Memory.rooms[this.creep.room.name]
       .unoccupiedMiningPositions;
@@ -47,7 +47,7 @@ export class Harvester extends Role {
    *
    * @param target
    */
-  @Profile
+  @Profile()
   private tryHarvest(target: Source): number {
     return this.creep.harvest(target);
   }

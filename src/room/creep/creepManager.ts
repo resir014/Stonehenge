@@ -37,7 +37,7 @@ export class RoleManager extends RoomManager {
   /**
    * Run the module.
    */
-  @Profile
+  @Profile()
   public run() {
     this.buildMissingCreeps();
 
@@ -83,7 +83,7 @@ export class RoleManager extends RoomManager {
   /**
    * Builds any missing creeps for that colony.
    */
-  @Profile
+  @Profile()
   private buildMissingCreeps() {
     //
   }

@@ -13,6 +13,12 @@ interface Memory {
   profiler: any;
 }
 
+interface StructureSpawn {
+  getLargestBuildableBodyFromSet(potentialBodies: string[][]): string[];
+  getLargestBuildableBodyFromTemplate(bodyTemplate: string[], maxIterations?: number): string[];
+  findOptimalMoveCountForBody(body: string[], terrain?: "road" | "plain" | "swamp", fullCarry?: boolean): number
+}
+
 /**
  * Interface for the global objects.
  */

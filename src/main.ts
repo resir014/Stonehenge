@@ -5,17 +5,23 @@
  * It is developed in TypeScript, and designed with modularity in mind.
  */
 
+import * as profiler from "screeps-profiler";
+
 import * as Config from "./config/config";
 import { Stonehenge } from "./core/stonehenge";
 import { log } from "./lib/logger/log";
-import * as profiler from "screeps-profiler";
-// import { startProfiling, saveProfilerStats } from "./lib/profiler/profile";
+
+import { loadStructureSpawnPrototypes } from "./prototypes/StructureSpawn.prototype";
 
 // This is an example for using a config variable from `config.ts`.
 if (Config.USE_PATHFINDER) {
   PathFinder.use(true);
 }
 
+// Prototype extensions
+loadStructureSpawnPrototypes();
+
+// Enable the profiler
 profiler.enable();
 
 log.info("Scripts bootstrapped.");

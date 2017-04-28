@@ -8,7 +8,7 @@
 import * as profiler from "screeps-profiler";
 
 import * as Config from "./config/config";
-import { Stonehenge } from "./core/stonehenge";
+import { RoomManager } from "./room/roomManager";
 import { log } from "./lib/logger/log";
 
 import { loadStructurePrototypes } from "./prototypes/Structure.prototype";
@@ -37,11 +37,39 @@ log.info("Scripts bootstrapped.");
  * @export
  */
 export function loop() {
-
   // Run the Stonehenge core engine.
-  let stonehenge = new Stonehenge();
   profiler.wrap(() => {
-    stonehenge.run();
-  });
+    // Check memory for null or out of bounds custom objects.
+    checkOutOfBoundsMemory();
 
+    // For each controlled room, run colony actions.
+    for (let i in Game.rooms) {
+      let room: Room = Game.rooms[i];
+
+      let colony = new RoomManager(room);
+      colony.run();
+    }
+  });
+}
+
+/**
+ * Check memory for null or out of bounds custom objects
+ */
+function checkOutOfBoundsMemory() {
+  if (!Memory.guid || Memory.guid > 100) {
+    Memory.guid = 0;
+  }
+
+  if (!Memory.creeps) {
+    Memory.creeps = {};
+  }
+  if (!Memory.flags) {
+    Memory.flags = {};
+  }
+  if (!Memory.rooms) {
+    Memory.rooms = {};
+  }
+  if (!Memory.spawns) {
+    Memory.spawns = {};
+  }
 }

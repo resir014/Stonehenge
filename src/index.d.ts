@@ -1,4 +1,16 @@
-declare function require(path: string): any;
+// BEGIN Extended prototypes
+
+interface Structure {
+  needEnergy(): boolean;
+}
+
+interface StructureSpawn {
+  getLargestBuildableBodyFromSet(potentialBodies: string[][]): string[];
+  getLargestBuildableBodyFromTemplate(bodyTemplate: string[], maxIterations?: number): string[];
+  findOptimalMoveCountForBody(body: string[], terrain?: "road" | "plain" | "swamp", fullCarry?: boolean): number
+}
+
+// END Extended prototypes
 
 /**
  * Extended memory objects.
@@ -11,12 +23,6 @@ interface Memory {
   guid: number;
   log: any;
   profiler: any;
-}
-
-interface StructureSpawn {
-  getLargestBuildableBodyFromSet(potentialBodies: string[][]): string[];
-  getLargestBuildableBodyFromTemplate(bodyTemplate: string[], maxIterations?: number): string[];
-  findOptimalMoveCountForBody(body: string[], terrain?: "road" | "plain" | "swamp", fullCarry?: boolean): number
 }
 
 /**
@@ -37,6 +43,8 @@ interface Global {
    */
   printMemProfilerStats: any;
 }
+
+declare function require(path: string): any;
 
 /**
  * Global objects that can be called from the Screeps console.

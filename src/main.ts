@@ -11,6 +11,7 @@ import * as Config from "./config/config";
 import { Stonehenge } from "./core/stonehenge";
 import { log } from "./lib/logger/log";
 
+import { loadStructurePrototypes } from "./prototypes/Structure.prototype";
 import { loadStructureSpawnPrototypes } from "./prototypes/StructureSpawn.prototype";
 
 // This is an example for using a config variable from `config.ts`.
@@ -19,6 +20,7 @@ if (Config.USE_PATHFINDER) {
 }
 
 // Prototype extensions
+loadStructurePrototypes();
 loadStructureSpawnPrototypes();
 
 // Enable the profiler

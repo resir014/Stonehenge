@@ -1,14 +1,21 @@
+import * as Config from "../../config/config";
+import { log } from "../../lib/logger/log";
 import { Profile } from "../../lib/profiler/profile";
-import { RoomManager } from "../roomManager";
+import { Orchestrator } from "../../core/orchestrator";
 
 import { Harvester } from "./role/harvester";
+import { Hauler } from "./role/hauler";
+import { Upgrader } from "./role/upgrader";
+import { Builder } from "./role/builder";
 
 /**
  * This class is basically a "creep manager" - it's nearly the same in
  * functionality as my old `CreepManager` class, but with a more well-structured
  * class tree.
  */
-export class RoleManager extends RoomManager {
+export class CreepManager {
+  protected room: Room;
+  protected memory: { [key: string]: any };
   protected creeps: Creep[];
   protected creepCount: number;
 
@@ -28,7 +35,9 @@ export class RoleManager extends RoomManager {
    * @param room The current room.
    */
   constructor(room: Room) {
-    super(room);
+    this.room = room;
+    this.memory = room.memory;
+
     this.creeps = this.room.find<Creep>(FIND_MY_CREEPS);
     this.creepCount = _.size(this.creeps);
     this.loadCreeps();
@@ -44,6 +53,18 @@ export class RoleManager extends RoomManager {
     this.harvesters.forEach((creep: Creep) => {
       let harvester = new Harvester(creep);
       harvester.run();
+    });
+    this.haulers.forEach((creep: Creep) => {
+      let hauler = new Hauler(creep);
+      hauler.run();
+    });
+    this.upgraders.forEach((creep: Creep) => {
+      let upgrader = new Upgrader(creep);
+      upgrader.run();
+    });
+    this.builders.forEach((creep: Creep) => {
+      let builder = new Builder(creep);
+      builder.run();
     });
   }
 
@@ -85,6 +106,106 @@ export class RoleManager extends RoomManager {
    */
   @Profile()
   private buildMissingCreeps() {
-    //
+    let bodyParts: string[] = [];
+
+    let spawns: Spawn[] = this.room.find<Spawn>(FIND_MY_SPAWNS, {
+      filter: (spawn: Spawn) => {
+        return spawn.spawning === null;
+      },
+    });
+
+    if (this.room.energyCapacityAvailable < 550 && this.room.energyAvailable < 550) {
+      bodyParts = [WORK, CARRY, CARRY, MOVE, MOVE];
+    } else if (this.room.energyCapacityAvailable >= 550 && this.room.energyAvailable >= 550) {
+      bodyParts = [WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE];
+    }
+
+    for (let spawn of spawns) {
+      if (Config.ENABLE_DEBUG_MODE) {
+        log.debug("Spawning from:", spawn.name);
+      }
+
+      if (spawn.canCreateCreep) {
+        if (this.harvesters.length >= 1) {
+          if (this.haulers.length < Memory.rooms[this.room.name].jobs.hauler) {
+            if (this.room.energyCapacityAvailable < 550 && this.room.energyAvailable < 550) {
+              bodyParts = [CARRY, CARRY, CARRY, MOVE, MOVE, MOVE];
+            } else if (this.room.energyCapacityAvailable >= 550 && this.room.energyAvailable >= 550) {
+              bodyParts = [CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE];
+            } else if (this.haulers.length < 1) {
+              bodyParts = [CARRY, CARRY, CARRY, MOVE];
+            }
+            this.spawnCreep(spawn, bodyParts, "hauler");
+            break;
+          } else if (this.harvesters.length < Memory.rooms[this.room.name].jobs.harvester) {
+            if (this.room.energyCapacityAvailable < 550 && this.room.energyAvailable < 550) {
+              bodyParts = [WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE];
+            } else if (this.room.energyCapacityAvailable >= 550 && this.room.energyAvailable >= 550) {
+              bodyParts = [WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE];
+            }
+            this.spawnCreep(spawn, bodyParts, "harvester");
+          } else if (this.upgraders.length < Memory.rooms[this.room.name].jobs.upgrader) {
+            // In case we ran out of creeps.
+            if (this.upgraders.length < 1) {
+              bodyParts = [WORK, WORK, CARRY, MOVE];
+            }
+            this.spawnCreep(spawn, bodyParts, "upgrader");
+          } else if (this.builders.length < Memory.rooms[this.room.name].jobs.builder) {
+            // In case we ran out of creeps.
+            if (this.builders.length < 1) {
+              bodyParts = [WORK, WORK, CARRY, MOVE];
+            }
+            this.spawnCreep(spawn, bodyParts, "builder");
+          }
+        } else {
+          if (this.harvesters.length < Memory.rooms[this.room.name].jobs.harvester) {
+            bodyParts = [WORK, WORK, MOVE, MOVE];
+            this.spawnCreep(spawn, bodyParts, "harvester");
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * Spawns a new creep.
+   *
+   * @param {Spawn} spawn
+   * @param {string[]} bodyParts
+   * @param {string} role
+   * @returns
+   */
+  private spawnCreep(spawn: Spawn, bodyParts: string[], role: string) {
+    const orchestrator = Orchestrator.getInstance();
+    let guid: number = Memory.guid;
+    let status: number | string = spawn.canCreateCreep(bodyParts);
+
+    let properties: { [key: string]: any } = {
+      role,
+      room: spawn.room.name,
+    };
+
+    status = _.isString(status) ? OK : status;
+    if (status === OK) {
+      Memory.guid = guid + 1;
+      let creepName: string = spawn.room.name + " - " + role + orchestrator.getGuid();
+
+      log.info("Started creating new creep: " + creepName);
+      if (Config.ENABLE_DEBUG_MODE) {
+        log.debug("Body: " + bodyParts);
+        log.debug("guid: " + guid);
+      }
+
+      status = spawn.createCreep(bodyParts, creepName, properties);
+
+      return _.isString(status) ? OK : status;
+    } else {
+      if (Config.ENABLE_DEBUG_MODE) {
+        log.error("Failed creating new creep: " + status);
+      }
+
+      return status;
+    }
   }
 }

@@ -10,7 +10,7 @@ import { Role } from "../role";
  * in the array, so it might be wise to pass a pre-sorted array of construction
  * sites to build.
  */
-export class Harvester extends Role {
+export class Builder extends Role {
   private constructionSites: ConstructionSite[];
   private constructionSiteCount: number;
 

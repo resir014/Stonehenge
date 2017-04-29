@@ -40,9 +40,9 @@ export class SourceManager {
         }
       });
 
-      self.memory.jobs.sourceMiningJobs = self.memory.unoccupiedMiningPositions.length;
+      self.memory.jobs.harvester = self.memory.unoccupiedMiningPositions.length;
     } else {
-      self.memory.jobs.sourceMiningJobs = self.memory.unoccupiedMiningPositions.length;
+      self.memory.jobs.harvester = self.memory.unoccupiedMiningPositions.length;
     }
   }
 }

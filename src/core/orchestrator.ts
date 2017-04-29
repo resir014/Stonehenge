@@ -13,28 +13,11 @@ import { controlledRoomJobs, /* partsCost */ } from "../config/jobs";
  * orchestrator.someOrchestratorFunction();
  * ```
  */
-export class Orchestrator {
-  private static instance: Orchestrator = new Orchestrator();
-
-  constructor() {
-    if (Orchestrator.instance) {
-      throw new Error("The Orchestrator is a singleton class and cannot be created!");
-    }
-
-    Orchestrator.instance = this;
-  }
-
-  /**
-   * Creates a singleton instance of Orchestrator.
-   */
-  public static getInstance(): Orchestrator {
-    return Orchestrator.instance;
-  }
-
+namespace Orchestrator {
   /**
    * Creates a unique guid for a creep/queued task.
    */
-  public getGuid() {
+  export function getGuid() {
     if (!Memory.guid || Memory.guid > 100) {
       Memory.guid = 0;
     }
@@ -52,7 +35,7 @@ export class Orchestrator {
    *
    * @param room The target room.
    */
-  public refreshJobAssignments(room: Room) {
+  export function refreshJobAssignments(room: Room) {
     // Check if all job assignments are initialised properly.
     if (_.keys(room.memory.jobs).length !== _.keys(controlledRoomJobs).length) {
       let jobsToAdd = _.difference(controlledRoomJobs, _.keys(room.memory.jobs));
@@ -69,7 +52,7 @@ export class Orchestrator {
    * @param role The expected creep role.
    * @param room The room in which this creep will live.
    */
-  public getBodyParts(/* role: string, room: Room */) {
+  export function getBodyParts(/* role: string, room: Room */) {
     let bodyParts: string[] = [];
 
     // TODO: Here's how this method would work:
@@ -91,3 +74,5 @@ export class Orchestrator {
     return bodyParts;
   }
 }
+
+export default Orchestrator;

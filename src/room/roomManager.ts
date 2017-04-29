@@ -1,4 +1,4 @@
-import { Orchestrator } from "../core/orchestrator";
+import Orchestrator from "../core/orchestrator";
 import { Profile } from "../lib/profiler/profile";
 import { log } from "../lib/logger/log";
 
@@ -8,7 +8,6 @@ import { CreepManager } from "./creep/creepManager";
 export class RoomManager {
   protected room: Room;
   protected memory: { [key: string]: any };
-  protected orchestrator: Orchestrator;
   protected sourceManager: SourceManager;
 
   /**
@@ -23,7 +22,6 @@ export class RoomManager {
     // We instantiate the Orchestrator object here. I know it's not that good
     // of an implementation, but hey, it's the only way I could think how this
     // thing would work.
-    this.orchestrator = Orchestrator.getInstance();
     this.sourceManager = new SourceManager(room);
   }
 
@@ -36,7 +34,7 @@ export class RoomManager {
     this.refreshMiningPositions();
     this.cleanupCreepMemory();
 
-    this.orchestrator.refreshJobAssignments(this.room);
+    Orchestrator.refreshJobAssignments(this.room);
     this.sourceManager.refreshAvailableSources();
 
     const creepManager = new CreepManager(this.room);

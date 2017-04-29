@@ -1,7 +1,7 @@
 import * as Config from "../../config/config";
 import { log } from "../../lib/logger/log";
 import { Profile } from "../../lib/profiler/profile";
-import { Orchestrator } from "../../core/orchestrator";
+import Orchestrator from "../../core/orchestrator";
 
 import { Harvester } from "./role/harvester";
 import { Hauler } from "./role/hauler";
@@ -165,7 +165,6 @@ export class CreepManager {
    * @returns
    */
   private spawnCreep(spawn: Spawn, bodyParts: string[], role: string) {
-    const orchestrator = Orchestrator.getInstance();
     let guid: number = Memory.guid;
     let status: number | string = spawn.canCreateCreep(bodyParts);
 
@@ -181,7 +180,7 @@ export class CreepManager {
     status = _.isString(status) ? OK : status;
     if (status === OK) {
       Memory.guid = guid + 1;
-      let creepName: string = spawn.room.name + " - " + role + orchestrator.getGuid();
+      let creepName: string = spawn.room.name + " - " + role + Orchestrator.getGuid();
 
       log.info("Started creating new creep: " + creepName);
       if (Config.ENABLE_DEBUG_MODE) {

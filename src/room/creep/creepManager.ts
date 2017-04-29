@@ -114,11 +114,9 @@ export class CreepManager {
       },
     });
 
-    if (this.room.energyCapacityAvailable < 550 && this.room.energyAvailable < 550) {
-      bodyParts = [WORK, CARRY, CARRY, MOVE, MOVE];
-    } else if (this.room.energyCapacityAvailable >= 550 && this.room.energyAvailable >= 550) {
-      bodyParts = [WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE];
-    }
+    // TODO: This should be procedurally generated based on the number of energy
+    // availabe + energy capacity of room. See Orchestrator.getBodyParts()
+    bodyParts = [WORK, WORK, CARRY, MOVE];
 
     for (let spawn of spawns) {
       if (Config.ENABLE_DEBUG_MODE) {
@@ -128,21 +126,11 @@ export class CreepManager {
       if (spawn.canCreateCreep) {
         if (this.harvesters.length >= 1) {
           if (this.haulers.length < Memory.rooms[this.room.name].jobs.hauler) {
-            if (this.room.energyCapacityAvailable < 550 && this.room.energyAvailable < 550) {
-              bodyParts = [CARRY, CARRY, CARRY, MOVE, MOVE, MOVE];
-            } else if (this.room.energyCapacityAvailable >= 550 && this.room.energyAvailable >= 550) {
-              bodyParts = [CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE];
-            } else if (this.haulers.length < 1) {
-              bodyParts = [CARRY, CARRY, CARRY, MOVE];
-            }
+            bodyParts = [CARRY, CARRY, CARRY, MOVE, MOVE, MOVE];
             this.spawnCreep(spawn, bodyParts, "hauler");
             break;
           } else if (this.harvesters.length < Memory.rooms[this.room.name].jobs.harvester) {
-            if (this.room.energyCapacityAvailable < 550 && this.room.energyAvailable < 550) {
-              bodyParts = [WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE];
-            } else if (this.room.energyCapacityAvailable >= 550 && this.room.energyAvailable >= 550) {
-              bodyParts = [WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE];
-            }
+            bodyParts = [WORK, WORK, MOVE, MOVE];
             this.spawnCreep(spawn, bodyParts, "harvester");
           } else if (this.upgraders.length < Memory.rooms[this.room.name].jobs.upgrader) {
             // In case we ran out of creeps.
@@ -185,6 +173,10 @@ export class CreepManager {
       role,
       room: spawn.room.name,
     };
+
+    if (Config.ENABLE_DEBUG_MODE) {
+      log.debug(`Attempting to create new ${properties.role} in room ${properties.room}`);
+    }
 
     status = _.isString(status) ? OK : status;
     if (status === OK) {

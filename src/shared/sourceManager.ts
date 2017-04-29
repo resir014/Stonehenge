@@ -1,5 +1,5 @@
-import * as Config from "../config/config";
-import { log } from "../lib/logger/log";
+import * as Config from '../config/config';
+import { log } from '../lib/logger/log';
 
 export class SourceManager {
   public memory: Memory;
@@ -7,17 +7,17 @@ export class SourceManager {
   public sourceCount: number;
   public lookResults: LookAtResultMatrix | LookAtResultWithPos[];
 
-  constructor(room: Room) {
+  constructor (room: Room) {
     this.memory = room.memory;
     this.sources = room.find<Source>(FIND_SOURCES_ACTIVE);
     this.sourceCount = _.size(this.sources);
 
     if (Config.ENABLE_DEBUG_MODE) {
-      log.debug("[SourceManager] " + this.sourceCount + " source mining jobs available in room.");
+      log.debug('[SourceManager] ' + this.sourceCount + ' source mining jobs available in room.');
     }
   }
 
-  public refreshAvailableSources() {
+  public refreshAvailableSources (): void {
     let self = this;
 
     if (self.memory.unoccupiedMiningPositions.length === 0) {
@@ -33,7 +33,7 @@ export class SourceManager {
         );
 
         for (let result of this.lookResults as LookAtResultWithPos[]) {
-          if (result.terrain === "plain" || result.terrain === "swamp") {
+          if (result.terrain === 'plain' || result.terrain === 'swamp') {
             self.memory.unoccupiedMiningPositions
               .push(new RoomPosition(result.x, result.y, source.room.name));
           }

@@ -11,7 +11,7 @@ export const loadStructureSpawnPrototypes = () => {
     let i: number;
 
     for (i = 0; i < potentialBodies.length; i++) {
-      bodyCost = _.sum(potentialBodies[i], (bp) => BODYPART_COST[bp]);
+      bodyCost = _.sum(potentialBodies[i], (bp: string) => BODYPART_COST[bp]);
       if (bodyCost <= this.room.energyCapacityAvailable) {
         body = potentialBodies[i];
         break;
@@ -29,7 +29,7 @@ export const loadStructureSpawnPrototypes = () => {
     let result: string[] = [];
     let i: number;
     let numberOfParts = Math.min(
-      Math.floor(this.room.energyCapacityAvailable / _.sum(bodyTemplate, (bp) => BODYPART_COST[bp])),
+      Math.floor(this.room.energyCapacityAvailable / _.sum(bodyTemplate, (bp: string) => BODYPART_COST[bp])),
       Math.floor(50 / bodyTemplate.length),
       maxIterations || 100
     );
@@ -43,7 +43,7 @@ export const loadStructureSpawnPrototypes = () => {
 
   StructureSpawn.prototype.findOptimalMoveCountForBody = function (
     body: string[],
-    terrain: "road" | "plain" | "swamp" = "plain",
+    terrain: 'road' | 'plain' | 'swamp' = 'plain',
     fullCarry: boolean = false
   ): number {
     let bodyWeight = 0;
@@ -52,7 +52,7 @@ export const loadStructureSpawnPrototypes = () => {
       if (body[i] === CARRY && !fullCarry) { continue; }
       bodyWeight++;
     }
-    let terrainCost: number = terrain === "swamp" ? 5 : terrain === "road" ? 0.5 : 1;
+    let terrainCost: number = terrain === 'swamp' ? 5 : terrain === 'road' ? 0.5 : 1;
     return Math.ceil(terrainCost * bodyWeight);
   };
 };

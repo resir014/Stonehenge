@@ -1,5 +1,5 @@
-import { Profile } from "../../../lib/profiler/profile";
-import { Role } from "../role";
+import { Profile } from '../../../lib/profiler/profile';
+import { Role } from '../role';
 
 /**
  * A Hauler retrieves energy harvested by a Harvester and carries them to
@@ -8,21 +8,30 @@ import { Role } from "../role";
  * @todo Refactor this.
  */
 export class Hauler extends Role {
-  constructor(creep: Creep) {
+  /**
+   * Creates an instance of Hauler.
+   * @param {Creep} creep The current creep.
+   *
+   * @memberOf Hauler
+   */
+  constructor (creep: Creep) {
     super(creep);
   }
 
+  /**
+   * Run the module.
+   */
   @Profile()
-  public run() {
+  public run (): void {
     if (!this.memory.state) {
-      this.memory.state = "idle";
+      this.memory.state = 'idle';
     }
 
     if (_.sum(this.creep.carry) === 0) {
-      this.memory.state = "idle";
+      this.memory.state = 'idle';
     }
 
-    if (_.sum(this.creep.carry) < this.creep.carryCapacity && this.memory.state !== "delivering") {
+    if (_.sum(this.creep.carry) < this.creep.carryCapacity && this.memory.state !== 'delivering') {
       let targetSource: Resource = this.creep.pos.findClosestByPath<Resource>(FIND_DROPPED_RESOURCES);
 
       if (targetSource) {
@@ -61,7 +70,7 @@ export class Hauler extends Role {
         }
       }
     } else {
-      this.creep.memory.state = "delivering";
+      this.creep.memory.state = 'delivering';
       let targetTowers = this.creep.room.find<Tower>(FIND_STRUCTURES, {
         filter: (structure: Structure) => {
           if (structure.structureType === STRUCTURE_TOWER) {

@@ -1,9 +1,9 @@
-import Orchestrator from "../core/orchestrator";
-import { Profile } from "../lib/profiler/profile";
-import { log } from "../lib/logger/log";
+import Orchestrator from '../core/orchestrator';
+import { Profile } from '../lib/profiler/profile';
+import { log } from '../lib/logger/log';
 
-import { SourceManager } from "../shared/sourceManager";
-import { CreepManager } from "./creep/creepManager";
+import { SourceManager } from '../shared/sourceManager';
+import { CreepManager } from './creep/creepManager';
 
 /**
  * In a Stonehenge perspective, the centre of a Screeps colony lies in the room.
@@ -19,9 +19,10 @@ export class RoomManager {
   protected sourceManager: SourceManager;
 
   /**
-   * Creates an instance of ColonyManager.
+   * Creates an instance of RoomManager.
+   * @param {Room} room The current room.
    *
-   * @param room The current room.
+   * @memberOf RoomManager
    */
   constructor(room: Room) {
     this.room = room;
@@ -34,7 +35,7 @@ export class RoomManager {
    * Run the module.
    */
   @Profile()
-  public run(): void {
+  public run (): void {
     this.initializeMemory();
     this.refreshMiningPositions();
     this.cleanupCreepMemory();
@@ -50,7 +51,7 @@ export class RoomManager {
    * Checks memory for null or out of bounds objects
    */
   @Profile()
-  private initializeMemory() {
+  private initializeMemory (): void {
     if (!this.memory) {
       this.memory = {};
     }
@@ -72,7 +73,7 @@ export class RoomManager {
    * Refreshes every memory entry of mining positions available on the room.
    */
   @Profile()
-  private refreshMiningPositions() {
+  private refreshMiningPositions (): void {
     if (!this.memory) {
       this.memory = {};
     }
@@ -86,15 +87,15 @@ export class RoomManager {
    * Remove dead creeps in memory.
    */
   @Profile()
-  private cleanupCreepMemory() {
+  private cleanupCreepMemory (): void {
     for (let name in Memory.creeps) {
       let creep: any = Memory.creeps[name];
 
       if (creep.room === this.room.name) {
         if (!Game.creeps[name]) {
-          log.info("[MemoryManager] Clearing non-existing creep memory:", name);
+          log.info('[MemoryManager] Clearing non-existing creep memory:', name);
 
-          if (Memory.creeps[name].role === "sourceMiner") {
+          if (Memory.creeps[name].role === 'sourceMiner') {
             // Push the now-dead creep's mining position back to the
             // unoccupiedMiningPosition entry
             this.memory.unoccupiedMiningPositions.push(Memory.creeps[name].occupiedMiningPosition);
@@ -103,7 +104,7 @@ export class RoomManager {
           delete Memory.creeps[name];
         }
       } else if (_.keys(Memory.creeps[name]).length === 0) {
-        log.info("[MemoryManager] Clearing non-existing creep memory:", name);
+        log.info('[MemoryManager] Clearing non-existing creep memory:', name);
         delete Memory.creeps[name];
       }
     }

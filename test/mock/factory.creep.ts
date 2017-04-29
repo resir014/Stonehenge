@@ -1,6 +1,6 @@
 /* tslint:disable:no-reference */
 /// <reference path="../../typings/globals/screeps/index.d.ts"/>
-import * as _ from "lodash";
+import * as _ from 'lodash';
 
 export class CreepFactory {
   private _body: BodyPartDefinition[];
@@ -52,7 +52,7 @@ export class CreepFactory {
   public carrying(type: StoreDefinition | string, amount?: number): CreepFactory {
     if (!amount) {
       this._carry = type as StoreDefinition;
-    } else if (typeof type === "string") {
+    } else if (typeof type === 'string') {
       const c: any = {};
       c[type] = amount;
       this._carry = c as StoreDefinition;

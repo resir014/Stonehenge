@@ -1,5 +1,5 @@
-export const loadStructurePrototypes = function () {
-  Structure.prototype.needEnergy = function () {
+export const loadStructurePrototypes = () => {
+  Structure.prototype.needEnergy = function (): boolean {
     if (this.structureType !== STRUCTURE_EXTENSION &&
       this.structureType !== STRUCTURE_TOWER) {
       return false;

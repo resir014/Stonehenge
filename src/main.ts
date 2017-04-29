@@ -5,14 +5,14 @@
  * It is developed in TypeScript, and designed with modularity in mind.
  */
 
-import * as profiler from "screeps-profiler";
+import * as profiler from 'screeps-profiler';
 
-import * as Config from "./config/config";
-import { RoomManager } from "./room/roomManager";
-import { log } from "./lib/logger/log";
+import * as Config from './config/config';
+import { RoomManager } from './room/roomManager';
+import { log } from './lib/logger/log';
 
-import { loadStructurePrototypes } from "./prototypes/Structure.prototype";
-import { loadStructureSpawnPrototypes } from "./prototypes/StructureSpawn.prototype";
+import { loadStructurePrototypes } from './prototypes/Structure.prototype';
+import { loadStructureSpawnPrototypes } from './prototypes/StructureSpawn.prototype';
 
 // This is an example for using a config variable from `config.ts`.
 if (Config.USE_PATHFINDER) {
@@ -26,7 +26,7 @@ loadStructureSpawnPrototypes();
 // Enable the profiler
 profiler.enable();
 
-log.info("Scripts bootstrapped.");
+log.info('Scripts bootstrapped.');
 
 /**
  * Screeps system expects this "loop" method in main.js to run the
@@ -36,7 +36,7 @@ log.info("Scripts bootstrapped.");
  *
  * @export
  */
-export function loop() {
+export function loop (): void {
   // Run the Stonehenge core engine.
   profiler.wrap(() => {
     // Check memory for null or out of bounds custom objects.
@@ -55,7 +55,7 @@ export function loop() {
 /**
  * Check memory for null or out of bounds custom objects
  */
-function checkOutOfBoundsMemory() {
+function checkOutOfBoundsMemory (): void {
   if (!Memory.guid || Memory.guid > 100) {
     Memory.guid = 0;
   }

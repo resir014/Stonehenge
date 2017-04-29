@@ -7,7 +7,7 @@ interface Structure {
 interface StructureSpawn {
   getLargestBuildableBodyFromSet(potentialBodies: string[][]): string[];
   getLargestBuildableBodyFromTemplate(bodyTemplate: string[], maxIterations?: number): string[];
-  findOptimalMoveCountForBody(body: string[], terrain?: "road" | "plain" | "swamp", fullCarry?: boolean): number
+  findOptimalMoveCountForBody(body: string[], terrain?: 'road' | 'plain' | 'swamp', fullCarry?: boolean): number
 }
 
 // END Extended prototypes

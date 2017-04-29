@@ -1,5 +1,5 @@
-import { Profile } from "../../../lib/profiler/profile";
-import { Role } from "../role";
+import { Profile } from '../../../lib/profiler/profile';
+import { Role } from '../role';
 
 /**
  * An Upgrader upgrades the controller in their room.
@@ -7,7 +7,13 @@ import { Role } from "../role";
  * @todo Refactor this.
  */
 export class Upgrader extends Role {
-  constructor(creep: Creep) {
+  /**
+   * Creates an instance of Upgrader.
+   * @param {Creep} creep The current creep.
+   *
+   * @memberOf Upgrader
+   */
+  constructor (creep: Creep) {
     super(creep);
   }
 
@@ -15,18 +21,18 @@ export class Upgrader extends Role {
    * Run the module.
    */
   @Profile()
-  public run() {
+  public run (): void {
     let roomController: StructureController | undefined = this.creep.room.controller;
 
     if (!this.memory.state) {
-      this.memory.state = "idle";
+      this.memory.state = 'idle';
     }
 
     if (_.sum(this.creep.carry) === 0) {
-      this.memory.state = "idle";
+      this.memory.state = 'idle';
     }
 
-    if (_.sum(this.creep.carry) < this.creep.carryCapacity && this.memory.state !== "upgrading") {
+    if (_.sum(this.creep.carry) < this.creep.carryCapacity && this.memory.state !== 'upgrading') {
       let targetSource = this.creep.pos.findClosestByPath<Resource>(FIND_DROPPED_RESOURCES);
 
       if (targetSource) {
@@ -39,7 +45,7 @@ export class Upgrader extends Role {
         this.tryRetrieveEnergy();
       }
     } else {
-      this.memory.state = "upgrading";
+      this.memory.state = 'upgrading';
 
       if (roomController && this.creep.upgradeController(roomController) === ERR_NOT_IN_RANGE) {
         this.moveTo(roomController);

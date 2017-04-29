@@ -1,16 +1,16 @@
-import * as Config from "../config/config";
-import { log } from "../lib/logger/log";
+import * as Config from '../config/config';
+import { log } from '../lib/logger/log';
 
 export class StructureManager {
   public structures: Structure[];
   public structureCount: number;
 
-  constructor(room: Room) {
+  constructor (room: Room) {
     this.structures = room.find<Structure>(FIND_STRUCTURES);
     this.structureCount = _.size(this.structures);
 
     if (Config.ENABLE_DEBUG_MODE) {
-      log.debug("[StructureManager]" + this.structureCount + " structures found.");
+      log.debug('[StructureManager]' + this.structureCount + ' structures found.');
     }
   }
 
@@ -18,7 +18,7 @@ export class StructureManager {
    * Get the storage objects available. This prioritizes StructureContainer,
    * but will fall back to an extension, or to the spawn if need be.
    */
-  public getStorageObjects(): Structure[] {
+  public getStorageObjects (): Structure[] {
     let targets: Structure[] = this.structures.filter((structure: StructureContainer) => {
       return ((structure.structureType === STRUCTURE_CONTAINER)
         && _.sum(structure.store) < structure.storeCapacity);
@@ -39,8 +39,8 @@ export class StructureManager {
    * Get the energy dropoff points available. This prioritizes the spawn,
    * falling back on extensions, then towers, and finally containers.
    */
-  public getDropOffPoints(): Structure[] {
-    let targets: Structure[] = this.structures.filter((structure) => {
+  public getDropOffPoints (): Structure[] {
+    let targets: Structure[] = this.structures.filter((structure: Structure) => {
       if (structure instanceof Spawn) {
         return ((structure.structureType === STRUCTURE_SPAWN) && structure.energy < structure.energyCapacity);
       }
@@ -48,7 +48,7 @@ export class StructureManager {
 
     // If the spawn is full, we'll find any extensions/towers.
     if (targets.length === 0) {
-      targets = this.structures.filter((structure) => {
+      targets = this.structures.filter((structure: Structure) => {
         if (structure instanceof StructureExtension) {
           return ((structure.structureType === STRUCTURE_EXTENSION)
             && structure.energy < structure.energyCapacity);

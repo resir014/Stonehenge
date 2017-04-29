@@ -1,4 +1,4 @@
-/* tslint:disable:object-literal-sort-keys object-literal-key-quotes*/
+/* tslint:disable:typedef object-literal-sort-keys object-literal-key-quotes quotemark */
 // we disable those linting rules to make updating this file from the official API reference
 // as easy as possible.
 const gameConsts = {

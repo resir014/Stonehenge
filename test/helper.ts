@@ -10,8 +10,8 @@
 declare const global: any;
 declare const _: any;
 
-import * as lodash from "lodash";
-import consts from "./mock/game";
+import * as lodash from 'lodash';
+import consts from './mock/game';
 
 global._ = lodash;
 

@@ -1,7 +1,7 @@
-import * as Config from "../../../config/config";
-import { log } from "../../../lib/logger/log";
-import { Profile } from "../../../lib/profiler/profile";
-import { Role } from "../role";
+import * as Config from '../../../config/config';
+import { log } from '../../../lib/logger/log';
+import { Profile } from '../../../lib/profiler/profile';
+import { Role } from '../role';
 
 /**
  * A Builder builds construction sites.
@@ -22,15 +22,21 @@ export class Builder extends Role {
   private towers: ConstructionSite[] = [];
   private storages: ConstructionSite[] = [];
 
-  constructor(creep: Creep) {
+  /**
+   * Creates an instance of Builder.
+   * @param {Creep} creep The current creep.
+   *
+   * @memberOf Builder
+   */
+  constructor (creep: Creep) {
     super(creep);
     this.constructionSites = creep.room.find<ConstructionSite>(FIND_CONSTRUCTION_SITES);
     this.constructionSiteCount = _.size(this.constructionSites);
     this.getConstructionSites();
 
     if (Config.ENABLE_DEBUG_MODE) {
-      log.debug("[Builder]", this.constructionSiteCount + " construction sites in room" +
-        creep.room.name + ".");
+      log.debug('[Builder]', this.constructionSiteCount + ' construction sites in room' +
+        creep.room.name + '.');
     }
   }
 
@@ -38,19 +44,19 @@ export class Builder extends Role {
    * Run the module.
    */
   @Profile()
-  public run() {
+  public run (): void {
     if (!this.memory.state) {
-      this.memory.state = "idle";
+      this.memory.state = 'idle';
     }
 
     if (_.sum(this.creep.carry) === 0) {
-      this.memory.state = "idle";
+      this.memory.state = 'idle';
     }
 
-    if (_.sum(this.creep.carry) < this.creep.carryCapacity && this.memory.state !== "building") {
+    if (_.sum(this.creep.carry) < this.creep.carryCapacity && this.memory.state !== 'building') {
       this.tryRetrieveEnergy();
     } else {
-      this.memory.state = "building";
+      this.memory.state = 'building';
       let targetConstructionSite = this.getConstructionSite(this.constructionSites);
 
       if (targetConstructionSite) {
@@ -63,32 +69,32 @@ export class Builder extends Role {
     }
   }
 
-  private getConstructionSites() {
-    this.roads = this.constructionSites.filter((structure) => {
+  private getConstructionSites (): void {
+    this.roads = this.constructionSites.filter((structure: ConstructionSite) => {
       return structure.structureType === STRUCTURE_ROAD;
     });
 
-    this.extensions = this.constructionSites.filter((structure) => {
+    this.extensions = this.constructionSites.filter((structure: ConstructionSite) => {
       return structure.structureType === STRUCTURE_EXTENSION;
     });
 
-    this.containers = this.constructionSites.filter((structure) => {
+    this.containers = this.constructionSites.filter((structure: ConstructionSite) => {
       return structure.structureType === STRUCTURE_CONTAINER;
     });
 
-    this.walls = this.constructionSites.filter((structure) => {
+    this.walls = this.constructionSites.filter((structure: ConstructionSite) => {
       return structure.structureType === STRUCTURE_WALL;
     });
 
-    this.ramparts = this.constructionSites.filter((structure) => {
+    this.ramparts = this.constructionSites.filter((structure: ConstructionSite) => {
       return structure.structureType === STRUCTURE_RAMPART;
     });
 
-    this.towers = this.constructionSites.filter((structure) => {
+    this.towers = this.constructionSites.filter((structure: ConstructionSite) => {
       return structure.structureType === STRUCTURE_TOWER;
     });
 
-    this.storages = this.constructionSites.filter((structure) => {
+    this.storages = this.constructionSites.filter((structure: ConstructionSite) => {
       return structure.structureType === STRUCTURE_STORAGE;
     });
   }
@@ -99,7 +105,7 @@ export class Builder extends Role {
    *
    * @param constructionSites The list of construction sites to sort
    */
-  private getConstructionSite(constructionSites: ConstructionSite[]) {
+  private getConstructionSite (constructionSites: ConstructionSite[]): ConstructionSite {
     let target: ConstructionSite;
 
     if (this.roads.length > 0) {

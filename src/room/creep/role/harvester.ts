@@ -1,11 +1,17 @@
-import { Profile } from "../../../lib/profiler/profile";
-import { Role } from "../role";
+import { Profile } from '../../../lib/profiler/profile';
+import { Role } from '../role';
 
 /**
  * A Harvester occupies a mining position and harvests energy.
  */
 export class Harvester extends Role {
-  constructor(creep: Creep) {
+  /**
+   * Creates an instance of Harvester.
+   * @param {Creep} creep The current creep.
+   *
+   * @memberOf Harvester
+   */
+  constructor (creep: Creep) {
     super(creep);
   }
 
@@ -13,7 +19,7 @@ export class Harvester extends Role {
    * Run the module.
    */
   @Profile()
-  public run() {
+  public run (): void {
     let availablePositions: RoomPosition[] = Memory.rooms[this.creep.room.name]
       .unoccupiedMiningPositions;
     let assignedPosition: RoomPosition;
@@ -45,10 +51,14 @@ export class Harvester extends Role {
   /**
    * Attempt to harvest energy.
    *
-   * @param target
+   * @private
+   * @param {Source} target The target energy source to harvest.
+   * @returns {number} A status code.
+   *
+   * @memberOf Harvester
    */
   @Profile()
-  private tryHarvest(target: Source): number {
+  private tryHarvest (target: Source): number {
     return this.creep.harvest(target);
   }
 }

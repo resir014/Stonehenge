@@ -1,4 +1,4 @@
-import { controlledRoomJobs, /* partsCost */ } from "../config/jobs";
+import { controlledRoomJobs, /* partsCost */ } from '../config/jobs';
 
 /**
  * Orchestrator is the brain of each Colony. It provides several useful APIs to
@@ -8,8 +8,11 @@ import { controlledRoomJobs, /* partsCost */ } from "../config/jobs";
 namespace Orchestrator {
   /**
    * Creates a unique guid for a creep/queued task.
+   *
+   * @export
+   * @returns {number} The current guid.
    */
-  export function getGuid() {
+  export function getGuid (): number {
     if (!Memory.guid || Memory.guid > 100) {
       Memory.guid = 0;
     }
@@ -25,9 +28,9 @@ namespace Orchestrator {
    * to invoke a method which will ~automagically~ define job assignments based
    * on some parameters. We don't even have that function yet.
    *
-   * @param room The target room.
+   * @param {Room} room The target room.
    */
-  export function refreshJobAssignments(room: Room) {
+  export function refreshJobAssignments (room: Room): void {
     // Check if all job assignments are initialised properly.
     if (_.keys(room.memory.jobs).length !== _.keys(controlledRoomJobs).length) {
       let jobsToAdd = _.difference(controlledRoomJobs, _.keys(room.memory.jobs));
@@ -41,10 +44,10 @@ namespace Orchestrator {
    * Calculates the body part for the creeps we'll have to spawn. Should return
    * body parts which are proportional to a creep's role.
    *
-   * @param role The expected creep role.
-   * @param room The room in which this creep will live.
+   * @param {string} role The expected creep role.
+   * @param {Room} room The room in which this creep will live.
    */
-  export function getBodyParts(/* role: string, room: Room */) {
+  export function getBodyParts (/* role: string, room: Room */): string[] {
     let bodyParts: string[] = [];
 
     // TODO: Here's how this method would work:

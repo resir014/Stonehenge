@@ -19,9 +19,6 @@ export class RoomManager {
     this.room = room;
     this.memory = room.memory;
 
-    // We instantiate the Orchestrator object here. I know it's not that good
-    // of an implementation, but hey, it's the only way I could think how this
-    // thing would work.
     this.sourceManager = new SourceManager(room);
   }
 

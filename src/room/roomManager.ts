@@ -5,6 +5,14 @@ import { log } from "../lib/logger/log";
 import { SourceManager } from "../shared/sourceManager";
 import { CreepManager } from "./creep/creepManager";
 
+/**
+ * In a Stonehenge perspective, the centre of a Screeps colony lies in the room.
+ * The RoomManager contains global initialisations regarding memory, as well as
+ * job initialisations.
+ *
+ * @export
+ * @class RoomManager
+ */
 export class RoomManager {
   protected room: Room;
   protected memory: { [key: string]: any };

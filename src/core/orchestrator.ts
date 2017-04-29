@@ -4,14 +4,6 @@ import { controlledRoomJobs, /* partsCost */ } from "../config/jobs";
  * Orchestrator is the brain of each Colony. It provides several useful APIs to
  * perform global managerial tasks within a Colony, including managing memory,
  * job assignment, job priorities, mining/construction positions, etc.
- *
- * The Orchestrator is a singleton class, meaning that its instantiation is
- * restricted to one object.
- *
- * ```ts
- * const orchestrator = Orchestrator.getInstance();
- * orchestrator.someOrchestratorFunction();
- * ```
  */
 namespace Orchestrator {
   /**

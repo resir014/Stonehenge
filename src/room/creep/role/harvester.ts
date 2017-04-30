@@ -1,5 +1,5 @@
-import { Profile } from '../../../lib/profiler/profile';
-import { Role } from '../role';
+import { Profile } from '../../../lib/profiler/profile'
+import { Role } from '../role'
 
 /**
  * A Harvester occupies a mining position and harvests energy.
@@ -12,33 +12,33 @@ export class Harvester extends Role {
    * @memberOf Harvester
    */
   constructor(creep: Creep) {
-    super(creep);
+    super(creep)
   }
 
   /**
    * Run the module.
    */
   @Profile()
-  public run (): void {
-    let availableSources: Source[] = Memory.rooms[this.creep.room.name].sources;
-    let assignedSource: Source | null;
+  public run(): void {
+    let availableSources: Source[] = Memory.rooms[this.creep.room.name].sources
+    let assignedSource: Source | null
 
     if (availableSources.length > 0 && !this.creep.memory.assignedSource) {
       // We assign a creep to a source if we don't have any assigned to it.
-      this.creep.memory.assignedSource = availableSources.pop();
+      this.creep.memory.assignedSource = availableSources.pop()
 
-      assignedSource = Game.getObjectById<Source>(this.creep.memory.assignedSource.id);
-      Memory.rooms[this.creep.room.name].sources = availableSources;
+      assignedSource = Game.getObjectById<Source>(this.creep.memory.assignedSource.id)
+      Memory.rooms[this.creep.room.name].sources = availableSources
     } else {
       // Use the existing assigned source.
-      assignedSource = Game.getObjectById<Source>(this.creep.memory.assignedSource.id);
+      assignedSource = Game.getObjectById<Source>(this.creep.memory.assignedSource.id)
     }
 
     if (assignedSource) {
       if (this.creep.pos.isNearTo(assignedSource)) {
-        this.tryHarvest(assignedSource);
+        this.tryHarvest(assignedSource)
       } else {
-        this.moveTo<Source>(assignedSource, 1);
+        this.moveTo<Source>(assignedSource, 1)
       }
     }
   }
@@ -53,7 +53,7 @@ export class Harvester extends Role {
    * @memberOf Harvester
    */
   @Profile()
-  private tryHarvest (target: Source): number {
-    return this.creep.harvest(target);
+  private tryHarvest(target: Source): number {
+    return this.creep.harvest(target)
   }
 }

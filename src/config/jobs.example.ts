@@ -5,7 +5,7 @@ export const bodyTemplates = {
   workers: [WORK, WORK, CARRY, MOVE],
   harvesters: [WORK, MOVE],
   haulers: [CARRY, MOVE]
-};
+}
 
 /**
  * Job assignments for controlled room roles.
@@ -21,7 +21,7 @@ export const controlledRoomJobs: string[] = [
   'roadMaintainer',
   'defender',
   'mineralMiner'
-];
+]
 
 /**
  * Job assignments for reserved room roles.
@@ -34,4 +34,4 @@ export const reservedRoomJobs: string[] = [
   'remoteHauler',
   'remoteUpgrader',
   'remoteDefender'
-];
+]

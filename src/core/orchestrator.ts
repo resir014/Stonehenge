@@ -1,6 +1,6 @@
-import * as Config from '../config/config';
-import { log } from '../lib/logger/log';
-import { controlledRoomJobs, bodyTemplates } from '../config/jobs';
+import * as Config from '../config/config'
+import { log } from '../lib/logger/log'
+import { controlledRoomJobs, bodyTemplates } from '../config/jobs'
 
 /**
  * Orchestrator is the brain of each Colony. It provides several useful APIs to
@@ -14,12 +14,12 @@ namespace Orchestrator {
    * @export
    * @returns {number} The current guid.
    */
-  export function getGuid (): number {
+  export function getGuid(): number {
     if (!Memory.guid || Memory.guid > 10000) {
-      Memory.guid = 0;
+      Memory.guid = 0
     }
 
-    return Memory.guid;
+    return Memory.guid
   }
 
   /**
@@ -32,12 +32,12 @@ namespace Orchestrator {
    * @export
    * @param {Room} room The target room.
    */
-  export function refreshJobAssignments (room: Room): void {
+  export function refreshJobAssignments(room: Room): void {
     // Check if all job assignments are initialised properly.
     if (_.keys(room.memory.jobs).length !== _.keys(controlledRoomJobs).length) {
-      let jobsToAdd = _.difference(controlledRoomJobs, _.keys(room.memory.jobs));
-      for (let i in jobsToAdd) {
-        room.memory.jobs[jobsToAdd[i]] = 0;
+      const jobsToAdd = _.difference(controlledRoomJobs, _.keys(room.memory.jobs))
+      for (const i in jobsToAdd) {
+        room.memory.jobs[jobsToAdd[i]] = 0
       }
     }
   }
@@ -51,7 +51,7 @@ namespace Orchestrator {
    * @param {Spawn} spawn The expected spawn where the creep is going to spawn.
    * @returns {string[]} The body parts proportional to a creep's role
    */
-  export function getBodyParts (role: string, spawn: Spawn): string[] {
+  export function getBodyParts(role: string, spawn: Spawn): string[] {
     // So here we have an API call to build the required bodyparts for our
     // creep. This utilizes tinnvec's super-useful spawn prototype extensions,
     // where you can generate the largest bodypart a room can build based on a
@@ -68,26 +68,26 @@ namespace Orchestrator {
     // If you dont like these proportions, free to modify the templates based
     // on your needs at `config/jobs.ts`.
 
-    let bodyParts: string[] = [];
+    let bodyParts: string[] = []
 
     switch (role) {
       case 'hauler':
-        bodyParts = spawn.getLargestBuildableBodyFromTemplate(bodyTemplates.haulers);
-        break;
+        bodyParts = spawn.getLargestBuildableBodyFromTemplate(bodyTemplates.haulers)
+        break
       case 'harvester':
-        bodyParts = spawn.getLargestBuildableBodyFromTemplate(bodyTemplates.harvesters);
-        break;
+        bodyParts = spawn.getLargestBuildableBodyFromTemplate(bodyTemplates.harvesters)
+        break
       default:
-        bodyParts = spawn.getLargestBuildableBodyFromTemplate(bodyTemplates.workers);
-        break;
+        bodyParts = spawn.getLargestBuildableBodyFromTemplate(bodyTemplates.workers)
+        break
     }
 
     if (Config.ENABLE_DEBUG_MODE) {
       log.debug(`Got bodyparts: ${bodyParts}`)
     }
 
-    return bodyParts;
+    return bodyParts
   }
 }
 
-export default Orchestrator;
+export default Orchestrator

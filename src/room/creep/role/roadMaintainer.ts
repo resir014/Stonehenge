@@ -1,7 +1,7 @@
-import { Profile } from '../../../lib/profiler/profile';
-import { Role } from '../role';
+import { Profile } from '../../../lib/profiler/profile'
+import { Role } from '../role'
 
-import { StructureManager } from '../../../shared/structureManager';
+import { StructureManager } from '../../../shared/structureManager'
 
 /**
  * An RoadMaintainer repairs roads in their room.
@@ -9,7 +9,7 @@ import { StructureManager } from '../../../shared/structureManager';
  * @todo Refactor this.
  */
 export class RoadMaintainer extends Role {
-  private structureManager: StructureManager;
+  private structureManager: StructureManager
 
   /**
    * Creates an instance of RoadMaintainer.
@@ -18,28 +18,28 @@ export class RoadMaintainer extends Role {
    * @memberOf RoadMaintainer
    */
   constructor(creep: Creep) {
-    super(creep);
+    super(creep)
 
-    this.structureManager = new StructureManager(creep.room);
+    this.structureManager = new StructureManager(creep.room)
   }
 
   /**
    * Run the module
    */
   @Profile()
-  public run (): void {
+  public run(): void {
     if (_.sum(this.creep.carry) > 0) {
-      let structuresToRepair = this.getStructuresToRepair(this.structureManager.structures);
+      let structuresToRepair = this.getStructuresToRepair(this.structureManager.structures)
 
       if (structuresToRepair) {
         if (this.creep.pos.isNearTo(structuresToRepair[0])) {
-          this.creep.repair(structuresToRepair[0]);
+          this.creep.repair(structuresToRepair[0])
         } else {
-          this.moveTo(structuresToRepair[0]);
+          this.moveTo(structuresToRepair[0])
         }
       }
     } else {
-      this.tryRetrieveEnergy();
+      this.tryRetrieveEnergy()
     }
   }
 
@@ -55,11 +55,11 @@ export class RoadMaintainer extends Role {
    * @memberOf RoadMaintainer
    */
   @Profile()
-  private getStructuresToRepair (structures: Structure[]): Structure[] | undefined {
+  private getStructuresToRepair(structures: Structure[]): Structure[] | undefined {
     let targets: Structure[] = structures.filter((structure: Structure) => {
-      return ((structure.structureType === STRUCTURE_ROAD) && structure.hits < (structure.hitsMax - (structure.hitsMax * 0.1)));
-    });
+      return ((structure.structureType === STRUCTURE_ROAD) && structure.hits < (structure.hitsMax - (structure.hitsMax * 0.1)))
+    })
 
-    return targets;
+    return targets
   }
 }

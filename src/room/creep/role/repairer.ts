@@ -1,7 +1,7 @@
-import { Profile } from '../../../lib/profiler/profile';
-import { Role } from '../role';
+import { Profile } from '../../../lib/profiler/profile'
+import { Role } from '../role'
 
-import { StructureManager } from '../../../shared/structureManager';
+import { StructureManager } from '../../../shared/structureManager'
 
 /**
  * An Upgrader repairs structures in their room.
@@ -9,7 +9,7 @@ import { StructureManager } from '../../../shared/structureManager';
  * @todo Refactor this.
  */
 export class Repairer extends Role {
-  private structureManager: StructureManager;
+  private structureManager: StructureManager
 
   /**
    * Creates an instance of Repairer.
@@ -17,29 +17,29 @@ export class Repairer extends Role {
    *
    * @memberOf Repairer
    */
-  constructor (creep: Creep) {
-    super(creep);
+  constructor(creep: Creep) {
+    super(creep)
 
-    this.structureManager = new StructureManager(creep.room);
+    this.structureManager = new StructureManager(creep.room)
   }
 
   /**
    * Run the module
    */
   @Profile()
-  public run (): void {
+  public run(): void {
     if (_.sum(this.creep.carry) > 0) {
-      let structuresToRepair = this.getStructuresToRepair(this.structureManager.structures);
+      let structuresToRepair = this.getStructuresToRepair(this.structureManager.structures)
 
       if (structuresToRepair) {
         if (this.creep.pos.isNearTo(structuresToRepair[0])) {
-          this.creep.repair(structuresToRepair[0]);
+          this.creep.repair(structuresToRepair[0])
         } else {
-          this.moveTo(structuresToRepair[0]);
+          this.moveTo(structuresToRepair[0])
         }
       }
     } else {
-      this.tryRetrieveEnergy();
+      this.tryRetrieveEnergy()
     }
   }
 
@@ -60,33 +60,33 @@ export class Repairer extends Role {
    * @memberOf Repairer
    */
   @Profile()
-  private getStructuresToRepair (structures: Structure[]): Structure[] | undefined {
+  private getStructuresToRepair(structures: Structure[]): Structure[] | undefined {
 
-    let targets: Structure[];
+    let targets: Structure[]
 
     // Initial search scope.
     targets = structures.filter((structure: Structure) => {
       return ((structure.hits < (structure.hitsMax - (structure.hitsMax * 0.1))
         && (structure.structureType !== STRUCTURE_WALL && structure.structureType !== STRUCTURE_ROAD
-          && structure.structureType !== STRUCTURE_RAMPART)));
-    });
+          && structure.structureType !== STRUCTURE_RAMPART)))
+    })
 
     // If nothing is found, expand search to include roads.
     if (targets.length === 0) {
       targets = structures.filter((structure: Structure) => {
         return ((structure.hits < (structure.hitsMax - (structure.hitsMax * 0.1))
-          && (structure.structureType !== STRUCTURE_WALL && structure.structureType !== STRUCTURE_RAMPART)));
-      });
+          && (structure.structureType !== STRUCTURE_WALL && structure.structureType !== STRUCTURE_RAMPART)))
+      })
     }
 
     // If we still find nothing, expand search to ramparts.
     if (targets.length === 0) {
       targets = structures.filter((structure: Structure) => {
         return ((structure.hits < (structure.hitsMax - (structure.hitsMax * 0.1))
-          && (structure.structureType !== STRUCTURE_WALL)));
-      });
+          && (structure.structureType !== STRUCTURE_WALL)))
+      })
     }
 
-    return targets;
+    return targets
   }
 }

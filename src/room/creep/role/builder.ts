@@ -1,7 +1,7 @@
-import * as Config from '../../../config/config';
-import { log } from '../../../lib/logger/log';
-import { Profile } from '../../../lib/profiler/profile';
-import { Role } from '../role';
+import * as Config from '../../../config/config'
+import { log } from '../../../lib/logger/log'
+import { Profile } from '../../../lib/profiler/profile'
+import { Role } from '../role'
 
 /**
  * A Builder builds construction sites.
@@ -11,16 +11,16 @@ import { Role } from '../role';
  * sites to build.
  */
 export class Builder extends Role {
-  private constructionSites: ConstructionSite[];
-  private constructionSiteCount: number;
+  private constructionSites: ConstructionSite[]
+  private constructionSiteCount: number
 
-  private roads: ConstructionSite[] = [];
-  private extensions: ConstructionSite[] = [];
-  private containers: ConstructionSite[] = [];
-  private walls: ConstructionSite[] = [];
-  private ramparts: ConstructionSite[] = [];
-  private towers: ConstructionSite[] = [];
-  private storages: ConstructionSite[] = [];
+  private roads: ConstructionSite[] = []
+  private extensions: ConstructionSite[] = []
+  private containers: ConstructionSite[] = []
+  private walls: ConstructionSite[] = []
+  private ramparts: ConstructionSite[] = []
+  private towers: ConstructionSite[] = []
+  private storages: ConstructionSite[] = []
 
   /**
    * Creates an instance of Builder.
@@ -28,15 +28,15 @@ export class Builder extends Role {
    *
    * @memberOf Builder
    */
-  constructor (creep: Creep) {
-    super(creep);
-    this.constructionSites = creep.room.find<ConstructionSite>(FIND_CONSTRUCTION_SITES);
-    this.constructionSiteCount = _.size(this.constructionSites);
-    this.getConstructionSites();
+  constructor(creep: Creep) {
+    super(creep)
+    this.constructionSites = creep.room.find<ConstructionSite>(FIND_CONSTRUCTION_SITES)
+    this.constructionSiteCount = _.size(this.constructionSites)
+    this.getConstructionSites()
 
     if (Config.ENABLE_DEBUG_MODE) {
       log.debug('[Builder]', this.constructionSiteCount + ' construction sites in room' +
-        creep.room.name + '.');
+        creep.room.name + '.')
     }
   }
 
@@ -44,59 +44,59 @@ export class Builder extends Role {
    * Run the module.
    */
   @Profile()
-  public run (): void {
+  public run(): void {
     if (!this.memory.state) {
-      this.memory.state = 'idle';
+      this.memory.state = 'idle'
     }
 
     if (_.sum(this.creep.carry) === 0) {
-      this.memory.state = 'idle';
+      this.memory.state = 'idle'
     }
 
     if (_.sum(this.creep.carry) < this.creep.carryCapacity && this.memory.state !== 'building') {
-      this.tryRetrieveEnergy();
+      this.tryRetrieveEnergy()
     } else {
-      this.memory.state = 'building';
-      let targetConstructionSite = this.getConstructionSite(this.constructionSites);
+      this.memory.state = 'building'
+      let targetConstructionSite = this.getConstructionSite(this.constructionSites)
 
       if (targetConstructionSite) {
         if (this.creep.pos.isNearTo(targetConstructionSite)) {
-          this.creep.build(targetConstructionSite);
+          this.creep.build(targetConstructionSite)
         } else {
-          this.moveTo(targetConstructionSite);
+          this.moveTo(targetConstructionSite)
         }
       }
     }
   }
 
-  private getConstructionSites (): void {
+  private getConstructionSites(): void {
     this.roads = this.constructionSites.filter((structure: ConstructionSite) => {
-      return structure.structureType === STRUCTURE_ROAD;
-    });
+      return structure.structureType === STRUCTURE_ROAD
+    })
 
     this.extensions = this.constructionSites.filter((structure: ConstructionSite) => {
-      return structure.structureType === STRUCTURE_EXTENSION;
-    });
+      return structure.structureType === STRUCTURE_EXTENSION
+    })
 
     this.containers = this.constructionSites.filter((structure: ConstructionSite) => {
-      return structure.structureType === STRUCTURE_CONTAINER;
-    });
+      return structure.structureType === STRUCTURE_CONTAINER
+    })
 
     this.walls = this.constructionSites.filter((structure: ConstructionSite) => {
-      return structure.structureType === STRUCTURE_WALL;
-    });
+      return structure.structureType === STRUCTURE_WALL
+    })
 
     this.ramparts = this.constructionSites.filter((structure: ConstructionSite) => {
-      return structure.structureType === STRUCTURE_RAMPART;
-    });
+      return structure.structureType === STRUCTURE_RAMPART
+    })
 
     this.towers = this.constructionSites.filter((structure: ConstructionSite) => {
-      return structure.structureType === STRUCTURE_TOWER;
-    });
+      return structure.structureType === STRUCTURE_TOWER
+    })
 
     this.storages = this.constructionSites.filter((structure: ConstructionSite) => {
-      return structure.structureType === STRUCTURE_STORAGE;
-    });
+      return structure.structureType === STRUCTURE_STORAGE
+    })
   }
 
   /**
@@ -105,27 +105,27 @@ export class Builder extends Role {
    *
    * @param constructionSites The list of construction sites to sort
    */
-  private getConstructionSite (constructionSites: ConstructionSite[]): ConstructionSite {
-    let target: ConstructionSite;
+  private getConstructionSite(constructionSites: ConstructionSite[]): ConstructionSite {
+    let target: ConstructionSite
 
     if (this.roads.length > 0) {
-      target = this.roads[0];
+      target = this.roads[0]
     } else if (this.extensions.length > 0) {
-      target = this.extensions[0];
+      target = this.extensions[0]
     } else if (this.containers.length > 0) {
-      target = this.containers[0];
+      target = this.containers[0]
     } else if (this.walls.length > 0) {
-      target = this.walls[0];
+      target = this.walls[0]
     } else if (this.ramparts.length > 0) {
-      target = this.ramparts[0];
+      target = this.ramparts[0]
     } else if (this.towers.length > 0) {
-      target = this.towers[0];
+      target = this.towers[0]
     } else if (this.storages.length > 0) {
-      target = this.storages[0];
+      target = this.storages[0]
     } else {
-      target = constructionSites[0];
+      target = constructionSites[0]
     }
 
-    return target;
+    return target
   }
 }

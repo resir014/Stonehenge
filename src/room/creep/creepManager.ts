@@ -1,15 +1,15 @@
-import * as Config from '../../config/config';
-import { log } from '../../lib/logger/log';
-import { Profile } from '../../lib/profiler/profile';
-import Orchestrator from '../../core/orchestrator';
+import * as Config from '../../config/config'
+import { log } from '../../lib/logger/log'
+import { Profile } from '../../lib/profiler/profile'
+import Orchestrator from '../../core/orchestrator'
 
-import { Harvester } from './role/harvester';
-import { Hauler } from './role/hauler';
-import { Upgrader } from './role/upgrader';
-import { Builder } from './role/builder';
-import { Repairer } from './role/repairer';
-import { WallMaintainer } from './role/wallMaintainer';
-import { RoadMaintainer } from './role/roadMaintainer';
+import { Harvester } from './role/harvester'
+import { Hauler } from './role/hauler'
+import { Upgrader } from './role/upgrader'
+import { Builder } from './role/builder'
+import { Repairer } from './role/repairer'
+import { WallMaintainer } from './role/wallMaintainer'
+import { RoadMaintainer } from './role/roadMaintainer'
 
 /**
  * This class is basically a "creep manager" - it's nearly the same in
@@ -17,21 +17,21 @@ import { RoadMaintainer } from './role/roadMaintainer';
  * class tree.
  */
 export class CreepManager {
-  protected room: Room;
-  protected memory: { [key: string]: any };
-  protected creeps: Creep[];
-  protected creepCount: number;
+  protected room: Room
+  protected memory: { [key: string]: any }
+  protected creeps: Creep[]
+  protected creepCount: number
 
-  private harvesters: Creep[];
-  private haulers: Creep[];
-  private builders: Creep[];
-  private upgraders: Creep[];
-  private repairers: Creep[];
-  private wallMaintainers: Creep[];
-  private rampartMaintainers: Creep[];
-  private roadMaintainers: Creep[];
-  private defenders: Creep[];
-  private mineralMiners: Creep[];
+  private harvesters: Creep[]
+  private haulers: Creep[]
+  private builders: Creep[]
+  private upgraders: Creep[]
+  private repairers: Creep[]
+  private wallMaintainers: Creep[]
+  private rampartMaintainers: Creep[]
+  private roadMaintainers: Creep[]
+  private defenders: Creep[]
+  private mineralMiners: Creep[]
 
   /**
    * Creates an instance of CreepManager.
@@ -39,85 +39,85 @@ export class CreepManager {
    *
    * @memberOf CreepManager
    */
-  constructor (room: Room) {
-    this.room = room;
-    this.memory = room.memory;
+  constructor(room: Room) {
+    this.room = room
+    this.memory = room.memory
 
-    this.creeps = this.room.find<Creep>(FIND_MY_CREEPS);
-    this.creepCount = _.size(this.creeps);
-    this.loadCreeps();
+    this.creeps = this.room.find<Creep>(FIND_MY_CREEPS)
+    this.creepCount = _.size(this.creeps)
+    this.loadCreeps()
   }
 
   /**
    * Run the module.
    */
   @Profile()
-  public run (): void {
-    this.buildMissingCreeps();
+  public run(): void {
+    this.buildMissingCreeps()
 
     this.harvesters.forEach((creep: Creep) => {
-      let harvester = new Harvester(creep);
-      harvester.run();
-    });
+      let harvester = new Harvester(creep)
+      harvester.run()
+    })
     this.haulers.forEach((creep: Creep) => {
-      let hauler = new Hauler(creep);
-      hauler.run();
-    });
+      let hauler = new Hauler(creep)
+      hauler.run()
+    })
     this.upgraders.forEach((creep: Creep) => {
-      let upgrader = new Upgrader(creep);
-      upgrader.run();
-    });
+      let upgrader = new Upgrader(creep)
+      upgrader.run()
+    })
     this.builders.forEach((creep: Creep) => {
-      let builder = new Builder(creep);
-      builder.run();
-    });
+      let builder = new Builder(creep)
+      builder.run()
+    })
     this.repairers.forEach((creep: Creep) => {
-      let repairer = new Repairer(creep);
-      repairer.run();
-    });
+      let repairer = new Repairer(creep)
+      repairer.run()
+    })
     this.wallMaintainers.forEach((creep: Creep) => {
-      let wallMaintainer = new WallMaintainer(creep);
-      wallMaintainer.run();
-    });
+      let wallMaintainer = new WallMaintainer(creep)
+      wallMaintainer.run()
+    })
     this.roadMaintainers.forEach((creep: Creep) => {
-      let roadMaintainer = new RoadMaintainer(creep);
-      roadMaintainer.run();
-    });
+      let roadMaintainer = new RoadMaintainer(creep)
+      roadMaintainer.run()
+    })
   }
 
   /**
    * Filters out each Creep by its associated role.
    */
-  private loadCreeps (): void {
-    this.harvesters = this.creeps.filter((creep: Creep) => creep.memory.role === 'harvester');
-    this.haulers = this.creeps.filter((creep: Creep) => creep.memory.role === 'hauler');
-    this.builders = this.creeps.filter((creep: Creep) => creep.memory.role === 'builder');
-    this.upgraders = this.creeps.filter((creep: Creep) => creep.memory.role === 'upgrader');
-    this.repairers = this.creeps.filter((creep: Creep) => creep.memory.role === 'repairer');
-    this.wallMaintainers = this.creeps.filter((creep: Creep) => creep.memory.role === 'wallMaintainer');
-    this.rampartMaintainers = this.creeps.filter((creep: Creep) => creep.memory.role === 'rampartMaintainer');
-    this.roadMaintainers = this.creeps.filter((creep: Creep) => creep.memory.role === 'roadMaintainer');
-    this.defenders = this.creeps.filter((creep: Creep) => creep.memory.role === 'defender');
-    this.mineralMiners = this.creeps.filter((creep: Creep) => creep.memory.role === 'mineralMiner');
+  private loadCreeps(): void {
+    this.harvesters = this.creeps.filter((creep: Creep) => creep.memory.role === 'harvester')
+    this.haulers = this.creeps.filter((creep: Creep) => creep.memory.role === 'hauler')
+    this.builders = this.creeps.filter((creep: Creep) => creep.memory.role === 'builder')
+    this.upgraders = this.creeps.filter((creep: Creep) => creep.memory.role === 'upgrader')
+    this.repairers = this.creeps.filter((creep: Creep) => creep.memory.role === 'repairer')
+    this.wallMaintainers = this.creeps.filter((creep: Creep) => creep.memory.role === 'wallMaintainer')
+    this.rampartMaintainers = this.creeps.filter((creep: Creep) => creep.memory.role === 'rampartMaintainer')
+    this.roadMaintainers = this.creeps.filter((creep: Creep) => creep.memory.role === 'roadMaintainer')
+    this.defenders = this.creeps.filter((creep: Creep) => creep.memory.role === 'defender')
+    this.mineralMiners = this.creeps.filter((creep: Creep) => creep.memory.role === 'mineralMiner')
   }
 
   /**
    * Builds any missing creeps for that colony.
    */
   @Profile()
-  private buildMissingCreeps (): void {
+  private buildMissingCreeps(): void {
     let spawns: Spawn[] = this.room.find<Spawn>(FIND_MY_SPAWNS, {
       filter: (spawn: Spawn) => {
-        return spawn.spawning === null;
+        return spawn.spawning === null
       },
-    });
+    })
 
     for (let spawn of spawns) {
-      let role: string;
-      let bodyParts: string[] = [];
+      let role: string
+      let bodyParts: string[] = []
 
       if (Config.ENABLE_DEBUG_MODE) {
-        log.debug('Spawning from:', spawn.name);
+        log.debug('Spawning from:', spawn.name)
       }
 
       if (spawn.canCreateCreep) {
@@ -127,54 +127,54 @@ export class CreepManager {
           // We already have two harvesters.
           if (this.haulers.length < Memory.rooms[this.room.name].jobs.hauler) {
             // Create a new Hauler.
-            role = 'hauler';
-            bodyParts = Orchestrator.getBodyParts(role, spawn);
-            this.spawnCreep(spawn, bodyParts, role);
-            break;
+            role = 'hauler'
+            bodyParts = Orchestrator.getBodyParts(role, spawn)
+            this.spawnCreep(spawn, bodyParts, role)
+            break
           } else if (this.harvesters.length < Memory.rooms[this.room.name].jobs.harvester) {
             // Create a new Harvester.
-            role = 'harvester';
-            bodyParts = Orchestrator.getBodyParts(role, spawn);
-            this.spawnCreep(spawn, bodyParts, role);
-            break;
+            role = 'harvester'
+            bodyParts = Orchestrator.getBodyParts(role, spawn)
+            this.spawnCreep(spawn, bodyParts, role)
+            break
           } else if (this.upgraders.length < Memory.rooms[this.room.name].jobs.upgrader) {
             // Create a new Upgrader.
-            role = 'upgrader';
-            bodyParts = Orchestrator.getBodyParts(role, spawn);
-            this.spawnCreep(spawn, bodyParts, role);
-            break;
+            role = 'upgrader'
+            bodyParts = Orchestrator.getBodyParts(role, spawn)
+            this.spawnCreep(spawn, bodyParts, role)
+            break
           } else if (this.builders.length < Memory.rooms[this.room.name].jobs.builder) {
             // Create a new Builder.
-            role = 'builder';
-            bodyParts = Orchestrator.getBodyParts(role, spawn);
-            this.spawnCreep(spawn, bodyParts, role);
-            break;
+            role = 'builder'
+            bodyParts = Orchestrator.getBodyParts(role, spawn)
+            this.spawnCreep(spawn, bodyParts, role)
+            break
           } else if (this.repairers.length < Memory.rooms[this.room.name].jobs.repairer) {
             // Create a new Builder.
-            role = 'repairer';
-            bodyParts = Orchestrator.getBodyParts(role, spawn);
-            this.spawnCreep(spawn, bodyParts, role);
-            break;
+            role = 'repairer'
+            bodyParts = Orchestrator.getBodyParts(role, spawn)
+            this.spawnCreep(spawn, bodyParts, role)
+            break
           } else if (this.wallMaintainers.length < Memory.rooms[this.room.name].jobs.wallMaintainer) {
             // Create a new Builder.
-            role = 'wallMaintainer';
-            bodyParts = Orchestrator.getBodyParts(role, spawn);
-            this.spawnCreep(spawn, bodyParts, role);
-            break;
+            role = 'wallMaintainer'
+            bodyParts = Orchestrator.getBodyParts(role, spawn)
+            this.spawnCreep(spawn, bodyParts, role)
+            break
           } else if (this.roadMaintainers.length < Memory.rooms[this.room.name].jobs.roadMaintainer) {
             // Create a new Builder.
-            role = 'roadMaintainer';
-            bodyParts = Orchestrator.getBodyParts(role, spawn);
-            this.spawnCreep(spawn, bodyParts, role);
-            break;
+            role = 'roadMaintainer'
+            bodyParts = Orchestrator.getBodyParts(role, spawn)
+            this.spawnCreep(spawn, bodyParts, role)
+            break
           }
         } else {
           // We don't have two harvesters yet.
           if (this.harvesters.length < Memory.rooms[this.room.name].jobs.harvester) {
-            role = 'harvester';
-            bodyParts = Orchestrator.getBodyParts(role, spawn);
-            this.spawnCreep(spawn, bodyParts, role);
-            break;
+            role = 'harvester'
+            bodyParts = Orchestrator.getBodyParts(role, spawn)
+            this.spawnCreep(spawn, bodyParts, role)
+            break
           }
         }
       }
@@ -189,39 +189,39 @@ export class CreepManager {
    * @param {string} role
    * @returns
    */
-  private spawnCreep (spawn: Spawn, bodyParts: string[], role: string): number {
-    let guid: number = Orchestrator.getGuid();
-    let status: number | string = spawn.canCreateCreep(bodyParts);
+  private spawnCreep(spawn: Spawn, bodyParts: string[], role: string): number {
+    let guid: number = Orchestrator.getGuid()
+    let status: number | string = spawn.canCreateCreep(bodyParts)
 
     let properties: { [key: string]: any } = {
       role,
       room: spawn.room.name,
-    };
-
-    if (Config.ENABLE_DEBUG_MODE) {
-      log.debug(`Attempting to create new ${properties.role} in room ${properties.room}`);
     }
 
-    status = _.isString(status) ? OK : status;
-    if (status === OK) {
-      Memory.guid = guid + 1;
-      let creepName: string = `(${guid}) ${spawn.room.name} - ${role}`;
+    if (Config.ENABLE_DEBUG_MODE) {
+      log.debug(`Attempting to create new ${properties.role} in room ${properties.room}`)
+    }
 
-      log.info('Started creating new creep: ' + creepName);
+    status = _.isString(status) ? OK : status
+    if (status === OK) {
+      Memory.guid = guid + 1
+      let creepName: string = `(${guid}) ${spawn.room.name} - ${role}`
+
+      log.info('Started creating new creep: ' + creepName)
       if (Config.ENABLE_DEBUG_MODE) {
-        log.debug('Body: ' + bodyParts);
-        log.debug('guid: ' + guid);
+        log.debug('Body: ' + bodyParts)
+        log.debug('guid: ' + guid)
       }
 
-      status = spawn.createCreep(bodyParts, creepName, properties);
+      status = spawn.createCreep(bodyParts, creepName, properties)
 
-      return _.isString(status) ? OK : status;
+      return _.isString(status) ? OK : status
     } else {
       if (Config.ENABLE_DEBUG_MODE) {
-        log.error('Failed creating new creep: ' + status);
+        log.error('Failed creating new creep: ' + status)
       }
 
-      return status;
+      return status
     }
   }
 }

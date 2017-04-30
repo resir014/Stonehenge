@@ -5,28 +5,28 @@
  * It is developed in TypeScript, and designed with modularity in mind.
  */
 
-import * as profiler from 'screeps-profiler';
+import * as profiler from 'screeps-profiler'
 
-import * as Config from './config/config';
-import { RoomManager } from './room/roomManager';
-import { log } from './lib/logger/log';
+import * as Config from './config/config'
+import { RoomManager } from './room/roomManager'
+import { log } from './lib/logger/log'
 
-import { loadStructurePrototypes } from './prototypes/Structure.prototype';
-import { loadStructureSpawnPrototypes } from './prototypes/StructureSpawn.prototype';
+import { loadStructurePrototypes } from './prototypes/Structure.prototype'
+import { loadStructureSpawnPrototypes } from './prototypes/StructureSpawn.prototype'
 
 // This is an example for using a config variable from `config.ts`.
 if (Config.USE_PATHFINDER) {
-  PathFinder.use(true);
+  PathFinder.use(true)
 }
 
 // Prototype extensions
-loadStructurePrototypes();
-loadStructureSpawnPrototypes();
+loadStructurePrototypes()
+loadStructureSpawnPrototypes()
 
 // Enable the profiler
-profiler.enable();
+profiler.enable()
 
-log.info('Scripts bootstrapped.');
+log.info('Scripts bootstrapped.')
 
 /**
  * Screeps system expects this "loop" method in main.js to run the
@@ -40,16 +40,16 @@ export function loop (): void {
   // Run the Stonehenge core engine.
   profiler.wrap(() => {
     // Check memory for null or out of bounds custom objects.
-    checkOutOfBoundsMemory();
+    checkOutOfBoundsMemory()
 
     // For each controlled room, run colony actions.
     for (let i in Game.rooms) {
-      let room: Room = Game.rooms[i];
+      let room: Room = Game.rooms[i]
 
-      let colony = new RoomManager(room);
-      colony.run();
+      let colony = new RoomManager(room)
+      colony.run()
     }
-  });
+  })
 }
 
 /**
@@ -57,19 +57,19 @@ export function loop (): void {
  */
 function checkOutOfBoundsMemory (): void {
   if (!Memory.guid || Memory.guid > 100) {
-    Memory.guid = 0;
+    Memory.guid = 0
   }
 
   if (!Memory.creeps) {
-    Memory.creeps = {};
+    Memory.creeps = {}
   }
   if (!Memory.flags) {
-    Memory.flags = {};
+    Memory.flags = {}
   }
   if (!Memory.rooms) {
-    Memory.rooms = {};
+    Memory.rooms = {}
   }
   if (!Memory.spawns) {
-    Memory.spawns = {};
+    Memory.spawns = {}
   }
 }

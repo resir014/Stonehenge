@@ -10,6 +10,14 @@ This document outlines the steps to get started on working with Stonehenge.
 4. Push to the branch: `git push origin my-new-feature`
 5. Create a new [Pull Request](https://github.com/resir014/Stonehenge/pulls).
 
+## Coding Style
+
+We use the [blvd styleguide](https://github.com/blvdgroup/guidelines). The tslint config has been modified to conform with the styleguide, though we also made some changes to those rules, which we considered necessary and/or relevant to a proper Screeps project:
+
+* set the [forin](http://palantir.github.io/tslint/rules/forin/) rule to `false`, it was forcing `for ( ... in ...)` loops to check if object members were not coming from the class prototype.
+* set the [interface-name](http://palantir.github.io/tslint/rules/interface-name/) rule to `false`, in order to allow interfaces that are not prefixed with `I`.
+* in the [variable-name](http://palantir.github.io/tslint/rules/variable-name/) rule, added `allow-leading-underscore`.
+
 ## Commiting
 
 Our commit logs are [Commitizen-friendly](https://commitizen.github.io/cz-cli/). With Commitizen, the header of every commit message has to include a `type`, an optional `scope` and a `subject` with the following format:

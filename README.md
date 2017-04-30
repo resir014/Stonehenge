@@ -18,6 +18,7 @@ Stonehenge is a next-generation AI system for the game [Screeps](https://screeps
   * [Quick Setup](#quick-setup)
   * [Installing npm Modules](#installing-npm-modules)
   * [Running the Compiler](#running-the-compiler)
+  * [Post-Deploy](#post-deploy)
 * [Testing](#testing)
   * [Running Tests](#running-tests)
   * [Writing Tests](#writing-tests)
@@ -67,7 +68,6 @@ First, clone and install the submodules.
 
 ```bash
 $ git clone https://github.com/resir014/screeps.git
-$ git submodule update --init
 ```
 
 Then, you will have to set up your config files. Create a copy of `config.example.json` and rename it to `config.json`. Then navigate into the `src/config` directory, reate a copy of `config.example.ts` and rename it to `config.ts`.
@@ -87,19 +87,9 @@ Then, on the `config.json` file, change the `username` and `password` properties
 
 The `config.json` file is where you set up your development environment. If you want to push your code to another branch, for example, if you have some sort of a staging branch where you test around in Simulation mode, we have left a `branch` option for you to easily change the target branch of the upload process. The `default` branch is set as the default.
 
-The `src/config/config.ts` file is where you store your code-specific config variables. For example, if you want to easily turn on `PathFinder` when needed, you can set your own variable here. Once you've set up your configs, import the `config.ts` file on the file you want to call these configs at:
-
-```js
-import * as Config from "../path/to/config";
-```
-
-Then simply call the config variables with `Config.CONFIG_VARIABLE`.
-
-**WARNING: DO NOT** commit these files into your repository!
-
 ### Installing `npm` Modules
 
-Then run the following the command to install the required npm packages and TypeScript type definitions.
+Run the following the command to install the required npm packages and TypeScript type definitions.
 
 ```bash
 $ yarn
@@ -118,6 +108,12 @@ $ npm run deploy
 You can also use `deploy-prod` instead of `deploy` for a bundled version of the project, which has better performance but is harder to debug.
 
 `deploy-local` will copy files into a local folder to be picked up by steam client and used with the official or a private server.
+
+### Post-Deploy
+
+After deploying, you should manually set the build priorities for your rooms. Go to your respective room's memory in the memory tree, go to `jobs`, and set the number of creeps you'd like each role.
+
+(TBA) If you have `manualJobControl` set to `false`, the core engine will procedurally generate job assignments based on the room's conditions.
 
 ## Testing
 
@@ -161,6 +157,7 @@ List of things that need to be finished.
 
 ### High-Priority Tasks
 
+* `scsh` (command-line for the Screeps console)
 * Write tests.
 * Actual defensive/war code
 * Creep State code

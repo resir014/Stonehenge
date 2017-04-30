@@ -1,4 +1,6 @@
-import { controlledRoomJobs, /* partsCost */ } from '../config/jobs';
+import * as Config from '../config/config';
+import { log } from '../lib/logger/log';
+import { controlledRoomJobs, bodyTemplates } from '../config/jobs';
 
 /**
  * Orchestrator is the brain of each Colony. It provides several useful APIs to
@@ -44,26 +46,42 @@ namespace Orchestrator {
    * body parts which are proportional to a creep's role.
    *
    * @param {string} role The expected creep role.
-   * @param {Room} room The room in which this creep will live.
+   * @param {Spawn} spawn The expected spawn where the creep is going to spawn.
    */
-  export function getBodyParts (/* role: string, room: Room */): string[] {
+  export function getBodyParts (role: string, spawn: Spawn): string[] {
+    // So here we have an API call to build the required bodyparts for our
+    // creep. This utilizes tinnvec's super-useful spawn prototype extensions,
+    // where you can generate the largest bodypart a room can build based on a
+    // build template.
+    //
+    // The bodypart templates included should be proportional enough based on
+    // the passed role. For example:
+    //
+    // * Harvesters should have 50% WORK parts and 50% MOVE parts.
+    // * Builders should have 50% MOVE parts, 25% CARRY parts, and 25% WORK
+    //   parts.
+    // * Haulers should have 50% CARRY parts and 50% MOVE parts.
+    //
+    // If you dont like these proportions, free to modify the templates based
+    // on your needs at `config/jobs.ts`.
+
     let bodyParts: string[] = [];
 
-    // TODO: Here's how this method would work:
-    //
-    // So here we have an API call to build the required bodyparts for our
-    // creep. First it checks the maximum amount of energy the passed room can
-    // hold, as well as how much energy the entire room has right now, and
-    // determines the "room tier" (with arbitrary energy limits for each tier).
-    //
-    // Then, it will generate the required bodypart proportions based on the
-    // passed role. For example, a Harvester should have 50% WORK and 50% MOVE
-    // parts, a Builder should have 50% MOVE parts, 25% CARRY parts, and 25%
-    // WORK parts, and so on, and so on.
-    //
-    // Now, it will try to add as much proportioned body parts as possible
-    // without passing the room tier limit. And now we have the body parts for
-    // our new creep!
+    switch (role) {
+      case 'hauler':
+        bodyParts = spawn.getLargestBuildableBodyFromTemplate(bodyTemplates.haulers);
+        break;
+      case 'harvester':
+        bodyParts = spawn.getLargestBuildableBodyFromTemplate(bodyTemplates.harvesters);
+        break;
+      default:
+        bodyParts = spawn.getLargestBuildableBodyFromTemplate(bodyTemplates.workers);
+        break;
+    }
+
+    if (Config.ENABLE_DEBUG_MODE) {
+      log.debug(`Got bodyparts: ${bodyParts}`)
+    }
 
     return bodyParts;
   }

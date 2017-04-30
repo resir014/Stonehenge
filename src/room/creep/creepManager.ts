@@ -89,49 +89,56 @@ export class CreepManager {
    */
   @Profile()
   private buildMissingCreeps (): void {
-    let bodyParts: string[] = [];
-
     let spawns: Spawn[] = this.room.find<Spawn>(FIND_MY_SPAWNS, {
       filter: (spawn: Spawn) => {
         return spawn.spawning === null;
       },
     });
 
-    // TODO: This should be procedurally generated based on the number of energy
-    // availabe + energy capacity of room. See Orchestrator.getBodyParts()
-    bodyParts = [WORK, WORK, CARRY, MOVE];
-
     for (let spawn of spawns) {
+      let role: string;
+      let bodyParts: string[] = [];
+
       if (Config.ENABLE_DEBUG_MODE) {
         log.debug('Spawning from:', spawn.name);
       }
 
       if (spawn.canCreateCreep) {
+        // There needs to be at least two harvesters before we prioritise spawning
+        // anything else. If not, we'll prioritise spawning harvesters.
         if (this.harvesters.length >= 1) {
+          // We already have two harvesters.
           if (this.haulers.length < Memory.rooms[this.room.name].jobs.hauler) {
-            bodyParts = [CARRY, CARRY, CARRY, MOVE, MOVE, MOVE];
-            this.spawnCreep(spawn, bodyParts, 'hauler');
+            // Create a new Hauler.
+            role = 'hauler';
+            bodyParts = Orchestrator.getBodyParts(role, spawn);
+            this.spawnCreep(spawn, bodyParts, role);
             break;
           } else if (this.harvesters.length < Memory.rooms[this.room.name].jobs.harvester) {
-            bodyParts = [WORK, WORK, MOVE, MOVE];
-            this.spawnCreep(spawn, bodyParts, 'harvester');
+            // Create a new Harvester.
+            role = 'harvester';
+            bodyParts = Orchestrator.getBodyParts(role, spawn);
+            this.spawnCreep(spawn, bodyParts, role);
+            break;
           } else if (this.upgraders.length < Memory.rooms[this.room.name].jobs.upgrader) {
-            // In case we ran out of creeps.
-            if (this.upgraders.length < 1) {
-              bodyParts = [WORK, WORK, CARRY, MOVE];
-            }
-            this.spawnCreep(spawn, bodyParts, 'upgrader');
+            // Create a new Upgrader.
+            role = 'upgrader';
+            bodyParts = Orchestrator.getBodyParts(role, spawn);
+            this.spawnCreep(spawn, bodyParts, role);
+            break;
           } else if (this.builders.length < Memory.rooms[this.room.name].jobs.builder) {
-            // In case we ran out of creeps.
-            if (this.builders.length < 1) {
-              bodyParts = [WORK, WORK, CARRY, MOVE];
-            }
-            this.spawnCreep(spawn, bodyParts, 'builder');
+            // Create a new Builder.
+            role = 'builder';
+            bodyParts = Orchestrator.getBodyParts(role, spawn);
+            this.spawnCreep(spawn, bodyParts, role);
+            break;
           }
         } else {
+          // We don't have two harvesters yet.
           if (this.harvesters.length < Memory.rooms[this.room.name].jobs.harvester) {
-            bodyParts = [WORK, WORK, MOVE, MOVE];
-            this.spawnCreep(spawn, bodyParts, 'harvester');
+            role = 'harvester';
+            bodyParts = Orchestrator.getBodyParts(role, spawn);
+            this.spawnCreep(spawn, bodyParts, role);
             break;
           }
         }

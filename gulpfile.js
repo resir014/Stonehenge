@@ -84,7 +84,7 @@ function lintPath(path) {
 
 gulp.task('lint-src', function(done) {
   if (buildConfig.lint) {
-    return lintPath('src/**/*.ts');
+    return lintPath(['src/**/*.ts', '!src/lib/**/*.ts']);
   } else {
     gutil.log('skipped src lint, according to config');
     return done();

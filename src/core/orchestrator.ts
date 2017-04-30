@@ -25,10 +25,11 @@ namespace Orchestrator {
   /**
    * Refreshes the job assignment available in a room.
    *
-   * @todo If `manualJobControl` is set to `false in the room memory, it's going
-   * to invoke a method which will ~automagically~ define job assignments based
-   * on some parameters. We don't even have that function yet.
+   * @todo If `manualJobControl` is set to `false` in the room memory, it's
+   * going to invoke a method which will ~automagically~ define job assignments
+   * based on some parameters. We don't even have that function yet.
    *
+   * @export
    * @param {Room} room The target room.
    */
   export function refreshJobAssignments (room: Room): void {
@@ -45,8 +46,10 @@ namespace Orchestrator {
    * Calculates the body part for the creeps we'll have to spawn. Should return
    * body parts which are proportional to a creep's role.
    *
+   * @export
    * @param {string} role The expected creep role.
    * @param {Spawn} spawn The expected spawn where the creep is going to spawn.
+   * @returns {string[]} The body parts proportional to a creep's role
    */
   export function getBodyParts (role: string, spawn: Spawn): string[] {
     // So here we have an API call to build the required bodyparts for our

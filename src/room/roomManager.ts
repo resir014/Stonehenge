@@ -52,16 +52,16 @@ export class RoomManager {
    */
   @Profile()
   private initializeMemory (): void {
-    if (!this.memory) {
-      this.memory = {};
-    }
-
     if (!this.memory.jobs) {
       this.memory.jobs = {};
     }
 
     if (!this.memory.manualJobControl) {
       this.memory.manualJobControl = true;
+    }
+
+    if (!this.memory.sources) {
+      this.memory.sources = [];
     }
 
     if (!this.memory.claimedFlags) {
@@ -93,18 +93,17 @@ export class RoomManager {
 
       if (creep.room === this.room.name) {
         if (!Game.creeps[name]) {
-          log.info('[MemoryManager] Clearing non-existing creep memory:', name);
+          log.info('Clearing non-existing creep memory:', name);
 
           if (Memory.creeps[name].role === 'sourceMiner') {
-            // Push the now-dead creep's mining position back to the
-            // unoccupiedMiningPosition entry
-            this.memory.unoccupiedMiningPositions.push(Memory.creeps[name].occupiedMiningPosition);
+            // Push the now-dead creep's assigned source back to the sources array.
+            this.memory.sources.push(Memory.creeps[name].assignedSource);
           }
 
           delete Memory.creeps[name];
         }
       } else if (_.keys(Memory.creeps[name]).length === 0) {
-        log.info('[MemoryManager] Clearing non-existing creep memory:', name);
+        log.info('Clearing non-existing creep memory:', name);
         delete Memory.creeps[name];
       }
     }

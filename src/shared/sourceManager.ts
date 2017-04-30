@@ -1,15 +1,27 @@
 import * as Config from '../config/config';
 import { log } from '../lib/logger/log';
 
+/**
+ * The SourceManager manages energy sources available in a room.
+ *
+ * @export
+ * @class SourceManager
+ */
 export class SourceManager {
   public memory: Memory;
   public sources: Source[];
   public sourceCount: number;
   public lookResults: LookAtResultMatrix | LookAtResultWithPos[];
 
+  /**
+   * Creates an instance of SourceManager.
+   * @param {Room} room The current room.
+   *
+   * @memberOf SourceManager
+   */
   constructor (room: Room) {
     this.memory = room.memory;
-    this.sources = room.find<Source>(FIND_SOURCES_ACTIVE);
+    this.sources = room.find<Source>(FIND_SOURCES);
     this.sourceCount = _.size(this.sources);
 
     if (Config.ENABLE_DEBUG_MODE) {
@@ -17,32 +29,23 @@ export class SourceManager {
     }
   }
 
+  /**
+   * Create an array of all sources in the room and update job entries where
+   * available. This should ensure that each room has 1 harvester per source.
+   */
   public refreshAvailableSources (): void {
-    let self = this;
 
-    if (self.memory.unoccupiedMiningPositions.length === 0) {
+    if (this.memory.sources.length === 0) {
       this.sources.forEach((source: Source) => {
-        // get an array of all adjacent terrain features near the spawn
-        this.lookResults = source.room.lookForAtArea(
-          LOOK_TERRAIN,
-          source.pos.y - 1,
-          source.pos.x - 1,
-          source.pos.y + 1,
-          source.pos.x + 1,
-          true
-        );
-
-        for (let result of this.lookResults as LookAtResultWithPos[]) {
-          if (result.terrain === 'plain' || result.terrain === 'swamp') {
-            self.memory.unoccupiedMiningPositions
-              .push(new RoomPosition(result.x, result.y, source.room.name));
-          }
-        }
+        // Create an array of all sources in the room
+        this.memory.sources.push(source);
       });
 
-      self.memory.jobs.harvester = self.memory.unoccupiedMiningPositions.length;
+      // Update job assignments.
+      this.memory.jobs.harvester = this.memory.sources.length;
     } else {
-      self.memory.jobs.harvester = self.memory.unoccupiedMiningPositions.length;
+      // Just push the array of job assignments to the memory if it exists.
+      this.memory.jobs.harvester = this.memory.sources.length;
     }
   }
 }

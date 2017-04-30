@@ -11,7 +11,7 @@ export class Harvester extends Role {
    *
    * @memberOf Harvester
    */
-  constructor (creep: Creep) {
+  constructor(creep: Creep) {
     super(creep);
   }
 
@@ -20,31 +20,26 @@ export class Harvester extends Role {
    */
   @Profile()
   public run (): void {
-    let availablePositions: RoomPosition[] = Memory.rooms[this.creep.room.name]
-      .unoccupiedMiningPositions;
-    let assignedPosition: RoomPosition;
+    let availableSources: Source[] = Memory.rooms[this.creep.room.name].sources;
+    let assignedSource: Source | null;
 
-    if (availablePositions.length > 0 && !this.creep.memory.occupiedMiningPosition) {
-      this.creep.memory.occupiedMiningPosition = availablePositions.pop();
-      assignedPosition = new RoomPosition(
-        this.creep.memory.occupiedMiningPosition.x,
-        this.creep.memory.occupiedMiningPosition.y,
-        this.creep.memory.occupiedMiningPosition.roomName
-      );
-      Memory.rooms[this.creep.room.name].unoccupiedMiningPositions = availablePositions;
+    if (availableSources.length > 0 && !this.creep.memory.assignedSource) {
+      // We assign a creep to a source if we don't have any assigned to it.
+      this.creep.memory.assignedSource = availableSources.pop();
+
+      assignedSource = Game.getObjectById<Source>(this.creep.memory.assignedSource.id);
+      Memory.rooms[this.creep.room.name].sources = availableSources;
     } else {
-      assignedPosition = new RoomPosition(
-        this.creep.memory.occupiedMiningPosition.x,
-        this.creep.memory.occupiedMiningPosition.y,
-        this.creep.memory.occupiedMiningPosition.roomName
-      );
+      // Use the existing assigned source if it's assigned.
+      assignedSource = Game.getObjectById<Source>(this.creep.memory.assignedSource.id);
     }
 
-    if (this.creep.pos.isEqualTo(assignedPosition)) {
-      let targetSource = this.creep.pos.findClosestByPath<Source>(FIND_SOURCES);
-      this.tryHarvest(targetSource);
-    } else {
-      this.moveToPosition(assignedPosition, 1);
+    if (assignedSource) {
+      if (this.creep.pos.isNearTo(assignedSource)) {
+        this.tryHarvest(assignedSource);
+      } else {
+        this.moveTo<Source>(assignedSource, 1);
+      }
     }
   }
 

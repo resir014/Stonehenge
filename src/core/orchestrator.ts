@@ -13,11 +13,10 @@ namespace Orchestrator {
    * @returns {number} The current guid.
    */
   export function getGuid (): number {
-    if (!Memory.guid || Memory.guid > 100) {
+    if (!Memory.guid || Memory.guid > 10000) {
       Memory.guid = 0;
     }
 
-    Memory.guid = Memory.guid + 1;
     return Memory.guid;
   }
 

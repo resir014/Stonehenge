@@ -180,7 +180,7 @@ export class CreepManager {
 
     status = _.isString(status) ? OK : status;
     if (status === OK) {
-      Memory.guid = guid;
+      Memory.guid = guid + 1;
       let creepName: string = `(${guid}) ${spawn.room.name} - ${role}`;
 
       log.info('Started creating new creep: ' + creepName);

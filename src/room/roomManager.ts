@@ -59,14 +59,6 @@ export class RoomManager {
     if (!this.memory.manualJobControl) {
       this.memory.manualJobControl = true;
     }
-
-    if (!this.memory.sources) {
-      this.memory.sources = [];
-    }
-
-    if (!this.memory.claimedFlags) {
-      this.memory.claimedFlags = [];
-    }
   }
 
   /**
@@ -74,12 +66,8 @@ export class RoomManager {
    */
   @Profile()
   private refreshMiningPositions (): void {
-    if (!this.memory) {
-      this.memory = {};
-    }
-
-    if (!this.memory.unoccupiedMiningPositions) {
-      this.memory.unoccupiedMiningPositions = [];
+    if (!this.memory.sources) {
+      this.memory.sources = [];
     }
   }
 

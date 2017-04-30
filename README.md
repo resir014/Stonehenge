@@ -87,6 +87,8 @@ Then, on the `config.json` file, change the `username` and `password` properties
 
 The `config.json` file is where you set up your development environment. If you want to push your code to another branch, for example, if you have some sort of a staging branch where you test around in Simulation mode, we have left a `branch` option for you to easily change the target branch of the upload process. The `default` branch is set as the default.
 
+Set `"autobranch": true` instead of explicit `branch` name to use your current git branch name when uploading. You still have to create matching branch in screeps client by cloning an existing branch (API limitation). This is useful when setting up deployment pipelines that upload on commit after successful build (so a commit to `major_refactoring` branch doesn't overwrite your default branch in the middle of epic alliance action just because you forgot to update a pipeline configuration).
+
 ### Installing `npm` Modules
 
 Run the following the command to install the required npm packages and TypeScript type definitions.

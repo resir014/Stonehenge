@@ -43,7 +43,7 @@
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-clean": "^0.3.2",
     "gulp-collect": "^0.1.0",
-    "gulp-dot-flatten": "^1.0.2",
+    "gulp-dot-flatten": "^1.1.1",
     "gulp-rename": "^1.2.2",
     "gulp-shell": "^0.6.3",
     "gulp-sourcemaps": "^2.2.0",

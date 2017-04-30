@@ -84,7 +84,7 @@ function lintPath(path) {
 
 gulp.task('lint-src', function(done) {
   if (buildConfig.lint) {
-    return lintPath(['src/**/*.ts', '!src/lib/**/*.ts']);
+    return lintPath('src/**/*.ts');
   } else {
     gutil.log('skipped src lint, according to config');
     return done();
@@ -122,7 +122,14 @@ gulp.task('gitRevisions', function(cb) {
     if (!err) {
       revisionInfo.revision = _.trim(data);
     }
-    if(revisionInfo.repo && revisionInfo.revision) {
+    else {
+      cb();
+    }
+  }).raw(["branch"], (err, data) => {
+    const re = /\* (.*)/;
+    const match = re.exec(_.trim(data));
+    revisionInfo.branch = match[1];
+    if (revisionInfo.repo && revisionInfo.revision && revisionInfo.branch) {
       revisionInfo.valid = true;
     }
     cb();
@@ -208,10 +215,10 @@ var testTask = function() {
 gulp.task('upload', gulp.series('compile',
   testTask(),
   function uploading() {
-    if (buildConfig.branch) {
+    if (buildConfig.branch || buildConfig.autobranch) {
       return gulp.src('dist/' + buildTarget + '/*.js')
                  .pipe(gulpRename((path) => path.extname = ''))
-                 .pipe(gulpScreepsUpload(config.user.email, config.user.password, buildConfig.branch, 0));
+                 .pipe(gulpScreepsUpload(config.user.email, config.user.password, buildConfig.autobranch ? revisionInfo.branch : buildConfig.branch, 0));
     } else {
       return gulp.src('dist/' + buildTarget + '/*.js')
                  .pipe(gulp.dest(buildConfig.localPath));

@@ -1780,7 +1780,7 @@ gulp-collect@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/gulp-collect/-/gulp-collect-0.1.0.tgz#3cf9488e4f579f739aba219c7676dcd5aa0b276e"
 
-gulp-dot-flatten@^1.0.2:
+gulp-dot-flatten@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/gulp-dot-flatten/-/gulp-dot-flatten-1.1.1.tgz#26a21bfd65dd123467278bd4eaf586b6a45bff58"
   dependencies:

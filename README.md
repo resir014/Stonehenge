@@ -14,6 +14,7 @@ Stonehenge is a next-generation AI system for the game [Screeps](https://screeps
   * [Configuration over Convention](#configuration-over-convention)
 * [Getting Started](#getting-started)
   * [Requirements](#requirements)
+  * [Preinstallation Steps](#preinstallation-steps)
   * [Quick Setup](#quick-setup)
   * [Installing npm Modules](#installing-npm-modules)
   * [Running the Compiler](#running-the-compiler)
@@ -21,8 +22,8 @@ Stonehenge is a next-generation AI system for the game [Screeps](https://screeps
   * [Running Tests](#running-tests)
   * [Writing Tests](#writing-tests)
 * [To-Do](#to-do)
-  * [Unfinished Components](#unfinished-components)
-  * [Future Tasks](#future-tasks)
+  * [High-Priority Tasks](#high-priority-tasks)
+  * [Future Ideas](#future-ideas)
 
 ## Design Principles
 
@@ -48,6 +49,14 @@ Anyone who wants to build their Screeps colony with with Stonehenge must not be 
 For testing:
 * [Mocha](https://mochajs.org/) test runner and [NYC](https://istanbul.js.org/) for code coverage
     `sudo npm install -g nyc mocha`
+
+### Preinstallation Steps
+
+Before deploying this code to Screeps, it is **important** that you do the following steps first, to avoid any potential side effects:
+
+* Remove your currently-existing code (clearing out your current `main` file should do).
+* Kill **all** of your creeps.
+* Delete your entire memory tree.
 
 ### Quick Setup
 
@@ -85,7 +94,7 @@ Then simply call the config variables with `Config.CONFIG_VARIABLE`.
 
 **WARNING: DO NOT** commit these files into your repository!
 
-### Installing npm Modules
+### Installing `npm` Modules
 
 Then run the following the command to install the required npm packages and TypeScript type definitions.
 
@@ -147,15 +156,13 @@ import * as _  from "lodash"
 
 List of things that need to be finished.
 
-### Unfinished Components
+### High-Priority Tasks
 
-* Actual room logic
+* Write tests.
 * Actual defensive/war code
 * Creep State code
 * Controlled room job assignments:
-  * Wall maintainers
   * Rampart maintainers
-  * Road maintainers
   * Defender
   * Mineral miners
 * Reserved rooms
@@ -169,16 +176,20 @@ List of things that need to be finished.
     * Remote upgrader
     * Remote defender
 
-### Future Tasks
+### Future Ideas
 
-* Write tests
-* Continue refactoring process. Move all managerial logic (e.g. job assignment, structure priority, etc.) into the Orchestrator object.
+These might not be implemented in the near future, but we thought these would be cool things to have in the codebase.
+
+* Improved job system.
+* Create a robust core engine which manages job assignment, structure priority, etc.
+* Look into implementing a Redux-like flow for Screeps.
+* Migration support (no more cleaning up your entire field before deploying).
 * Write up a proper documentation of code.
 
 ## Contributing
 
 Issues and Pull Requests are welcome! Please read the [Contributing Guidelines](CONTRIBUTING.md) beforehand.
 
-## Special thanks
+## Special Thanks
 
 [Marko Sulamägi](https://github.com/MarkoSulamagi), for the original [Screeps/TypeScript sample project](https://github.com/MarkoSulamagi/Screeps-typescript-sample-project).

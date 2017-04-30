@@ -166,7 +166,7 @@ export class CreepManager {
    * @returns
    */
   private spawnCreep (spawn: Spawn, bodyParts: string[], role: string): number {
-    let guid: number = Memory.guid;
+    let guid: number = Orchestrator.getGuid();
     let status: number | string = spawn.canCreateCreep(bodyParts);
 
     let properties: { [key: string]: any } = {
@@ -180,8 +180,8 @@ export class CreepManager {
 
     status = _.isString(status) ? OK : status;
     if (status === OK) {
-      Memory.guid = guid + 1;
-      let creepName: string = spawn.room.name + ' - ' + role + Orchestrator.getGuid();
+      Memory.guid = guid;
+      let creepName: string = `(${guid}) ${spawn.room.name} - ${role}`;
 
       log.info('Started creating new creep: ' + creepName);
       if (Config.ENABLE_DEBUG_MODE) {

@@ -34,18 +34,14 @@ export class SourceManager {
    * available. This should ensure that each room has 1 harvester per source.
    */
   public refreshAvailableSources (): void {
-
     if (this.memory.sources.length === 0) {
       this.sources.forEach((source: Source) => {
         // Create an array of all sources in the room
         this.memory.sources.push(source);
       });
-
-      // Update job assignments.
-      this.memory.jobs.harvester = this.memory.sources.length;
-    } else {
-      // Just push the array of job assignments to the memory if it exists.
-      this.memory.jobs.harvester = this.memory.sources.length;
     }
+
+    // Update job assignments.
+    this.memory.jobs.harvester = this.sources.length;
   }
 }

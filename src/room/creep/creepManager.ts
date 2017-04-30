@@ -73,33 +73,15 @@ export class CreepManager {
    * Filters out each Creep by its associated role.
    */
   private loadCreeps (): void {
-    this.harvesters = this.creeps.filter((creep: Creep) => {
-      return creep.memory.role === 'harvester';
-    });
-    this.haulers = this.creeps.filter((creep: Creep) => {
-      return creep.memory.role === 'hauler';
-    });
-    this.builders = this.creeps.filter((creep: Creep) => {
-      return creep.memory.role === 'builder';
-    });
-    this.upgraders = this.creeps.filter((creep: Creep) => {
-      return creep.memory.role === 'upgrader';
-    });
-    this.wallMaintainers = this.creeps.filter((creep: Creep) => {
-      return creep.memory.role === 'wallMaintainer';
-    });
-    this.rampartMaintainers = this.creeps.filter((creep: Creep) => {
-      return creep.memory.role === 'rampartMaintainer';
-    });
-    this.roadMaintainers = this.creeps.filter((creep: Creep) => {
-      return creep.memory.role === 'roadMaintainer';
-    });
-    this.defenders = this.creeps.filter((creep: Creep) => {
-      return creep.memory.role === 'defender';
-    });
-    this.mineralMiners = this.creeps.filter((creep: Creep) => {
-      return creep.memory.role === 'mineralMiner';
-    });
+    this.harvesters = this.creeps.filter((creep: Creep) => creep.memory.role === 'harvester');
+    this.haulers = this.creeps.filter((creep: Creep) => creep.memory.role === 'hauler');
+    this.builders = this.creeps.filter((creep: Creep) => creep.memory.role === 'builder');
+    this.upgraders = this.creeps.filter((creep: Creep) => creep.memory.role === 'upgrader');
+    this.wallMaintainers = this.creeps.filter((creep: Creep) => creep.memory.role === 'wallMaintainer');
+    this.rampartMaintainers = this.creeps.filter((creep: Creep) => creep.memory.role === 'rampartMaintainer');
+    this.roadMaintainers = this.creeps.filter((creep: Creep) => creep.memory.role === 'roadMaintainer');
+    this.defenders = this.creeps.filter((creep: Creep) => creep.memory.role === 'defender');
+    this.mineralMiners = this.creeps.filter((creep: Creep) => creep.memory.role === 'mineralMiner');
   }
 
   /**

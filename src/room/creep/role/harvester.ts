@@ -30,7 +30,7 @@ export class Harvester extends Role {
       assignedSource = Game.getObjectById<Source>(this.creep.memory.assignedSource.id);
       Memory.rooms[this.creep.room.name].sources = availableSources;
     } else {
-      // Use the existing assigned source if it's assigned.
+      // Use the existing assigned source.
       assignedSource = Game.getObjectById<Source>(this.creep.memory.assignedSource.id);
     }
 

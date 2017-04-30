@@ -41,7 +41,7 @@ interface Global {
   /**
    * Prints out a table of the global memory stats.
    */
-  printMemProfilerStats: any;
+  printMemProfilerStats: any
 }
 
 declare function require(path: string): any

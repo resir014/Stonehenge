@@ -15,6 +15,7 @@ export const controlledRoomJobs: string[] = [
   'hauler',
   'builder',
   'upgrader',
+  'repairer',
   'wallMaintainer',
   'rampartMaintainer',
   'roadMaintainer',

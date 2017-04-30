@@ -7,6 +7,9 @@ import { Harvester } from './role/harvester';
 import { Hauler } from './role/hauler';
 import { Upgrader } from './role/upgrader';
 import { Builder } from './role/builder';
+import { Repairer } from './role/repairer';
+import { WallMaintainer } from './role/wallMaintainer';
+import { RoadMaintainer } from './role/roadMaintainer';
 
 /**
  * This class is basically a "creep manager" - it's nearly the same in
@@ -23,6 +26,7 @@ export class CreepManager {
   private haulers: Creep[];
   private builders: Creep[];
   private upgraders: Creep[];
+  private repairers: Creep[];
   private wallMaintainers: Creep[];
   private rampartMaintainers: Creep[];
   private roadMaintainers: Creep[];
@@ -67,6 +71,18 @@ export class CreepManager {
       let builder = new Builder(creep);
       builder.run();
     });
+    this.repairers.forEach((creep: Creep) => {
+      let repairer = new Repairer(creep);
+      repairer.run();
+    });
+    this.wallMaintainers.forEach((creep: Creep) => {
+      let wallMaintainer = new WallMaintainer(creep);
+      wallMaintainer.run();
+    });
+    this.roadMaintainers.forEach((creep: Creep) => {
+      let roadMaintainer = new RoadMaintainer(creep);
+      roadMaintainer.run();
+    });
   }
 
   /**
@@ -77,6 +93,7 @@ export class CreepManager {
     this.haulers = this.creeps.filter((creep: Creep) => creep.memory.role === 'hauler');
     this.builders = this.creeps.filter((creep: Creep) => creep.memory.role === 'builder');
     this.upgraders = this.creeps.filter((creep: Creep) => creep.memory.role === 'upgrader');
+    this.repairers = this.creeps.filter((creep: Creep) => creep.memory.role === 'repairer');
     this.wallMaintainers = this.creeps.filter((creep: Creep) => creep.memory.role === 'wallMaintainer');
     this.rampartMaintainers = this.creeps.filter((creep: Creep) => creep.memory.role === 'rampartMaintainer');
     this.roadMaintainers = this.creeps.filter((creep: Creep) => creep.memory.role === 'roadMaintainer');
@@ -129,6 +146,24 @@ export class CreepManager {
           } else if (this.builders.length < Memory.rooms[this.room.name].jobs.builder) {
             // Create a new Builder.
             role = 'builder';
+            bodyParts = Orchestrator.getBodyParts(role, spawn);
+            this.spawnCreep(spawn, bodyParts, role);
+            break;
+          } else if (this.repairers.length < Memory.rooms[this.room.name].jobs.repairer) {
+            // Create a new Builder.
+            role = 'repairer';
+            bodyParts = Orchestrator.getBodyParts(role, spawn);
+            this.spawnCreep(spawn, bodyParts, role);
+            break;
+          } else if (this.wallMaintainers.length < Memory.rooms[this.room.name].jobs.wallMaintainer) {
+            // Create a new Builder.
+            role = 'wallMaintainer';
+            bodyParts = Orchestrator.getBodyParts(role, spawn);
+            this.spawnCreep(spawn, bodyParts, role);
+            break;
+          } else if (this.roadMaintainers.length < Memory.rooms[this.room.name].jobs.roadMaintainer) {
+            // Create a new Builder.
+            role = 'roadMaintainer';
             bodyParts = Orchestrator.getBodyParts(role, spawn);
             this.spawnCreep(spawn, bodyParts, role);
             break;

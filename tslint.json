@@ -1,6 +1,7 @@
 {
   "extends": [
-    "tslint:recommended"
+    "tslint:recommended",
+    "tslint-eslint-rules"
   ],
   "rules": {
     "align": [
@@ -22,7 +23,7 @@
       true,
       "spaces"
     ],
-    "linebreak-style": [false],
+    "linebreak-style": [true, "LF"],
     "interface-name": [false],
     "jsdoc-format": true,
     "label-position": true,
@@ -39,7 +40,14 @@
     "no-any": false,
     "no-arg": true,
     "no-bitwise": true,
-    "no-console": [false],
+    "no-console": [
+      true,
+      "debug",
+      "info",
+      "time",
+      "timeEnd",
+      "trace"
+    ],
     "no-construct": true,
     "no-debugger": true,
     "no-shadowed-variable": true,
@@ -47,10 +55,12 @@
     "no-empty": true,
     "no-eval": true,
     "no-internal-module": true,
+    "no-magic-numbers": false,
     "no-namespace": false,
     "no-require-imports": true,
-    "no-switch-case-fall-through": true,
+    "no-parameter-properties": false,
     "no-string-literal": false,
+    "no-switch-case-fall-through": true,
     "no-trailing-whitespace": true,
     "no-unused-expression": true,
     "no-unused-variable": [true, "react"],
@@ -65,6 +75,7 @@
       "check-else",
       "check-whitespace"
     ],
+    "only-arrow-functions": [false],
     "ordered-imports": [false],
     "quotemark": [
       true,
@@ -98,10 +109,7 @@
     ],
     "variable-name": [
       true,
-      "ban-keywords",
-      "check-format",
-      "allow-pascal-case",
-      "allow-leading-underscore"
+      "ban-keywords"
     ],
     "whitespace": [
       true,

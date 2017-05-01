@@ -103,6 +103,9 @@ export class CreepManager {
 
   /**
    * Builds any missing creeps for that colony.
+   *
+   * @todo Can we actually improve this logic? Come up with a better way to
+   * decide what creeps get spawned and when.
    */
   @Profile()
   private buildMissingCreeps(): void {
@@ -123,7 +126,7 @@ export class CreepManager {
       if (spawn.canCreateCreep) {
         // There needs to be at least two harvesters before we prioritise spawning
         // anything else. If not, we'll prioritise spawning harvesters.
-        if (this.harvesters.length >= 1) {
+        if (this.harvesters.length >= 1 && this.haulers.length > 1) {
           // We already have two harvesters.
           if (this.haulers.length < Memory.rooms[this.room.name].jobs.hauler) {
             // Create a new Hauler.
@@ -172,7 +175,13 @@ export class CreepManager {
           // We don't have two harvesters yet.
           if (this.harvesters.length < Memory.rooms[this.room.name].jobs.harvester) {
             role = 'harvester'
-            bodyParts = Orchestrator.getBodyParts(role, spawn)
+            bodyParts = [WORK, WORK, MOVE, MOVE]
+            this.spawnCreep(spawn, bodyParts, role)
+            break
+          } else if (this.haulers.length < Memory.rooms[this.room.name].jobs.hauler) {
+            // Create a new Hauler.
+            role = 'hauler'
+            bodyParts = [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE]
             this.spawnCreep(spawn, bodyParts, role)
             break
           }

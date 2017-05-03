@@ -56,7 +56,7 @@ export function loop (): void {
  * Check memory for null or out of bounds custom objects
  */
 function checkOutOfBoundsMemory (): void {
-  if (!Memory.guid || Memory.guid > 100) {
+  if (!Memory.guid) {
     Memory.guid = 0
   }
 

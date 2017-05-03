@@ -88,6 +88,29 @@ namespace Orchestrator {
 
     return bodyParts
   }
+
+  /**
+   * Converts global control level (GCL) to control points.
+   *
+   * @export
+   * @param {number} gcl The GCL to convert
+   * @returns {number} The control points.
+   */
+  export function gclToControlPoints(gcl: number): number {
+    return Math.pow(gcl - 1, GCL_POW) * GCL_MULTIPLY;
+  }
+
+
+  /**
+   * Converts control points to GCL.
+   *
+   * @export
+   * @param {number} points The points to convert.
+   * @returns {number} The GCL.
+   */
+  export function controlPointsToGcl(points: number): number {
+    return Math.floor(Math.pow(points / GCL_MULTIPLY, 1 / GCL_POW) + 1);
+  }
 }
 
 export default Orchestrator

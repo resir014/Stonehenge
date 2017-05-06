@@ -164,7 +164,6 @@ List of things that need to be finished.
 * Actual defensive/war code
 * Creep State code
 * Controlled room job assignments:
-  * Rampart maintainers
   * Defender
   * Mineral miners
 * Reserved rooms

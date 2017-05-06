@@ -1,16 +1,12 @@
 import { Profile } from '../../../lib/profiler/profile'
 import { Role } from '../role'
 
-import { StructureManager } from '../../../shared/structureManager'
-
 /**
  * An RoadMaintainer repairs roads in their room.
  *
  * @todo Refactor this.
  */
 export class RoadMaintainer extends Role {
-  private structureManager: StructureManager
-
   /**
    * Creates an instance of RoadMaintainer.
    * @param {Creep} creep The current creep.
@@ -19,8 +15,6 @@ export class RoadMaintainer extends Role {
    */
   constructor(creep: Creep) {
     super(creep)
-
-    this.structureManager = new StructureManager(creep.room)
   }
 
   /**

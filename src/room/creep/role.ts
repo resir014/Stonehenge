@@ -1,3 +1,5 @@
+import { StructureManager } from '../../shared/structureManager'
+
 /**
  * Shared role for all Creeps.
  */
@@ -5,6 +7,7 @@ export class Role {
   protected memory: Memory
   protected creep: Creep
   protected state: string
+  protected structureManager: StructureManager
 
   /**
    * Creates an instance of Role.
@@ -16,6 +19,7 @@ export class Role {
     this.creep = creep
     this.memory = creep.memory
     this.state = this.memory.state
+    this.structureManager = new StructureManager(creep.room)
   }
 
   /**
@@ -98,34 +102,26 @@ export class Role {
    * Attempts retrieving any dropped resources and/or resources in a container.
    */
   public tryRetrieveEnergy(): void {
-    let targetSource = this.creep.pos.findClosestByPath<Resource>(FIND_DROPPED_RESOURCES)
+    // Locate a container, for starter.
+    let targets: Structure[] | undefined = this.structureManager.getSourceWithdrawalPoints()
 
-    if (targetSource) {
-      // Locate a dropped resource, for starter.
+    if (targets) {
+      let thisTarget = targets[0]
+
+      if (thisTarget instanceof Structure) {
+        if (this.creep.pos.isNearTo(thisTarget)) {
+          this.creep.withdraw(thisTarget, RESOURCE_ENERGY)
+        } else {
+          this.moveTo(thisTarget)
+        }
+      }
+    } else {
+      // Locate a dropped resource in case we can't find any containers.
+      let targetSource = this.creep.pos.findClosestByPath<Resource>(FIND_DROPPED_RESOURCES)
       if (this.creep.pos.isNearTo(targetSource)) {
         this.creep.pickup(targetSource)
       } else {
         this.moveTo(targetSource)
-      }
-    } else {
-      // Locate a container in case we can't find any dropped resources.
-      let targetContainer = this.creep.pos.findClosestByPath<Container>(FIND_STRUCTURES, {
-        filter: ((structure: Structure) => {
-          if (structure.structureType === STRUCTURE_CONTAINER) {
-            let container = structure as Container
-            if (_.sum(container.store) > (500)) {
-              return container
-            }
-          }
-        })
-      })
-
-      if (targetContainer) {
-        if (this.creep.pos.isNearTo(targetContainer)) {
-          this.creep.withdraw(targetContainer, RESOURCE_ENERGY)
-        } else {
-          this.moveTo(targetContainer)
-        }
       }
     }
   }

@@ -36,6 +36,38 @@ export class StructureManager {
   }
 
   /**
+   * Get source withdrawal points. This prioritizes StructureStorage, but will
+   * fall back to StructureContainer if need be.
+   */
+  public getSourceWithdrawalPoints(): Structure[] | undefined {
+    let targets: Structure[] = []
+
+    // First pass: prioritise StructureStorage.
+    targets = this.structures.filter((structure: Structure) => {
+      if (structure.structureType === STRUCTURE_STORAGE) {
+        let storage = structure as Storage
+        if (_.sum(storage.store) > 500) {
+          return storage
+        }
+      }
+    })
+
+    // Second pass: if no StructureStorage is found, find any containers.
+    if (targets.length === 0) {
+      targets = this.structures.filter((structure: Structure) => {
+        if (structure.structureType === STRUCTURE_CONTAINER) {
+          let storage = structure as Container
+          if (_.sum(storage.store) > 500) {
+            return storage
+          }
+        }
+      })
+    }
+
+    return targets || undefined
+  }
+
+  /**
    * Get the energy dropoff points available. This prioritizes the spawn,
    * falling back on extensions, then towers, and finally containers.
    */

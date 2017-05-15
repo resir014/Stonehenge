@@ -1,22 +1,14 @@
 {
   "name": "@resir014/stonehenge",
-  "version": "0.0.0",
+  "version": "2.0.0",
   "description": "Next-generation AI scripts for the game Screeps. Written in TypeScript.",
   "main": "./dist/main.js",
   "scripts": {
-    "commit": "git-cz",
-    "gulp": "gulp",
     "postinstall": "typings install",
-    "deploy": "gulp build",
-    "deploy-prod": "gulp build --target prod",
-    "deploy-local": "gulp build --target local",
-    "start": "gulp watch",
-    "prod": "gulp watch --target prod",
+    "deploy": "webpack --colors",
+    "start": "NODE_ENV=dev webpack --colors --watch",
     "test": "mocha",
-    "test:coverage": "nyc mocha",
-    "tslint": "tslint \"src/**/*.ts\" \"test/**/*.ts\" --exclude \"src/lib/**/*.ts\"",
-    "typings": "typings",
-    "jshint-gulp": "jshint gulpfile.js libs/gulp-screeps-upload.js"
+    "typings": "typings"
   },
   "repository": {
     "type": "git",
@@ -28,67 +20,32 @@
     "url": "https://github.com/resir014/Stonehenge/issues"
   },
   "homepage": "https://github.com/resir014/Stonehenge#readme",
-  "dependencies": {
-    "screeps-profiler": "^1.2.2"
-  },
   "devDependencies": {
-    "@types/chai": "^3.4.35",
-    "@types/mocha": "^2.2.40",
-    "@types/screeps-profiler": "^1.2.0",
-    "@types/sinon": "^2.1.2",
+    "@types/chai": "^3.5.2",
+    "@types/mocha": "^2.2.41",
+    "awesome-typescript-loader": "^3.1.3",
     "chai": "^3.5.0",
+    "clean-webpack-plugin": "^0.1.16",
     "commitizen": "^2.9.6",
     "cz-conventional-changelog": "^2.0.0",
-    "deep-equal": "^1.0.1",
-    "gulp": "github:gulpjs/gulp#4.0",
-    "gulp-clean": "^0.3.2",
-    "gulp-collect": "^0.1.0",
-    "gulp-dot-flatten": "^1.1.1",
-    "gulp-rename": "^1.2.2",
-    "gulp-shell": "^0.6.3",
-    "gulp-sourcemaps": "^2.2.0",
-    "gulp-tslint": "^7.1.0",
-    "gulp-typescript": "^3.0.0",
-    "gulp-util": "^3.0.7",
-    "istanbul": "^1.1.0-alpha.1",
-    "jshint": "^2.9.2",
-    "lodash": "3.10.0",
+    "git-rev-sync": "^1.9.1",
+    "lodash": "^3.10.1",
     "mocha": "^3.2.0",
-    "nyc": "^10.2.0",
-    "q": "^1.4.1",
-    "simple-git": "^1.61.0",
-    "sinon": "^2.1.0",
-    "source-map": "^0.5.6",
-    "source-map-loader": "^0.1.6",
-    "through2": "^2.0.1",
-    "ts-loader": "^2.0.0",
-    "ts-node": "^3.0.2",
-    "tslint": "^4.5.1",
-    "tslint-eslint-rules": "^3.4.0",
-    "typescript": "^2.0.3",
-    "typings": "^1.3.0",
-    "webpack": "^2.2.1",
-    "webpack-stream": "^3.2.0"
+    "screeps-webpack-plugin": "git://github.com/bryanbecker/screeps-webpack-plugin.git",
+    "source-map-loader": "^0.2.1",
+    "ts-node": "^3.0.4",
+    "tslint": "^5.2.0",
+    "tslint-eslint-rules": "^4.0.0",
+    "tslint-loader": "^3.5.3",
+    "typescript": "^2.3.2",
+    "typings": "^2.1.1",
+    "webpack": "^2.5.1",
+    "webpack-config": "^7.0.0"
   },
-  "nyc": {
-    "include": [
-      "src/**/*.ts"
-    ],
-    "exclude": [
-      "test/**/*.ts"
-    ],
-    "extension": [
-      ".ts"
-    ],
-    "require": [
-      "ts-node/register"
-    ],
-    "reporter": [
-      "text-summary",
-      "html"
-    ],
-    "sourceMap": true,
-    "instrument": true
+  "dependencies": {
+    "@types/screeps-profiler": "^1.2.0",
+    "screeps-profiler": "^1.3.0",
+    "source-map": "^0.5.6"
   },
   "config": {
     "commitizen": {

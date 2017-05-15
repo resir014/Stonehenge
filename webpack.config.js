@@ -1,43 +1,15 @@
-module.exports = {
-  devtool: 'source-map',
-  entry: './src/main.ts',
-  output: {
-    filename: './main.js',
-    pathinfo: true,
-    libraryTarget: 'commonjs2',
-    sourceMapFilename: '[file].map.js', // normally this is [file].map, but we need a js file, or it will be rejected by screeps server.
-    devtoolModuleFilenameTemplate: '[resource-path]',
-  },
+const { Config } = require('webpack-config');
+const environment = require('webpack-config').environment;
+const path = require('path');
 
-  target: 'node',
+// we need to define a root path here so we can avoid weird relative
+// paths in the `config/` dir
+//  these variables will be replaced throughout the config when used
+//  as a string.  Ex:
+//      "config.[env].js" becomes "config.dev.js"
+environment.setAll({
+  "env": process.env.NODE_ENV || "dev",
+  "root": __dirname
+});
 
-  node: {
-    console: true,
-    global: true,
-    process: false,
-    Buffer: false,
-    __filename: false,
-    __dirname: false,
-  },
-
-  resolve: {
-    // Add '.ts' and '.tsx' as resolvable extensions.
-    extensions: ['.js', '.ts', '.d.ts', '.tsx']
-  },
-
-  externals: [
-    {
-        // webpack will not try to rewrite require("main.js.map")
-        'main.js.map': './main.js.map',
-    },
-  ],
-
-  module: {
-    loaders: [
-      // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-      { test: /\.js$/, loader: 'source-map-loader', enforce: 'pre' },
-      // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
-      { test: /\.tsx?$/, loader: 'ts-loader' }
-    ],
-  },
-};
+module.exports = new Config().extend('./config/config.[env].js');

@@ -84,6 +84,7 @@
     ],
     "radix": true,
     "semicolon": [false],
+    "space-before-function-paren": [true, {"anonymous": "always", "named": "never", "asyncArrow": "always"}],
     "switch-default": true,
     "trailing-comma": [false],
     "triple-equals": [

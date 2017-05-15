@@ -11,7 +11,10 @@
     "node_modules/**": true,
     "typings/**": true
   },
-  "tslint.exclude": "**/src/lib/**/*.ts",
+  "tslint.exclude": [
+    "**/src/lib/**/*.ts",
+    "**/src/snippets/**/*.ts"
+  ],
   "typescript.tsdk": "./node_modules/typescript/lib",
   "standard.enable": false
 }

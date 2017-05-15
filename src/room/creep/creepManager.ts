@@ -193,10 +193,10 @@ export class CreepManager {
   /**
    * Spawns a new creep.
    *
-   * @param {Spawn} spawn
-   * @param {string[]} bodyParts
-   * @param {string} role
-   * @returns
+   * @param {Spawn} spawn The spawn the creep's being spawned from.
+   * @param {string[]} bodyParts The planned body parts.
+   * @param {string} role The role of the creep.
+   * @returns a status code.
    */
   private spawnCreep(spawn: Spawn, bodyParts: string[], role: string): number {
     let guid: number = Orchestrator.getGuid()

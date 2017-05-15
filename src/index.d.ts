@@ -59,25 +59,4 @@ interface Memory {
   profiler: any
 }
 
-/**
- * Interface for the global objects.
- */
-interface Global {
-  /**
-   * Tweak your Logger settings using this global.
-   */
-  log: {
-    level: number,
-    showSource: boolean,
-    showTick: boolean
-  }
-}
-
-declare function require(path: string): any
-
-/**
- * Global objects that can be called from the Screeps console.
- */
-declare const global: Global
-
 declare const __REVISION__: string;

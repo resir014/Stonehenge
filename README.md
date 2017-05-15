@@ -9,22 +9,11 @@ Stonehenge is a next-generation AI system for the game [Screeps](https://screeps
 ## Table of Contents
 
 * [Design Principles](#design-principles)
-  * [Maintainability](#maintainability)
-  * [Modularity](#modularity)
-  * [Configuration over Convention](#configuration-over-convention)
-* [Getting Started](#getting-started)
-  * [Requirements](#requirements)
-  * [Preinstallation Steps](#preinstallation-steps)
-  * [Quick Setup](#quick-setup)
-  * [Installing npm Modules](#installing-npm-modules)
-  * [Running the Compiler](#running-the-compiler)
-  * [Post-Deploy](#post-deploy)
+* [Quick Start](#quick-start)
+* [Configuration](#configuration)
 * [Testing](#testing)
-  * [Running Tests](#running-tests)
-  * [Writing Tests](#writing-tests)
+* [Notes](#notes)
 * [To-Do](#to-do)
-  * [High-Priority Tasks](#high-priority-tasks)
-  * [Future Ideas](#future-ideas)
 
 ## Design Principles
 
@@ -40,76 +29,58 @@ Stonehenge acts as the "core engine" which drives the modular game logic. The `O
 
 Anyone who wants to build their Screeps colony with with Stonehenge must not be forced to follow conventions beyond the initial setup. The configurations available in the `config/` folder will allow you to fine-tune the codebase according to your workflow and needs.
 
-## Getting Started
+## Quick Start
 
 ### Requirements
 
 * [Node.js](https://nodejs.org/en/) (latest LTS is recommended)
-* [Yarn](https://yarnpkg.com/en/)
-  * Optional. You can use `npm` if you don't want to, but this is for your own sanity.
-* Gulp 4.0+
-  * `yarn global add gulpjs/gulp.git#4.0`
+* [Yarn](https://yarnpkg.com/en/) - Optional. You can use `npm` if you don't want to, but this is for your own sanity.
 
-For testing:
-* [Mocha](https://mochajs.org/) test runner and [NYC](https://istanbul.js.org/) for code coverage
-  * `yarn global add nyc mocha`
+For testing **NOTE** _Testing is currently a work-in-progress_:
 
-### Preinstallation Steps
+* [Mocha](https://mochajs.org/) test runner and [NYC](https://istanbul.js.org/) for code coverage - `yarn global add nyc mocha`
 
-Before deploying this code to Screeps, it is **important** that you do the following steps first, to avoid any potential side effects:
+### Download
 
-* Remove your currently-existing code (clearing out your current `main` file should do).
-* Kill **all** of your creeps.
-* Delete your entire memory tree.
+To get started, [download a zipped copy](https://github.com/screepers/screeps-typescript-starter/archive/master.zip) of the starter kit and extract it somewhere, or clone this repo.
 
-### Quick Setup
+### Install all required modules!
 
-First, clone and install the submodules.
-
-```bash
-$ git clone https://github.com/resir014/screeps.git
-```
-
-Then, you will have to set up your config files. Create a copy of `config.example.json` and rename it to `config.json`. Then navigate into the `src/config` directory, reate a copy of `config.example.ts` and rename it to `config.ts`.
-
-```bash
-# config.json
-$ cp config.example.json config.json
-
-# config/config.ts
-$ cd src/config
-$ cp config.example.ts config.ts
-
-# Do the same for the rest of the config files
-```
-
-Then, on the `config.json` file, change the `username` and `password` properties with your Screeps credentials.
-
-The `config.json` file is where you set up your development environment. If you want to push your code to another branch, for example, if you have some sort of a staging branch where you test around in Simulation mode, we have left a `branch` option for you to easily change the target branch of the upload process. The `default` branch is set as the default.
-
-Set `"autobranch": true` instead of explicit `branch` name to use your current git branch name when uploading. You still have to create matching branch in screeps client by cloning an existing branch (API limitation). This is useful when setting up deployment pipelines that upload on commit after successful build (so a commit to `major_refactoring` branch doesn't overwrite your default branch in the middle of epic alliance action just because you forgot to update a pipeline configuration).
-
-### Installing `npm` Modules
-
-Run the following the command to install the required npm packages and TypeScript type definitions.
+Run the following the command to install the required packages and TypeScript declaration files if you are using yarn:
 
 ```bash
 $ yarn
 ```
 
-### Running the Compiler
+or, for npm:
 
 ```bash
-# To compile your TypeScript files on the fly
-$ npm start
+$ npm install
+```
+### Configure Screeps credentials
 
-# To deploy the code to Screeps
-$ npm run deploy
+Create a copy of `config/credentials.example.json` and rename it to `config/credentials.json`.
+
+**WARNING: DO NOT** commit this file into your repository!
+
+```bash
+# config/credentials.json
+$ cp config/credentials.example.json config/credentials.json
 ```
 
-You can also use `deploy-prod` instead of `deploy` for a bundled version of the project, which has better performance but is harder to debug.
+In the newly created `credentials.json` file, change the `email` and `password` properties with your Screeps credentials.  The `serverPassword`, `token`, and `gzip` options are only for private servers that support them.  If you are uploading to the public Screeps server, you should delete these fields from your credentials file.
 
-`deploy-local` will copy files into a local folder to be picked up by steam client and used with the official or a private server.
+See [Configuration](#configuration) for more in-depth info on configuration options.
+
+### Run the compiler
+
+```bash
+# To compile and upload your TypeScript files on the fly in "watch mode":
+$ npm start
+
+# To compile and deploy once:
+$ npm run deploy
+```
 
 ### Post-Deploy
 
@@ -120,6 +91,8 @@ After deploying, you should manually set the build priorities for your rooms. Go
 ## Testing
 
 ### Running Tests
+
+**WARNING** _Testing functionality is currently not finished in the 2.0 build of the Starter.
 
 To enable tests as part of the build and deploy process, flip the `test` flag in your `config.json` to `true`.
 

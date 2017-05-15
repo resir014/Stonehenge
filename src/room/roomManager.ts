@@ -76,8 +76,8 @@ export class RoomManager {
    */
   @Profile()
   private cleanupCreepMemory(): void {
-    for (let name in Memory.creeps) {
-      let creep: any = Memory.creeps[name]
+    for (const name in Memory.creeps) {
+      const creep: any = Memory.creeps[name]
 
       if (creep.room === this.room.name) {
         if (!Game.creeps[name]) {

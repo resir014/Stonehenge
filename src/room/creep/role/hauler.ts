@@ -32,7 +32,7 @@ export class Hauler extends Role {
     }
 
     if (_.sum(this.creep.carry) < this.creep.carryCapacity && this.memory.state !== 'delivering') {
-      let targetSource: Resource = this.creep.pos.findClosestByPath<Resource>(FIND_DROPPED_RESOURCES)
+      const targetSource: Resource = this.creep.pos.findClosestByPath<Resource>(FIND_DROPPED_RESOURCES)
 
       if (targetSource) {
         if (this.creep.pos.isNearTo(targetSource)) {
@@ -41,10 +41,10 @@ export class Hauler extends Role {
           this.moveTo(targetSource, 1)
         }
       } else {
-        let targetContainers = this.creep.room.find<Container>(FIND_STRUCTURES, {
+        const targetContainers = this.creep.room.find<Container>(FIND_STRUCTURES, {
           filter: (structure: Structure) => {
             if (structure.structureType === STRUCTURE_CONTAINER) {
-              let container: Container = <Container>structure
+              const container: Container = structure as Container
               if (_.sum(container.store) > 200) {
                 return container
               }
@@ -61,7 +61,7 @@ export class Hauler extends Role {
             }
           })
         } else {
-          let targetContainer = this.creep.pos.findClosestByPath<Container>(FIND_STRUCTURES, {
+          const targetContainer = this.creep.pos.findClosestByPath<Container>(FIND_STRUCTURES, {
             filter: (structure: Container) => {
               return structure.structureType === STRUCTURE_CONTAINER
             }
@@ -71,10 +71,10 @@ export class Hauler extends Role {
       }
     } else {
       this.creep.memory.state = 'delivering'
-      let targetTowers = this.creep.room.find<Tower>(FIND_STRUCTURES, {
+      const targetTowers = this.creep.room.find<Tower>(FIND_STRUCTURES, {
         filter: (structure: Structure) => {
           if (structure.structureType === STRUCTURE_TOWER) {
-            let tower: Tower = <Tower>structure
+            const tower: Tower = structure as Tower
             if (tower.energy < tower.energyCapacity) {
               return tower
             }
@@ -91,7 +91,7 @@ export class Hauler extends Role {
           }
         })
       } else {
-        let targetSpawn = this.creep.pos.findClosestByRange<Spawn>(FIND_MY_SPAWNS)
+        const targetSpawn = this.creep.pos.findClosestByRange<Spawn>(FIND_MY_SPAWNS)
         if (targetSpawn.energy < targetSpawn.energyCapacity) {
           if (this.creep.pos.isNearTo(targetSpawn)) {
             this.creep.transfer(targetSpawn, RESOURCE_ENERGY)
@@ -99,10 +99,10 @@ export class Hauler extends Role {
             this.moveTo(targetSpawn, 1)
           }
         } else {
-          let targetExtensions = this.creep.room.find<Extension>(FIND_STRUCTURES, {
+          const targetExtensions = this.creep.room.find<Extension>(FIND_STRUCTURES, {
             filter: (structure: Structure) => {
               if (structure.structureType === STRUCTURE_EXTENSION) {
-                let extension = <Extension>structure
+                const extension = structure as Extension
                 if (extension.energy < extension.energyCapacity) {
                   return extension
                 }
@@ -119,10 +119,10 @@ export class Hauler extends Role {
               }
             })
           } else {
-            let targetStorages = this.creep.room.find<Storage>(FIND_STRUCTURES, {
+            const targetStorages = this.creep.room.find<Storage>(FIND_STRUCTURES, {
               filter: (structure: Structure) => {
                 if (structure.structureType === STRUCTURE_STORAGE) {
-                  let storage = <Storage>structure
+                  const storage = structure as Storage
                   if (_.sum(storage.store) < storage.storeCapacity) {
                     return storage
                   }

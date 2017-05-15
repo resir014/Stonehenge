@@ -56,31 +56,31 @@ export class CreepManager {
     this.buildMissingCreeps()
 
     this.harvesters.forEach((creep: Creep) => {
-      let harvester = new Harvester(creep)
+      const harvester = new Harvester(creep)
       harvester.run()
     })
     this.haulers.forEach((creep: Creep) => {
-      let hauler = new Hauler(creep)
+      const hauler = new Hauler(creep)
       hauler.run()
     })
     this.upgraders.forEach((creep: Creep) => {
-      let upgrader = new Upgrader(creep)
+      const upgrader = new Upgrader(creep)
       upgrader.run()
     })
     this.builders.forEach((creep: Creep) => {
-      let builder = new Builder(creep)
+      const builder = new Builder(creep)
       builder.run()
     })
     this.repairers.forEach((creep: Creep) => {
-      let repairer = new Repairer(creep)
+      const repairer = new Repairer(creep)
       repairer.run()
     })
     this.wallMaintainers.forEach((creep: Creep) => {
-      let wallMaintainer = new WallMaintainer(creep)
+      const wallMaintainer = new WallMaintainer(creep)
       wallMaintainer.run()
     })
     this.roadMaintainers.forEach((creep: Creep) => {
-      let roadMaintainer = new RoadMaintainer(creep)
+      const roadMaintainer = new RoadMaintainer(creep)
       roadMaintainer.run()
     })
   }
@@ -109,13 +109,13 @@ export class CreepManager {
    */
   @Profile()
   private buildMissingCreeps(): void {
-    let spawns: Spawn[] = this.room.find<Spawn>(FIND_MY_SPAWNS, {
+    const spawns: Spawn[] = this.room.find<Spawn>(FIND_MY_SPAWNS, {
       filter: (spawn: Spawn) => {
         return spawn.spawning === null
       },
     })
 
-    for (let spawn of spawns) {
+    for (const spawn of spawns) {
       let role: string
       let bodyParts: string[] = []
 
@@ -199,10 +199,10 @@ export class CreepManager {
    * @returns
    */
   private spawnCreep(spawn: Spawn, bodyParts: string[], role: string): number {
-    let guid: number = Orchestrator.getGuid()
+    const guid: number = Orchestrator.getGuid()
     let status: number | string = spawn.canCreateCreep(bodyParts)
 
-    let properties: { [key: string]: any } = {
+    const properties: { [key: string]: any } = {
       role,
       room: spawn.room.name,
     }
@@ -214,7 +214,7 @@ export class CreepManager {
     status = _.isString(status) ? OK : status
     if (status === OK) {
       Memory.guid = guid + 1
-      let creepName: string = `(${guid}) ${spawn.room.name} - ${role}`
+      const creepName: string = `(${guid}) ${spawn.room.name} - ${role}`
 
       log.info('Started creating new creep: ' + creepName)
       if (Config.ENABLE_DEBUG_MODE) {

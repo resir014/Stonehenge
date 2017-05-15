@@ -20,7 +20,7 @@ export class Harvester extends Role {
    */
   @Profile()
   public run(): void {
-    let availableSources: Source[] = Memory.rooms[this.creep.room.name].sources
+    const availableSources: Source[] = Memory.rooms[this.creep.room.name].sources
     let assignedSource: Source | null
 
     if (availableSources.length > 0 && !this.creep.memory.assignedSource) {

@@ -45,7 +45,7 @@ export class StructureManager {
     // First pass: prioritise StructureStorage.
     targets = this.structures.filter((structure: Structure) => {
       if (structure.structureType === STRUCTURE_STORAGE) {
-        let storage = structure as Storage
+        const storage = structure as Storage
         if (_.sum(storage.store) > 500) {
           return storage
         }
@@ -56,7 +56,7 @@ export class StructureManager {
     if (targets.length === 0) {
       targets = this.structures.filter((structure: Structure) => {
         if (structure.structureType === STRUCTURE_CONTAINER) {
-          let storage = structure as Container
+          const storage = structure as Container
           if (_.sum(storage.store) > 500) {
             return storage
           }

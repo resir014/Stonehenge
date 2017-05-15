@@ -22,7 +22,7 @@ export class Upgrader extends Role {
    */
   @Profile()
   public run(): void {
-    let roomController: StructureController | undefined = this.creep.room.controller
+    const roomController: StructureController | undefined = this.creep.room.controller
 
     if (!this.memory.state) {
       this.memory.state = 'idle'
@@ -33,7 +33,7 @@ export class Upgrader extends Role {
     }
 
     if (_.sum(this.creep.carry) < this.creep.carryCapacity && this.memory.state !== 'upgrading') {
-      let targetSource = this.creep.pos.findClosestByPath<Resource>(FIND_DROPPED_RESOURCES)
+      const targetSource = this.creep.pos.findClosestByPath<Resource>(FIND_DROPPED_RESOURCES)
 
       if (targetSource) {
         if (this.creep.pos.isNearTo(targetSource)) {

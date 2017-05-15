@@ -23,7 +23,7 @@ export class Repairer extends Role {
   @Profile()
   public run(): void {
     if (_.sum(this.creep.carry) > 0) {
-      let structuresToRepair = this.getStructuresToRepair(this.structureManager.structures)
+      const structuresToRepair = this.getStructuresToRepair(this.structureManager.structures)
 
       if (structuresToRepair) {
         if (this.creep.pos.isNearTo(structuresToRepair[0])) {

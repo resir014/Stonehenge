@@ -57,7 +57,7 @@ export class Builder extends Role {
       this.tryRetrieveEnergy()
     } else {
       this.memory.state = 'building'
-      let targetConstructionSite = this.getConstructionSite(this.constructionSites)
+      const targetConstructionSite = this.getConstructionSite(this.constructionSites)
 
       if (targetConstructionSite) {
         if (this.creep.pos.isNearTo(targetConstructionSite)) {

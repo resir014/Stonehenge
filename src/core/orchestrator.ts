@@ -100,7 +100,6 @@ namespace Orchestrator {
     return Math.pow(gcl - 1, GCL_POW) * GCL_MULTIPLY;
   }
 
-
   /**
    * Converts control points to GCL.
    *

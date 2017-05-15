@@ -34,7 +34,7 @@ export class Role {
    * @memberOf Role
    */
   public moveTo<T extends RoomObject>(target: T, maxRooms?: number): number {
-    let self = this
+    const self = this
     let result: number = 0
 
     // Execute moves by cached paths at first
@@ -60,7 +60,7 @@ export class Role {
    * @memberOf Role
    */
   public moveToPosition(target: RoomPosition, maxRooms?: number): number {
-    let self = this
+    const self = this
     let result: number = 0
 
     // Execute moves by cached paths at first
@@ -103,10 +103,10 @@ export class Role {
    */
   public tryRetrieveEnergy(): void {
     // Locate a container, for starter.
-    let targets: Structure[] | undefined = this.structureManager.getSourceWithdrawalPoints()
+    const targets: Structure[] | undefined = this.structureManager.getSourceWithdrawalPoints()
 
     if (targets) {
-      let thisTarget = targets[0]
+      const thisTarget = targets[0]
 
       if (thisTarget instanceof Structure) {
         if (this.creep.pos.isNearTo(thisTarget)) {
@@ -117,7 +117,7 @@ export class Role {
       }
     } else {
       // Locate a dropped resource in case we can't find any containers.
-      let targetSource = this.creep.pos.findClosestByPath<Resource>(FIND_DROPPED_RESOURCES)
+      const targetSource = this.creep.pos.findClosestByPath<Resource>(FIND_DROPPED_RESOURCES)
       if (this.creep.pos.isNearTo(targetSource)) {
         this.creep.pickup(targetSource)
       } else {

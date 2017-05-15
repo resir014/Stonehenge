@@ -23,7 +23,7 @@ export class RoadMaintainer extends Role {
   @Profile()
   public run(): void {
     if (_.sum(this.creep.carry) > 0) {
-      let structuresToRepair = this.getStructuresToRepair(this.structureManager.structures)
+      const structuresToRepair = this.getStructuresToRepair(this.structureManager.structures)
 
       if (structuresToRepair) {
         if (this.creep.pos.isNearTo(structuresToRepair[0])) {
@@ -50,7 +50,7 @@ export class RoadMaintainer extends Role {
    */
   @Profile()
   private getStructuresToRepair(structures: Structure[]): Structure[] | undefined {
-    let targets: Structure[] = structures.filter((structure: Structure) => {
+    const targets: Structure[] = structures.filter((structure: Structure) => {
       return ((structure.structureType === STRUCTURE_ROAD) && structure.hits < (structure.hitsMax - (structure.hitsMax * 0.1)))
     })
 

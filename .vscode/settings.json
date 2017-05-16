@@ -12,6 +12,7 @@
     "typings/**": true
   },
   "tslint.exclude": [
+    "**/config/**/*.ts",
     "**/src/lib/**/*.ts",
     "**/src/snippets/**/*.ts"
   ],

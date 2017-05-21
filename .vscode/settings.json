@@ -13,6 +13,7 @@
   },
   "tslint.exclude": [
     "**/config/**/*.ts",
+    "**/libs/**/*.ts",
     "**/src/lib/**/*.ts",
     "**/src/snippets/**/*.ts"
   ],

@@ -12,6 +12,7 @@
     "typings/**": true
   },
   "tslint.exclude": [
+    "**/webpack.config.ts",
     "**/config/**/*.ts",
     "**/libs/**/*.ts",
     "**/src/lib/**/*.ts",

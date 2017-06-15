@@ -50,13 +50,27 @@ interface StructureSpawn {
  * Extended memory objects.
  */
 interface Memory {
-  creeps: { [key: string]: any }
-  flags: { [key: string]: any }
-  rooms: { [key: string]: any }
-  spawns: { [key: string]: any }
+  creeps: { [key: string]: CreepMemory }
+  flags: { [key: string]: FlagMemory }
+  rooms: { [key: string]: RoomMemory }
+  spawns: { [key: string]: SpawnMemory }
   guid: number
   log: any
   profiler: any
+}
+
+interface CreepMemory {
+  role: string
+  assignedSource: Source
+}
+
+interface RoomMemory {
+  creeps: {
+    [key: string]: CreepMemory
+  }
+  jobs: {
+    [key: string]: number
+  }
 }
 
 declare const __REVISION__: string;

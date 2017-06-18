@@ -54,7 +54,9 @@ interface Memory {
   flags: { [key: string]: any }
   rooms: { [key: string]: any }
   spawns: { [key: string]: any }
-  guid: number
+  processMemory: ProcessMemory
+  processTable: ProcessTable[]
+  pidCounter: number
   log: any
   profiler: any
 }

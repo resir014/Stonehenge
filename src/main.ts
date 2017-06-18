@@ -9,8 +9,7 @@ import * as Profiler from 'screeps-profiler'
 
 import * as Config from './config/config'
 import { Kernel } from './kernel'
-import { log } from './lib/logger/log'
-
+// import { log } from './lib/logger/log'
 import InitProcess from './processes/init'
 
 import { loadStructureSpawnPrototypes } from './prototypes/StructureSpawn.prototype'
@@ -27,13 +26,10 @@ if (Config.USE_PROFILER) {
 // Prototype extensions
 loadStructureSpawnPrototypes()
 
-log.info(`loading revision: ${__REVISION__}`)
+// log.info(`loading revision: ${__REVISION__}`)
+global.start = InitProcess.start('sim')
 
 function mloop(): void {
-  // Check memory for null or out of bounds custom objects.
-  // checkOutOfBoundsMemory()
-  global.start = InitProcess.start('sim')
-
   Kernel.loadProcessTable()
   Kernel.garbageCollection()
   Kernel.run()

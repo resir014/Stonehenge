@@ -1,5 +1,3 @@
-interface ProcessId<TPROCESS extends IProcess = IProcess> extends Number, TypeTag<ProcessId<TPROCESS>, TPROCESS> { }
-
 declare const enum ProcessStatus {
   DEAD = -1,
   ALIVE,
@@ -27,13 +25,14 @@ interface IProcess {
   priority: ProcessPriority
   sleepInfo?: ProcessSleep
   setMemory(memory: any): void
+  start<T extends IProcess>(): T
   run(): number
 }
 
 type ProcessConstructor<T extends IProcess = IProcess> = {
   className: string
 
-  new (kernel: IKernel, pid: number, parentPid: number, priority: ProcessPriority): T
+  new (pid: number, parentPid: number, priority: ProcessPriority): T
 }
 
 interface KernelMemory {

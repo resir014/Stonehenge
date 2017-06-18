@@ -8,7 +8,8 @@
 import * as Profiler from 'screeps-profiler'
 
 import * as Config from './config/config'
-import { RoomManager } from './room/roomManager'
+import { Kernel } from './kernel'
+// import { RoomManager } from './room/roomManager'
 import { log } from './lib/logger/log'
 
 import { loadStructureSpawnPrototypes } from './prototypes/StructureSpawn.prototype'
@@ -22,6 +23,9 @@ if (Config.USE_PROFILER) {
   Profiler.enable()
 }
 
+// Initialise the kernel and extend it to the global.
+const kernel: IKernel = new Kernel()
+
 // Prototype extensions
 loadStructureSpawnPrototypes()
 
@@ -29,21 +33,18 @@ log.info(`loading revision: ${__REVISION__}`)
 
 function mloop(): void {
   // Check memory for null or out of bounds custom objects.
-  checkOutOfBoundsMemory()
+  // checkOutOfBoundsMemory()
 
-  // For each controlled room, run colony actions.
-  for (const i in Game.rooms) {
-    const room: Room = Game.rooms[i]
-
-    const colony = new RoomManager(room)
-    colony.run()
-  }
+  kernel.loadProcessTable()
+  kernel.garbageCollection()
+  kernel.run()
+  kernel.storeProcessTable()
 }
 
 /**
  * Check memory for null or out of bounds custom objects
  */
-function checkOutOfBoundsMemory(): void {
+/*function checkOutOfBoundsMemory(): void {
   if (!Memory.guid) {
     Memory.guid = 0
   }
@@ -60,7 +61,7 @@ function checkOutOfBoundsMemory(): void {
   if (!Memory.spawns) {
     Memory.spawns = {}
   }
-}
+}*/
 
 /**
  * Screeps system expects this "loop" method in main.js to run the

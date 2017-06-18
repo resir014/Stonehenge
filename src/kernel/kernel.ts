@@ -54,31 +54,31 @@ class Kernel implements IKernel {
   }
 
   public sleepProcess = (p: Process, ticks: number) => {
-    p.status = ProcessStatus.SLEEP;
-    p.sleepInfo = { start: Game.time, duration: ticks };
-    return p;
+    p.status = ProcessStatus.SLEEP
+    p.sleepInfo = { start: Game.time, duration: ticks }
+    return p
   }
 
   public getProcessById(pid: number): Process {
-    return this.processTable[pid];
-  };
+    return this.processTable[pid]
+  }
 
   public storeProcessTable(): void {
-    const aliveProcess = _.filter(_.values(this.processTable), (p: Process) => p.status !== ProcessStatus.DEAD);
+    const aliveProcess = _.filter(this.processTable, (p: ProcessTable) => p.status !== ProcessStatus.DEAD)
 
-    Memory.processTable = _.map(aliveProcess, (p: Process) => [p.pid, p.parentPID, p.classPath(), p.priority, p.sleepInfo]);
-  };
+    Memory.processTable = aliveProcess
+  }
 
   public getProcessMemory(pid: number): ProcessMemory {
-    Memory.processMemory = Memory.processMemory || {};
-    Memory.processMemory[pid] = Memory.processMemory[pid] || {};
-    return Memory.processMemory[pid];
+    Memory.processMemory = Memory.processMemory || {}
+    Memory.processMemory[pid] = Memory.processMemory[pid] || {}
+    return Memory.processMemory[pid]
   };
 
   public run(): void {
-    this.runOneQueue(this.highPriorityQueue);
-    this.runOneQueue(this.midPriorityQueue);
-    this.runOneQueue(this.lowPriorityQueue);
+    this.runOneQueue(this.highPriorityQueue)
+    this.runOneQueue(this.midPriorityQueue)
+    this.runOneQueue(this.lowPriorityQueue)
   };
 
   public loadProcessTable(): void {
@@ -96,30 +96,30 @@ class Kernel implements IKernel {
           throw new Error('Unable to find process constructor')
         }
 
-        const memory = this.getProcessMemory(pid);
-        const p = new pctor(this, pid, parentPID, priority);
-        p.setMemory(memory);
-        this.processTable[p.pid] = p;
-        const sleepInfo = remaining.pop();
+        const memory = this.getProcessMemory(pid)
+        const p = new pctor(pid, parentPID, priority)
+        p.setMemory(memory)
+        this.processTable[p.pid] = p
+        const sleepInfo = remaining.pop()
         if (sleepInfo) {
-          p.sleepInfo = sleepInfo;
+          p.sleepInfo = sleepInfo
 
-          p.status = ProcessStatus.SLEEP;
+          p.status = ProcessStatus.SLEEP
         }
         if (priority === ProcessPriority.HIGH) {
-          this.highPriorityQueue.push(p);
+          this.highPriorityQueue.push(p)
         }
 
         if (priority === ProcessPriority.MID) {
-          this.midPriorityQueue.push(p);
+          this.midPriorityQueue.push(p)
         }
 
         if (priority === ProcessPriority.LOW) {
-          this.lowPriorityQueue.push(p);
+          this.lowPriorityQueue.push(p)
         }
       } catch (e) {
-        console.log('Error when loading:' + e.message);
-        console.log(className);
+        console.log('Error when loading:' + e.message)
+        console.log(className)
       }
     }
   }

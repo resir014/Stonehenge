@@ -55,7 +55,7 @@ interface Memory {
   rooms: { [key: string]: RoomMemory }
   spawns: { [key: string]: SpawnMemory }
   processMemory: ProcessMemory
-  processTable: ProcessTable[]
+  processTable: KernelRecord[]
   pidCounter: number
   log: any
   profiler: any

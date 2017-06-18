@@ -1,5 +1,5 @@
-import Kernel from './kernel'
-import { ProcessRegistry } from "./processRegistry";
+import * as Kernel from './kernel'
+import { ProcessRegistry } from './processRegistry'
 
 export function RegisterProcess(): ClassDecorator {
   return (target: ProcessConstructor) => {
@@ -11,14 +11,13 @@ export abstract class Process implements IProcess {
   public className: string
   public pid: number
   public parentPid: number
-  public kernel: IKernel
   public memory: any
   public status: ProcessStatus
   public priority: ProcessPriority
   public sleepInfo?: ProcessSleep
+  protected kernel: IKernel = Kernel
 
   constructor(pid: number, parentPid: number, priority: ProcessPriority = ProcessPriority.LOW) {
-    this.kernel = new Kernel()
     this.pid = pid
     this.parentPid = parentPid
     this.priority = priority

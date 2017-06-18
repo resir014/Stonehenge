@@ -1,4 +1,4 @@
-import Kernel from './kernel'
+import * as Kernel from './kernel'
 import { Process, RegisterProcess } from './process'
 import { ProcessRegistry } from './processRegistry'
 

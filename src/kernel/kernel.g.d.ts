@@ -20,12 +20,10 @@ interface IProcess {
   pid: number
   parentPid: number
   memory: any
-  kernel: IKernel
   status: ProcessStatus
   priority: ProcessPriority
   sleepInfo?: ProcessSleep
   setMemory(memory: any): void
-  start<T extends IProcess>(): T
   run(): number
 }
 
@@ -39,6 +37,15 @@ interface KernelMemory {
   process?: ProcessTable | null
   processMemory?: { [pid: number]: ProcessMemory }
 }
+
+interface KernelRecord {
+  priority: ProcessPriority
+  processCtor: ProcessConstructor
+  process: IProcess
+  status: ProcessStatus
+  sleepInfo?: ProcessSleep
+}
+
 
 interface ITaskManager {
   run(): void

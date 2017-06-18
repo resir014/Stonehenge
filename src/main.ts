@@ -9,8 +9,9 @@ import * as Profiler from 'screeps-profiler'
 
 import * as Config from './config/config'
 import { Kernel } from './kernel'
-// import { RoomManager } from './room/roomManager'
 import { log } from './lib/logger/log'
+
+import InitProcess from './processes/init'
 
 import { loadStructureSpawnPrototypes } from './prototypes/StructureSpawn.prototype'
 
@@ -23,9 +24,6 @@ if (Config.USE_PROFILER) {
   Profiler.enable()
 }
 
-// Initialise the kernel and extend it to the global.
-const kernel: IKernel = new Kernel()
-
 // Prototype extensions
 loadStructureSpawnPrototypes()
 
@@ -34,11 +32,12 @@ log.info(`loading revision: ${__REVISION__}`)
 function mloop(): void {
   // Check memory for null or out of bounds custom objects.
   // checkOutOfBoundsMemory()
+  global.start = InitProcess.start('sim')
 
-  kernel.loadProcessTable()
-  kernel.garbageCollection()
-  kernel.run()
-  kernel.storeProcessTable()
+  Kernel.loadProcessTable()
+  Kernel.garbageCollection()
+  Kernel.run()
+  Kernel.storeProcessTable()
 }
 
 /**

@@ -263,3 +263,5 @@ Issues and Pull Requests are welcome! Please read the [Contributing Guidelines](
 ## Special Thanks
 
 [Marko Sulamägi](https://github.com/MarkoSulamagi), for the original [Screeps/TypeScript sample project](https://github.com/MarkoSulamagi/Screeps-typescript-sample-project).
+
+Portions of this code &copy; 2016 Dessix.

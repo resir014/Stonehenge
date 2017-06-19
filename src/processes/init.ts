@@ -1,23 +1,16 @@
-import { Kernel } from '../kernel'
-import { Process, RegisterProcess } from '../kernel/process'
+// import { CleanMemoryProc } from './cleanMemoryProc'
+// import { RoomProc } from './roomProc'
+import { log } from '../lib/logger'
+import { Process, registerProc } from '../core/kernel/process'
 
-@RegisterProcess()
-class InitProcess extends Process {
-  public className: string = this.className
+@registerProc
+export class InitProcess extends Process<ProcessMemory> {
+  public readonly baseHeat: number = 1000
 
-  public static start(roomName: string): void {
-    const p = new InitProcess(0, 0)
-    Kernel.addProcess(p)
-    Kernel.storeProcessTable()
+  public run (): void {
+    // const kernel = this.kernel
 
-    p.memory.roomName = roomName;
-    console.log('New room started:' + roomName);
-  }
-
-  public run(): number {
-    console.log('main process running...')
-    return 0;
+    log.info('init process running')
+    return
   }
 }
-
-export default InitProcess

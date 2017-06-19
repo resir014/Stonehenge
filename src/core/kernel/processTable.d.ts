@@ -1,37 +1,35 @@
 interface ProcessMemory {
-  [pid: number]: any
-}
-
-interface ProcessTable {
-  pid: number
-  parentPid: number
-  className: string
-  priority: ProcessPriority
-  [key: string]: any
 }
 
 interface SerializedProcess {
   /**
    * Process ID.
    *
-   * @type {number}
+   * @type {ProcessId}
    * @memberof SerializedProcess
    */
-  id: number
+  id: ProcessId
   /**
    * Process ID of the parent process.
    *
+   * @type {ProcessId}
+   * @memberof SerializedProcess
+   */
+  pa: ProcessId
+  /**
+   * Process heat level.
+   *
    * @type {number}
    * @memberof SerializedProcess
    */
-  pa: number
+  he: number
   /**
-   * Process priority
+   * Returns `true` if the process is a service.
    *
-   * @type {ProcessPriority}
+   * @type {boolean}
    * @memberof SerializedProcess
    */
-  pr: ProcessPriority
+  se: boolean
   /**
    * The className of the process.
    *

@@ -1,5 +1,5 @@
 import * as Config from "../../config/config";
-import { LogLevels } from "./logLevels";
+import { LogLevel } from "./logLevel";
 
 // <caller> (<source>:<line>:<column>)
 const stackLineRe = /([^ ]*) \(([^:]*):([0-9]*):([0-9]*)\)/;
@@ -97,7 +97,7 @@ export class Log {
   }
 
   public trace(error: Error): Log {
-    if (this.level >= LogLevels.ERROR && error.stack) {
+    if (this.level >= LogLevel.ERROR && error.stack) {
       console.log(this.resolveStack(error.stack));
     }
 
@@ -105,26 +105,26 @@ export class Log {
   }
 
   public error(...args: any[]) {
-    if (this.level >= LogLevels.ERROR) {
-      console.log.apply(this, this.buildArguments(LogLevels.ERROR).concat([].slice.call(args)));
+    if (this.level >= LogLevel.ERROR) {
+      console.log.apply(this, this.buildArguments(LogLevel.ERROR).concat([].slice.call(args)));
     }
   }
 
   public warning(...args: any[]) {
-    if (this.level >= LogLevels.WARNING) {
-      console.log.apply(this, this.buildArguments(LogLevels.WARNING).concat([].slice.call(args)));
+    if (this.level >= LogLevel.WARNING) {
+      console.log.apply(this, this.buildArguments(LogLevel.WARNING).concat([].slice.call(args)));
     }
   }
 
   public info(...args: any[]) {
-    if (this.level >= LogLevels.INFO) {
-      console.log.apply(this, this.buildArguments(LogLevels.INFO).concat([].slice.call(args)));
+    if (this.level >= LogLevel.INFO) {
+      console.log.apply(this, this.buildArguments(LogLevel.INFO).concat([].slice.call(args)));
     }
   }
 
   public debug(...args: any[]) {
-    if (this.level >= LogLevels.DEBUG) {
-      console.log.apply(this, this.buildArguments(LogLevels.DEBUG).concat([].slice.call(args)));
+    if (this.level >= LogLevel.DEBUG) {
+      console.log.apply(this, this.buildArguments(LogLevel.DEBUG).concat([].slice.call(args)));
     }
   }
 
@@ -149,16 +149,16 @@ export class Log {
   private buildArguments(level: number): string[] {
     const out: string[] = [];
     switch (level) {
-      case LogLevels.ERROR:
+      case LogLevel.ERROR:
         out.push(color("ERROR  ", "red"));
         break;
-      case LogLevels.WARNING:
+      case LogLevel.WARNING:
         out.push(color("WARNING", "yellow"));
         break;
-      case LogLevels.INFO:
+      case LogLevel.INFO:
         out.push(color("INFO   ", "green"));
         break;
-      case LogLevels.DEBUG:
+      case LogLevel.DEBUG:
         out.push(color("DEBUG  ", "gray"));
         break;
       default:

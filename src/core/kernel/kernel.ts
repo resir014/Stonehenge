@@ -44,7 +44,7 @@ export class Kernel implements IKernel {
     const kmem = fetchKmem()
     if (kmem.kpar === undefined) {
       kmem.kpar = {
-        nextPid: 0,
+        nextPid: 0
       }
     } else if (kmem.kpar.nextPid === undefined) {
       kmem.kpar.nextPid = 0

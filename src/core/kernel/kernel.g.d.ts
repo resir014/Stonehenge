@@ -13,6 +13,12 @@ declare const enum LogLevel {
   DEBUG
 }
 
+interface Logger {
+  level: LogLevel
+  showSource: boolean
+  showTick: boolean
+}
+
 interface ProcessSleep {
   start: number
   duration: number
@@ -44,6 +50,7 @@ interface KernelParameters {
 }
 
 interface KernelMemory {
+  log: Logger
   kpar?: KernelParameters
   proc?: SerializedProcessTable | null
   pmem?: { [pid: number/** {ProcessId} */]: ProcessMemory | null | undefined }

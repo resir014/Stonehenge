@@ -10,7 +10,7 @@ import * as Profiler from 'screeps-profiler'
 import * as Config from './config/config'
 import { Kernel } from './core/kernel'
 import initCli from './core/cli'
-// import { log } from './lib/logger/log'
+import { log } from './lib/logger'
 // import InitProcess from './processes/init'
 
 import { loadStructureSpawnPrototypes } from './prototypes/StructureSpawn.prototype'
@@ -29,7 +29,7 @@ if (Config.USE_PROFILER) {
 // Prototype extensions
 loadStructureSpawnPrototypes()
 
-// log.info(`loading revision: ${__REVISION__}`)
+log.info(`loading revision: ${__REVISION__}`)
 if ((Memory as KernelMemory).pmem == null) (Memory as KernelMemory).pmem = {}
 const kernel: IKernel = global.kernel = new Kernel(() => (Memory as KernelMemory))
 initCli(global, Memory, kernel)

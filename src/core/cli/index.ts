@@ -1,4 +1,3 @@
-// TODO: Make this actually work.
 const initCli = (g: NodeJS.Global, m: Memory, kernel: IKernel): void => {
   g.reset = function (): void {
     kernel.kernelLog(LogLevel.INFO, 'Rebooting...')

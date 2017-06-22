@@ -13,11 +13,6 @@ declare const enum LogLevel {
   DEBUG
 }
 
-interface ProcessSleep {
-  start: number
-  duration: number
-}
-
 interface IProcess<TMemory extends ProcessMemory = ProcessMemory> {
   readonly className: string
   readonly pid: ProcessId
@@ -39,12 +34,40 @@ type ProcessConstructor<TPROCESS extends IProcess = IProcess> = {
 
 type MetaProcessCtor<TPROCESS, TCPROC extends TPROCESS & IProcess> = (new (k: IKernel, pid: ProcessId, parentPid: ProcessId) => TPROCESS) & ProcessConstructor<TCPROC>
 
+/**
+ * Parameters required by the kernel.
+ *
+ * @interface KernelParameters
+ */
 interface KernelParameters {
+  /**
+   * The upcoming Process ID.
+   *
+   * @type {ProcessId}
+   * @memberof KernelParameters
+   */
   nextPid: ProcessId
 }
 
+/**
+ * Base memory structures of the kernel.
+ *
+ * @interface KernelMemory
+ */
 interface KernelMemory {
+  /**
+   * Parameters required by the kernel.
+   *
+   * @type {KernelParameters}
+   * @memberof KernelMemory
+   */
   kpar?: KernelParameters
+  /**
+   * The process table
+   *
+   * @type {(SerializedProcessTable | null)}
+   * @memberof KernelMemory
+   */
   proc?: SerializedProcessTable | null
   pmem?: { [pid: number/** {ProcessId} */]: ProcessMemory | null | undefined }
 }

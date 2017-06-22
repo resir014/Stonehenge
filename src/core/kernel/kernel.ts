@@ -9,6 +9,14 @@ interface KernelRecord {
   process: IProcess
 }
 
+/**
+ * Just like an actual OS kernel, a Kernel controls all of the processes
+ * happening in our Screeps codebase.
+ *
+ * @export
+ * @class Kernel
+ * @implements {IKernel}
+ */
 export class Kernel implements IKernel {
   private processTable: (Map<ProcessId, KernelRecord>)
   private readonly kernelSymbol: string = Config.KERNEL_SYMBOL ? Config.KERNEL_SYMBOL : '//'

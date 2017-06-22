@@ -1,6 +1,17 @@
+/**
+ * The base object for a process' memory. Extend this interface for any
+ * custom process memories that we have.
+ *
+ * @interface ProcessMemory
+ */
 interface ProcessMemory {
 }
 
+/**
+ * Details to the process stored in a serialised format.
+ *
+ * @interface SerializedProcess
+ */
 interface SerializedProcess {
   /**
    * Process ID.
@@ -39,4 +50,8 @@ interface SerializedProcess {
   ex: string
 }
 
+/**
+ * All list of running processes are stored in a serialised format on our
+ * process table.
+ */
 type SerializedProcessTable = SerializedProcess[]

@@ -15,8 +15,27 @@ declare namespace NodeJS {
       showSource: boolean,
       showTick: boolean
     }
+    /**
+     * The accessible global object of the kernel.
+     *
+     * @type {IKernel}
+     * @memberof Global
+     */
     kernel: IKernel
+    /**
+     * Shorthand to the accessible global kernel object.
+     *
+     * @type {IKernel}
+     * @memberof Global
+     */
     k: IKernel
+    /**
+     * Spawns a new process.
+     *
+     * @param {string} className
+     * @returns {(ProcessId | undefined)}
+     * @memberof Global
+     */
     launchNew(className: string): ProcessId | undefined
     reset(): void
     spawnBard(): void

@@ -1,3 +1,6 @@
+import { ProcessRegistry } from '../kernel'
+import { InitProcess } from '../../processes/InitProcess'
+
 const initCli = (g: NodeJS.Global, m: Memory, kernel: IKernel): void => {
   g.reset = function (): void {
     kernel.kernelLog(LogLevel.INFO, 'Rebooting...')
@@ -10,6 +13,11 @@ const initCli = (g: NodeJS.Global, m: Memory, kernel: IKernel): void => {
 
   g.sinspect = inspect
   g.inspect = (val: any) => inspect(val)
+
+  g.boot = () => {
+    ProcessRegistry.register(InitProcess)
+    g.launchNew(InitProcess.className)
+  }
 
   g.launchNew = function (className: string): ProcessId | undefined {
     const p = kernel.spawnProcessByClassName(className, 0)

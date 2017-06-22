@@ -13,9 +13,12 @@ import { log, initLoggerMemory } from './lib/logger'
 
 import { loadStructureSpawnPrototypes } from './prototypes/StructureSpawn.prototype'
 
+// Initialise the kernel + memory.
 const kmem = Memory as KernelMemory
 if (!kmem.pmem) kmem.pmem = {}
 const kernel: IKernel = global.kernel = new Kernel(() => kmem)
+
+// Initialise command-line tool.
 initCli(global, Memory, kernel)
 
 // Initialise logger memory.
@@ -29,9 +32,7 @@ if (Config.USE_PROFILER) {
 // Prototype extensions
 loadStructureSpawnPrototypes()
 
-if (Game.cpu.getUsed() > 2) {
-  log.info(`starting main loop | revision: ${__REVISION__} | current CPU: ${Game.cpu.getUsed()}`)
-}
+log.info(`starting main loop | revision: ${__REVISION__} | current CPU: ${Game.cpu.getUsed()}`)
 
 let isInitTick = true
 const minCpuAlloc = 0.35

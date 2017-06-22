@@ -1,4 +1,4 @@
-import { log } from './log'
+import { log, resolve, initLoggerMemory } from './log'
 import { LogLevel } from './logLevel'
 
-export { log, LogLevel }
+export { log, resolve, initLoggerMemory, LogLevel }

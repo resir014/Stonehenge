@@ -6,26 +6,21 @@
  */
 
 import * as Profiler from 'screeps-profiler'
-
 import * as Config from './config/config'
 import { Kernel } from './core/kernel'
 import initCli from './core/cli'
-import { log } from './lib/logger'
-// import InitProcess from './processes/init'
+import { log, initLoggerMemory } from './lib/logger'
 
 import { loadStructureSpawnPrototypes } from './prototypes/StructureSpawn.prototype'
-
-// const deserializationTime = ProfileMemoryDeserialization()
 
 const kmem = Memory as KernelMemory
 if (!kmem.pmem) kmem.pmem = {}
 const kernel: IKernel = global.kernel = new Kernel(() => kmem)
 initCli(global, Memory, kernel)
 
-// This is an example for using a config variable from `config.ts`.
-// NOTE: this is used as an example, you may have better performance
-// by setting USE_PROFILER through webpack, if you want to permanently
-// remove it on deploy
+// Initialise logger memory.
+initLoggerMemory()
+
 // Start the profiler
 if (Config.USE_PROFILER) {
   Profiler.enable()
@@ -41,12 +36,9 @@ const minCpuAlloc = 0.35
 const minCpuAllocInverseFactor = (1 - minCpuAlloc) * 10e-8
 
 function mloop(): void {
-  /* const memoryInitializationTime = isInitTick
-    ? (isInitTick = false, deserializationTime)
-    : ProfileMemoryDeserialization() */
-  // initTickVolatile(global)
   const bucket = Game.cpu.bucket
   const cpuLimitRatio = (bucket * bucket) * minCpuAllocInverseFactor + minCpuAlloc
+
   // TODO: Consider skipping load if on the same shard as last time? Consider costs of loss of one-tick-volatility storage.
   kernel.loadProcessTable()
   kernel.run(Game.cpu.limit * cpuLimitRatio)
@@ -54,33 +46,6 @@ function mloop(): void {
   // recordStats(cpuOverhead, memoryInitializationTime)
   isInitTick = false
 }
-
-/* function ProfileMemoryDeserialization(): number {
-  const start = Game.cpu.getUsed()
-  return Game.cpu.getUsed() - start
-} */
-
-/**
- * Check memory for null or out of bounds custom objects
- */
-/*function checkOutOfBoundsMemory(): void {
-  if (!Memory.guid) {
-    Memory.guid = 0
-  }
-
-  if (!Memory.creeps) {
-    Memory.creeps = {}
-  }
-  if (!Memory.flags) {
-    Memory.flags = {}
-  }
-  if (!Memory.rooms) {
-    Memory.rooms = {}
-  }
-  if (!Memory.spawns) {
-    Memory.spawns = {}
-  }
-}*/
 
 /**
  * Screeps system expects this "loop" method in main.js to run the
@@ -90,4 +55,4 @@ function mloop(): void {
  *
  * @export
  */
-export const loop = !Config.USE_PROFILER ? mloop : Profiler.wrap(mloop)
+export const loop = !Config.USE_PROFILER ? mloop : () => { Profiler.wrap(mloop) }

@@ -1,4 +1,3 @@
-import * as Config from '../../config/config'
 import { log } from '../../lib/logger/log'
 import { ProcessRegistry } from './processRegistry'
 
@@ -50,13 +49,6 @@ export class Kernel implements IKernel {
     } else if (kmem.kpar.nextPid === undefined) {
       kmem.kpar.nextPid = 0
     }
-
-    // Set logger memory.
-    _.defaultsDeep(kmem, { log: {
-      level: Config.LOG_LEVEL,
-      showSource: Config.LOG_PRINT_LINES,
-      showTick: Config.LOG_PRINT_TICK,
-    }})
   }
 
   public loadProcessTable(): void {

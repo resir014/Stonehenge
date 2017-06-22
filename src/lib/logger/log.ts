@@ -1,5 +1,6 @@
 import * as Config from "../../config/config";
 import { LogLevel } from "./logLevel";
+import { SourceMapConsumer } from "source-map";
 
 // <caller> (<source>:<line>:<column>)
 const stackLineRe = /([^ ]*) \(([^:]*):([0-9]*):([0-9]*)\)/;
@@ -24,15 +25,30 @@ export function resolve(fileLine: string): SourcePos {
   const original = Log.sourceMap.originalPositionFor(pos);
   const line = `${split[1]} (${original.source}:${original.line})`;
   const out = {
-      caller: split[1],
-      compiled: fileLine,
-      final: line,
-      line: original.line,
-      original: line,
-      path: original.source,
-    };
+    caller: split[1],
+    compiled: fileLine,
+    final: line,
+    line: original.line,
+    original: line,
+    path: original.source,
+  };
 
   return out;
+}
+
+/**
+ * Initialise the logger memory.
+ *
+ * @export
+ */
+export function initLoggerMemory(): void {
+  _.defaultsDeep(Memory, {
+    log: {
+      level: Config.LOG_LEVEL,
+      showSource: Config.LOG_PRINT_LINES,
+      showTick: Config.LOG_PRINT_TICK,
+    }
+  });
 }
 
 function makeVSCLink(pos: SourcePos): string {
@@ -63,16 +79,26 @@ function time(): string {
   return color(Game.time.toString(), "gray");
 }
 
+/**
+ * The Logger provides a more detailed logs to the Screeps console, which
+ * includes the tick number, as well as a link back to the source code (if
+ * configured).
+ *
+ * Log level and output can be controlled from console by setting `level`,
+ * `showSource` and `showTick` properties on the global `log` object.
+ *
+ * @export
+ * @class Log
+ */
 export class Log {
   public static sourceMap: any;
 
   public static loadSourceMap() {
     try {
       // tslint:disable-next-line
-      var SourceMapConsumer = require("source-map").SourceMapConsumer;
       const map = require("main.js.map");
       if (map) {
-        Log.sourceMap = new SourceMapConsumer(map);
+        this.sourceMap = new SourceMapConsumer(map);
       }
     } catch (err) {
       console.log("failed to load source map", err);

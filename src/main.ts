@@ -17,6 +17,11 @@ import { loadStructureSpawnPrototypes } from './prototypes/StructureSpawn.protot
 
 // const deserializationTime = ProfileMemoryDeserialization()
 
+const kmem = Memory as KernelMemory
+if (!kmem.pmem) kmem.pmem = {}
+const kernel: IKernel = global.kernel = new Kernel(() => kmem)
+initCli(global, Memory, kernel)
+
 // This is an example for using a config variable from `config.ts`.
 // NOTE: this is used as an example, you may have better performance
 // by setting USE_PROFILER through webpack, if you want to permanently
@@ -30,9 +35,6 @@ if (Config.USE_PROFILER) {
 loadStructureSpawnPrototypes()
 
 log.info(`loading revision: ${__REVISION__}`)
-if ((Memory as KernelMemory).pmem == null) (Memory as KernelMemory).pmem = {}
-const kernel: IKernel = global.kernel = new Kernel(() => (Memory as KernelMemory))
-initCli(global, Memory, kernel)
 
 let isInitTick = true
 const minCpuAlloc = 0.35

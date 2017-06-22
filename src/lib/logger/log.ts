@@ -88,14 +88,6 @@ export class Log {
 
   private _maxFileString: number = 0;
 
-  constructor() {
-    _.defaultsDeep(Memory, { log: {
-      level: Config.LOG_LEVEL,
-      showSource: Config.LOG_PRINT_LINES,
-      showTick: Config.LOG_PRINT_TICK,
-    }});
-  }
-
   public trace(error: Error): Log {
     if (this.level >= LogLevel.ERROR && error.stack) {
       console.log(this.resolveStack(error.stack));

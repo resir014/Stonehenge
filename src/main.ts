@@ -29,7 +29,9 @@ if (Config.USE_PROFILER) {
 // Prototype extensions
 loadStructureSpawnPrototypes()
 
-log.info(`loading revision: ${__REVISION__}`)
+if (Game.cpu.getUsed() > 2) {
+  log.info(`starting main loop | revision: ${__REVISION__} | current CPU: ${Game.cpu.getUsed()}`)
+}
 
 let isInitTick = true
 const minCpuAlloc = 0.35

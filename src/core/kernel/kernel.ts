@@ -1,3 +1,4 @@
+import * as Config from '../../config/config'
 import { log } from '../../lib/logger/log'
 import { ProcessRegistry } from './processRegistry'
 
@@ -10,7 +11,7 @@ interface KernelRecord {
 
 export class Kernel implements IKernel {
   private processTable: (Map<ProcessId, KernelRecord>)
-  private readonly kernelSymbol: string = '//'
+  private readonly kernelSymbol: string = Config.KERNEL_SYMBOL ? Config.KERNEL_SYMBOL : '//'
   private readonly getKmem: () => KernelMemory
 
   public basicLog(logLevel: LogLevel, message: string): void {

@@ -9,7 +9,8 @@
     "start": "webpack --colors --watch",
     "local": "webpack --colors --env.ENV=local",
     "watch-local": "webpack --colors --watch --env.ENV=local",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
+    "test:coverage": "nyc mocha",
     "typings": "typings"
   },
   "repository": {
@@ -33,6 +34,7 @@
     "git-rev-sync": "^1.9.1",
     "lodash": "^3.10.1",
     "mocha": "^3.2.0",
+    "nyc": "^11.0.3",
     "screeps-webpack-plugin": "git://github.com/langri-sha/screeps-webpack-plugin.git",
     "source-map-loader": "^0.2.1",
     "ts-node": "^3.0.4",

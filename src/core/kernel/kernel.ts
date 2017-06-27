@@ -23,7 +23,10 @@ export class Kernel implements IKernel {
   private readonly getKmem: () => KernelMemory
 
   public kernelLog(logLevel: LogLevel, message: string): void {
-    log.print(logLevel, `[${this.kernelSymbol}] ${message}`)
+    const mem = this.mem.kpar
+    if (!mem.isTest) {
+      log.print(logLevel, `[${this.kernelSymbol}] ${message}`)
+    }
   }
 
   public get mem(): KernelMemory & { kpar: KernelParameters } {

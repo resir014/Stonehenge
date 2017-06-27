@@ -8,9 +8,7 @@ import * as _ from 'lodash'
 import * as chai from 'chai'
 declare const global: any
 global.Memory = {}
-global.Game = {
-  time: 0
-}
+global.Game = {}
 
 const expect = chai.expect
 const assert = chai.assert
@@ -19,7 +17,11 @@ ProcessRegistry.register(MockRootProcess)
 
 function newKmem(): () => KernelMemory {
   return () => ({
-    pmem: {}
+    pmem: {},
+    kpar: {
+      nextPid: 0,
+      isTest: true
+    }
   })
 }
 

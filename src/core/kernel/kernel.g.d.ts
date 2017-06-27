@@ -46,6 +46,14 @@ interface KernelParameters {
    * @memberof KernelParameters
    */
   nextPid: ProcessId
+  /**
+   * This is actually a hack for the Mocha testing to not include the kernel
+   * logs in the testing process.
+   *
+   * @type {boolean}
+   * @memberof KernelParameters
+   */
+  isTest?: boolean
 }
 
 /**

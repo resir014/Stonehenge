@@ -80,7 +80,7 @@ export class Kernel implements IKernel {
   public saveProcessTable(): void {
     const processes = Array.from(this.processTable.values())
     const table: SerializedProcessTable = new Array<SerializedProcess>(processes.length)
-    for (let i = processes.length; i > 0; --i) {
+    for (let i = 0; i < processes.length; i++) {
       const record = processes[i]
 
       // tslint:disable-next-line:switch-default
@@ -145,7 +145,7 @@ export class Kernel implements IKernel {
   public spawnProcessByClassName(processName: string, parentPid?: ProcessId): IProcess | undefined {
     if (parentPid === undefined) { parentPid = 0 }
     const processCtor = ProcessRegistry.fetch(processName)
-    if (processCtor === undefined) {
+    if (typeof processCtor === 'undefined') {
       this.kernelLog(LogLevel.ERROR, 'ClassName not defined')
       return
     }

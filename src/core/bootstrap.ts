@@ -1,5 +1,13 @@
 import { ProcessRegistry } from './kernel'
 
+/*
+ * Stonehenge kernel bootstrapper (codename: systemc)
+ *
+ * This file contains everything you need to boot up the Stonehenge kernel.
+ * It will run on initial tick (i.e. when there's no memory in our process
+ * table) and boots our designated root process.
+ */
+
 /**
  * *windows XP startup sound plays*
  *
@@ -27,6 +35,6 @@ const launchNew = (kernel: IKernel, className: string): ProcessId | undefined =>
     return
   }
   kernel.kernelLog(LogLevel.INFO, `Spawned process ${p.pid}:${p.className}`)
-  kernel.saveProcessTable() // Because we're called after the kernel for some reason (TODO: Verify still true, it's been a while)
+  kernel.saveProcessTable()
   return p.pid
 }

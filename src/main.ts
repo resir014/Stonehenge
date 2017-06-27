@@ -2,7 +2,14 @@
  * Stonehenge - A modular colony management engine for Screeps.
  *
  * Stonehenge is a next-generation colony management system for the game Screeps.
- * It is developed in TypeScript, and designed with modularity in mind.
+ * It is developed in TypeScript, and runs on an operating system (OS) architecture.
+ *
+ * In the future, we will work on making the kernel POSIS-compliant[1], which will
+ * provide a standardised interface for improved modularity.
+ *
+ * Portions of kernel code (c) 2016 Dessix.
+ *
+ * [1]: https://github.com/screepers/POSIS
  */
 
 import * as Profiler from 'screeps-profiler'
@@ -50,7 +57,6 @@ function mloop(): void {
   if (kernel.getProcessCount() === 0) {
     boot(kernel, InitProcess)
   }
-  // recordStats(cpuOverhead, memoryInitializationTime)
   isInitTick = false
 }
 

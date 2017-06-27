@@ -4,7 +4,9 @@
 
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
-Stonehenge is a next-generation AI system for the game [Screeps](https://screeps.com/). It is developed in [TypeScript](https://www.typescriptlang.org/), and designed with modularity in mind.
+Stonehenge is a next-generation AI system for the game [Screeps](https://screeps.com/). It is developed in [TypeScript](https://www.typescriptlang.org/), and runs on an operating system (OS) architecture.
+
+In the future, we will work on making the kernel [POSIS-compliant](https://github.com/screepers/POSIS), which will provide a standardised interface for improved modularity.
 
 ## Table of Contents
 
@@ -23,7 +25,7 @@ The codebase has to be simple and easily readable in order for the code to be ea
 
 ### Modularity
 
-Stonehenge acts as the "core engine" which drives the modular game logic. The `Orchestrator` object contains a shared API used for colony-wide managerial tasks, which allows each colony to be independently managed if need be. A common class structure is also established to improve modularity.
+Since Stonehenge's core engine runs on an operating system (OS) architecture, expanding on the codebase could be done with minimal overhead. In the future, we will work on making the kernel [POSIS-compliant](https://github.com/screepers/POSIS), which will provide a standardised interface for improved modularity.
 
 ### Configuration over Convention
 
@@ -36,8 +38,6 @@ Anyone who wants to build their Screeps colony with with Stonehenge must not be 
 * [Node.js](https://nodejs.org/en/) (latest LTS is recommended)
 * [Typings](https://github.com/typings/typings)
 * [Yarn](https://yarnpkg.com/en/) - Optional. You can use `npm` if you don't want to, but this is for your own sanity.
-
-For testing **NOTE** _Testing is currently a work-in-progress_:
 
 * [Mocha](https://mochajs.org/) test runner and [NYC](https://istanbul.js.org/) for code coverage - `yarn global add nyc mocha`
 
@@ -188,30 +188,18 @@ You still have to create matching branch in screeps client by cloning an existin
 
 ### Running Tests
 
-**WARNING** _Testing functionality is currently not finished in the 2.0 build of the Starter._
-
-To enable tests as part of the build and deploy process, flip the `test` flag in your `config.json` to `true`.
-
 You can always run tests by running `npm test`. You can get a code coverage report by running
-`npm test:coverage`. Then opening `coverage/index.html` in your browser.
+`npm test:coverage`, then opening `coverage/index.html` in your browser.
 
 ### Writing Tests
 
 All tests should go in the `test/` directory and end in the extension `.test.ts`.
-
-All constants are available globally as normal.
-
-The game state is no simulated, so you must mock all game objects and state that your code requires.
-As part of this project, we hope to provide some helpers for generating game objects.
 
 It is recommended to test the smallest pieces of your code at a time. That is, write tests that
 assert the behavior of single, small functions. The advantages of this are:
 
 1. less mocking to setup and maintain
 2. allows you to test behavior, not implementation
-
-See [test/components/creeps/creepActions.test.ts](test/components/creeps/creepActions.test.ts) as
-an example on how to write a test, including the latest game object mocking support.
 
 For writing assertions we provide [chai](http://chaijs.com). Check out their
 [documentation](http://chaijs.com/guide/styles/) to learn how to write assertions in your tests.
@@ -228,8 +216,7 @@ List of things that need to be finished.
 
 ### High-Priority Tasks
 
-* `scsh` (command-line for the Screeps console)
-* Write tests.
+* Rewriting in OS architecture
 * Actual defensive/war code
 * Creep State code
 * Controlled room job assignments:
@@ -251,8 +238,6 @@ List of things that need to be finished.
 These might not be implemented in the near future, but we thought these would be cool things to have in the codebase.
 
 * Improved job system.
-* Create a robust core engine which manages job assignment, structure priority, etc.
-* Look into implementing a Redux-like flow for Screeps.
 * Migration support (no more cleaning up your entire field before deploying).
 * Write up a proper documentation of code.
 
@@ -264,4 +249,4 @@ Issues and Pull Requests are welcome! Please read the [Contributing Guidelines](
 
 [Marko Sulamägi](https://github.com/MarkoSulamagi), for the original [Screeps/TypeScript sample project](https://github.com/MarkoSulamagi/Screeps-typescript-sample-project).
 
-Portions of this code &copy; 2016 Dessix.
+Portions of the kernel code &copy; 2016 Dessix.

@@ -15,6 +15,8 @@ const initCli = (g: NodeJS.Global, m: Memory, kernel: IKernel): void => {
   g.inspect = (val: any) => inspect(val)
 
   g.boot = () => {
+    kernel.kernelLog(LogLevel.INFO, 'Welcome to Stonehenge!')
+    kernel.kernelLog(LogLevel.INFO, 'Starting the init process for you...')
     ProcessRegistry.register(InitProcess)
     g.launchNew(InitProcess.className)
   }

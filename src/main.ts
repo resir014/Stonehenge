@@ -9,7 +9,7 @@ import * as Profiler from 'screeps-profiler'
 import * as Config from './config/config'
 import { Kernel } from './core/kernel'
 import initCli from './core/cli'
-import { log, initLoggerMemory } from './lib/logger'
+import { log } from './lib/logger'
 
 import { loadStructureSpawnPrototypes } from './prototypes/StructureSpawn.prototype'
 
@@ -21,9 +21,6 @@ const kernel: IKernel = global.kernel = new Kernel(() => kmem)
 // Initialise command-line tool.
 initCli(global, Memory, kernel)
 
-// Initialise logger memory.
-initLoggerMemory()
-
 // Start the profiler
 if (Config.USE_PROFILER) {
   Profiler.enable()
@@ -32,7 +29,7 @@ if (Config.USE_PROFILER) {
 // Prototype extensions
 loadStructureSpawnPrototypes()
 
-log.info(`starting main loop | revision: ${__REVISION__} | current CPU: ${Game.cpu.getUsed()}`)
+log.info(`bootstrapping code | revision: ${__REVISION__} | current CPU: ${Game.cpu.getUsed()}`)
 
 let isInitTick = true
 const minCpuAlloc = 0.35

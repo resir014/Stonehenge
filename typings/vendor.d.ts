@@ -8,14 +8,6 @@ declare namespace NodeJS {
    */
   interface Global {
     /**
-     * Tweak your Logger settings using this global.
-     */
-    log: {
-      level: number,
-      showSource: boolean,
-      showTick: boolean
-    }
-    /**
      * The accessible global object of the kernel.
      *
      * @type {IKernel}

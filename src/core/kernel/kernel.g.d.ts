@@ -1,16 +1,15 @@
 declare type ProcessId = number
 
+/**
+ * Process status codes. Status code `0` always means the process is running
+ * normally.
+ *
+ * @enum {number}
+ */
 declare const enum ProcessStatus {
   TERM = -2,
-  EXIT = -1,
-  RUN = 0,
-}
-
-declare const enum LogLevel {
-  ERROR,
-  WARNING,
-  INFO,
-  DEBUG
+  EXIT,
+  RUN
 }
 
 interface IProcess<TMemory extends ProcessMemory = ProcessMemory> {
@@ -97,8 +96,6 @@ interface IMemoryManager {
 
 interface IKernel extends ITaskManager, IMemoryManager {
   readonly mem: KernelMemory
-
-  basicLog(logLevel: LogLevel, message: string): void
   kernelLog(logLevel: LogLevel, message: string): void
   loadProcessTable(): void
   saveProcessTable(): void

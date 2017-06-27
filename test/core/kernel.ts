@@ -7,12 +7,9 @@ import { MockRootProcess } from '../mocks/MockRootProcess'
 import * as _ from 'lodash'
 import * as chai from 'chai'
 declare const global: any
-global.Memory = {
-  log: {
-    level: 3,
-    showSource: false,
-    showTick: false
-  }
+global.Memory = {}
+global.Game = {
+  time: 0
 }
 
 const expect = chai.expect

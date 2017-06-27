@@ -1,5 +1,5 @@
 import * as Config from '../../config/config'
-import { log } from '../../lib/logger/log'
+import { log } from '../../lib/logger'
 import { ProcessRegistry } from './processRegistry'
 
 interface KernelRecord {
@@ -21,25 +21,8 @@ export class Kernel implements IKernel {
   private readonly kernelSymbol: string = Config.KERNEL_SYMBOL ? Config.KERNEL_SYMBOL : '//'
   private readonly getKmem: () => KernelMemory
 
-  public basicLog(logLevel: LogLevel, message: string): void {
-    switch (logLevel) {
-      case LogLevel.ERROR: {
-        return log.debug(message)
-      }
-      case LogLevel.WARNING: {
-        return log.warning(message)
-      }
-      case LogLevel.INFO: {
-        return log.info(message)
-      }
-      default: {
-        return log.debug(message)
-      }
-    }
-  }
-
   public kernelLog(logLevel: LogLevel, message: string): void {
-    this.basicLog(logLevel, `[${this.kernelSymbol}] ${message}`)
+    log.print(logLevel, `[${this.kernelSymbol}] ${message}`)
   }
 
   public get mem(): KernelMemory & { kpar: KernelParameters } {
@@ -97,6 +80,7 @@ export class Kernel implements IKernel {
       }
       table[i] = produced
     }
+    this.kernelLog(LogLevel.DEBUG, `processTable: ${table}`)
     this.getKmem().proc = table
   }
 

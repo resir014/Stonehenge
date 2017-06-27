@@ -47,33 +47,6 @@ interface StructureSpawn {
 // END Extended prototypes
 
 /**
- * Accessible global objects to the Logger library
- */
-interface Logger {
-  /**
-   * The current log level.
-   *
-   * @type {LogLevel}
-   * @memberof Logger
-   */
-  level: LogLevel
-  /**
-   * Generate a sourcemap in the log outputs.
-   *
-   * @type {boolean}
-   * @memberof Logger
-   */
-  showSource: boolean
-  /**
-   * Show the current tick number in the log outputs.
-   *
-   * @type {boolean}
-   * @memberof Logger
-   */
-  showTick: boolean
-}
-
-/**
  * Extended memory objects.
  */
 interface Memory {
@@ -82,7 +55,6 @@ interface Memory {
   flags: { [key: string]: FlagMemory }
   rooms: { [key: string]: RoomMemory }
   spawns: { [key: string]: SpawnMemory }
-  log: Logger
   profiler: any
 }
 

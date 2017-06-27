@@ -1,7 +1,7 @@
 import * as Config from '../../config/config'
 import { log } from '../../lib/logger'
 import { ProcessRegistry } from './processRegistry'
-import boot from '../bootstrap'
+import { boot } from '../bootstrap'
 
 interface KernelRecord {
   heat: number

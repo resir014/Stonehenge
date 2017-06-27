@@ -4,7 +4,6 @@ import { ProcessRegistry } from './processRegistry'
 
 interface KernelRecord {
   heat: number
-  service: boolean
   processCtor: ProcessConstructor
   process: IProcess
 }
@@ -95,7 +94,6 @@ export class Kernel implements IKernel {
         pa: record.process.parentPid,
         ex: record.process.className,
         he: record.heat,
-        se: record.service,
       }
       table[i] = produced
     }
@@ -161,7 +159,6 @@ export class Kernel implements IKernel {
     const record: KernelRecord = {
       process,
       heat: process.baseHeat,
-      service: process.service,
       processCtor
     }
     this.processTable.set(pid, record) // TODO: Replace with js object
@@ -173,7 +170,6 @@ export class Kernel implements IKernel {
       heat: process.baseHeat,
       process,
       processCtor: ProcessRegistry.fetch(process.className), // TODO: ".constructor"?
-      service: process.service
     } as KernelRecord)
     return process
   }
@@ -242,7 +238,6 @@ export class Kernel implements IKernel {
 
   public run(maxCpu: number): void {
     const processes = new Array<KernelRecord>()
-    // TODO: Optimize into two process tables, and differentiate service from process
     for (const record of this.processTable.values()) {
       // TODO: build into a heap while adding to quickly sort?
       processes.push(record)
@@ -262,7 +257,6 @@ export class Kernel implements IKernel {
       process: new pctor(this, entry.id, entry.pa),
       processCtor: pctor,
       heat: entry.he,
-      service: entry.se,
     }
   }
 

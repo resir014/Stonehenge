@@ -35,13 +35,6 @@ interface SerializedProcess {
    */
   he: number
   /**
-   * Returns `true` if the process is a service.
-   *
-   * @type {boolean}
-   * @memberof SerializedProcess
-   */
-  se: boolean
-  /**
    * The className of the process.
    *
    * @type {string}

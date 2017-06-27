@@ -37,8 +37,18 @@ declare namespace NodeJS {
      * @memberof Global
      */
     launchNew(className: string): ProcessId | undefined
+    /**
+     * Reboots the kernel.
+     *
+     * @memberof Global
+     */
     reset(): void
-    spawnBard(): void
+    /**
+     * Launch the kernel!
+     *
+     * @memberof Global
+     */
+    boot(): void
     showBuildQueue(room: Room): void
 
     c: { [creepName: string]: Creep | undefined }

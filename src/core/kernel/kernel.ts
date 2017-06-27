@@ -50,7 +50,7 @@ export class Kernel implements IKernel {
     const mem = this.getKmem()
     let proc = mem.proc
     if (proc == null) {
-      this.kernelLog(LogLevel.INFO, 'Spawning new process table')
+      this.kernelLog(LogLevel.INFO, 'Spawning new process table.')
       mem.proc = proc = []
     }
     this.processTable.clear()
@@ -96,6 +96,7 @@ export class Kernel implements IKernel {
   }
 
   public reboot(): void {
+    this.kernelLog(LogLevel.INFO, 'Rebooting.')
     this.processTable = new Map<ProcessId, KernelRecord>()
     this.getKmem().pmem = {}
   }

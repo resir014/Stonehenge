@@ -3,6 +3,7 @@
 
 import { Kernel, ProcessRegistry } from '../../src/core/kernel'
 import { MockRootProcess } from '../mocks/MockRootProcess'
+import { boot } from '../../src/core/bootstrap'
 
 import * as _ from 'lodash'
 import * as chai from 'chai'
@@ -35,6 +36,9 @@ describe('Kernel', () => {
   it('should initialize from blank with a root process', () => {
     const k = new Kernel(newKmem())
     k.loadProcessTable()
+    if (k.getProcessCount() === 0) {
+      boot(k, MockRootProcess)
+    }
     const maybeRootProc = k.getProcessById(0)
     assert.isDefined(maybeRootProc)
     const rootProc = maybeRootProc as IProcess

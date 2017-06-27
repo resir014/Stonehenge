@@ -105,6 +105,7 @@ interface IMemoryManager {
 interface IKernel extends ITaskManager, IMemoryManager {
   readonly mem: KernelMemory
   kernelLog(logLevel: LogLevel, message: string): void
+  getProcessCount(): number
   loadProcessTable(): void
   saveProcessTable(): void
   reboot(): void

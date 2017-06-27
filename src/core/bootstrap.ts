@@ -1,4 +1,3 @@
-import { InitProcess } from '../processes/InitProcess'
 import { ProcessRegistry } from './kernel'
 
 /**
@@ -7,11 +6,11 @@ import { ProcessRegistry } from './kernel'
  * @export
  * @param {IKernel} kernel The kernel object we're attempting to boot up.
  */
-export const boot = (kernel: IKernel) => {
+export const boot = (kernel: IKernel, rootProcess: ProcessConstructor) => {
   kernel.kernelLog(LogLevel.INFO, 'Welcome to Stonehenge!')
   kernel.kernelLog(LogLevel.INFO, 'Starting the init process for you...')
-  ProcessRegistry.register(InitProcess)
-  launchNew(kernel, InitProcess.className)
+  ProcessRegistry.register(rootProcess)
+  launchNew(kernel, rootProcess.className)
 }
 
 /**

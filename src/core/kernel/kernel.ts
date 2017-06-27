@@ -1,7 +1,6 @@
 import * as Config from '../../config/config'
 import { log } from '../../lib/logger'
 import { ProcessRegistry } from './processRegistry'
-import { boot } from '../bootstrap'
 
 interface KernelRecord {
   heat: number
@@ -43,9 +42,6 @@ export class Kernel implements IKernel {
       }
     } else if (kmem.kpar.nextPid === undefined) {
       kmem.kpar.nextPid = 0
-    }
-    if (kmem.proc == null) {
-      boot(this)
     }
   }
 

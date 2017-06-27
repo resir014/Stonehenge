@@ -9,7 +9,10 @@ import * as Profiler from 'screeps-profiler'
 import * as Config from './config/config'
 import { Kernel } from './core/kernel'
 import initCli from './core/cli'
+import { boot } from './core/bootstrap'
 import { log } from './lib/logger'
+
+import { InitProcess } from './processes/InitProcess'
 
 import { loadStructureSpawnPrototypes } from './prototypes/StructureSpawn.prototype'
 
@@ -43,6 +46,10 @@ function mloop(): void {
   kernel.loadProcessTable()
   kernel.run(Game.cpu.limit * cpuLimitRatio)
   kernel.saveProcessTable()
+
+  if (kernel.getProcessCount() === 0) {
+    boot(kernel, InitProcess)
+  }
   // recordStats(cpuOverhead, memoryInitializationTime)
   isInitTick = false
 }

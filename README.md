@@ -2,7 +2,7 @@
 
 > Next-generation AI scripts for the game [Screeps](https://screeps.com/). Written in [TypeScript](http://www.typescriptlang.org/).
 
-[![CircleCI](https://img.shields.io/circleci/project/github/resir014/Stonehenge.svg)](https://circleci.com/gh/resir014/Stonehenge/tree/master)
+[![CircleCI](https://img.shields.io/circleci/project/github/resir014/Stonehenge.svg)](https://circleci.com/gh/resir014/Stonehenge)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 

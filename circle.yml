@@ -16,6 +16,12 @@ jobs:
           paths:
             - .node_modules
       - run:
+          name: copy-configs
+          command: cp src/config/config.ts.example src/config/config.ts
+      - run:
+          name: copy-job-listings
+          command: cp src/config/jobs.ts.example src/config/jobs.ts
+      - run:
           name: test
           command: npm test
       - run:

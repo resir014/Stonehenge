@@ -22,9 +22,9 @@ const initCli = (g: NodeJS.Global, m: Memory, kernel: IKernel): void => {
     return p.pid
   }
 
-  if (!g.c) { Object.defineProperty(g, 'c', { get: () => Game.creeps }) }
-  if (!g.s) { Object.defineProperty(g, 's', { get: () => Game.spawns }) }
-  if (!g.f) { Object.defineProperty(g, 'f', { get: () => Game.flags }) }
+  if (!g.c) { Reflect.defineProperty(g, 'c', { get: () => Game.creeps }) }
+  if (!g.s) { Reflect.defineProperty(g, 's', { get: () => Game.spawns }) }
+  if (!g.f) { Reflect.defineProperty(g, 'f', { get: () => Game.flags }) }
 }
 
 export default initCli

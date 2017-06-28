@@ -4,14 +4,14 @@
 export const loadStructureSpawnPrototypes = () => {
   StructureSpawn.prototype.getLargestBuildableBodyFromSet = function (
     this: StructureSpawn,
-    potentialBodies: string[][]
-  ): string[] {
-    let body: string[] = []
+    potentialBodies: BodyPartConstant[][]
+  ): BodyPartConstant[] {
+    let body: BodyPartConstant[] = []
     let bodyCost = Number.MAX_VALUE
     let i: number
 
     for (i = 0; i < potentialBodies.length; i++) {
-      bodyCost = _.sum(potentialBodies[i], (bp: string) => BODYPART_COST[bp])
+      bodyCost = _.sum(potentialBodies[i], (bp: BodyPartConstant) => BODYPART_COST[bp])
       if (bodyCost <= this.room.energyCapacityAvailable) {
         body = potentialBodies[i]
         break
@@ -23,13 +23,13 @@ export const loadStructureSpawnPrototypes = () => {
 
   StructureSpawn.prototype.getLargestBuildableBodyFromTemplate = function (
     this: StructureSpawn,
-    bodyTemplate: string[],
+    bodyTemplate: BodyPartConstant[],
     maxIterations?: number,
-  ): string[] {
-    let result: string[] = []
+  ): BodyPartConstant[] {
+    let result: BodyPartConstant[] = []
     let i: number
     const numberOfParts = Math.min(
-      Math.floor(this.room.energyCapacityAvailable / _.sum(bodyTemplate, (bp: string) => BODYPART_COST[bp])),
+      Math.floor(this.room.energyCapacityAvailable / _.sum(bodyTemplate, (bp: BodyPartConstant) => BODYPART_COST[bp])),
       Math.floor(50 / bodyTemplate.length),
       maxIterations || 100
     )

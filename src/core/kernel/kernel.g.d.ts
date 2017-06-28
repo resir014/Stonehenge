@@ -168,8 +168,8 @@ interface ITaskManager {
   getProcessById<TPROCESS extends IProcess>(pid: ProcessId): TPROCESS | undefined
   getProcessByIdOrThrow<TPROCESS extends IProcess>(pid: ProcessId): TPROCESS
   getChildProcesses(parentPid: ProcessId): ProcessId[]
-  getProcessesByClass<TPROCESS extends IProcess>(constructor: ProcessConstructor<TPROCESS>): TPROCESS[]
-  getProcessesByClassName<TPROCESS extends IProcess>(className: string): TPROCESS[]
+  getProcessesByClass(constructor: ProcessConstructor): IProcess[]
+  getProcessesByClassName(className: string): IProcess[]
 
   run(maxCpu: number): void
 }

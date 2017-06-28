@@ -2,6 +2,7 @@
 
 > Next-generation AI scripts for the game [Screeps](https://screeps.com/). Written in [TypeScript](http://www.typescriptlang.org/).
 
+[![CircleCI](https://img.shields.io/circleci/project/github/resir014/Stonehenge.svg)](https://circleci.com/gh/resir014/Stonehenge/tree/master)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 Stonehenge is a next-generation AI system for the game [Screeps](https://screeps.com/). It is developed in [TypeScript](https://www.typescriptlang.org/), and runs on an operating system (OS) architecture.

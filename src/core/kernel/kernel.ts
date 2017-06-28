@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2016 Dessix.
+ *
+ * Original code here: https://github.com/Dessix/Primal/blob/master/src/kernel/kernel.ts
+ */
+
 import * as Config from '../../config/config'
 import { log } from '../../lib/logger'
 import { ProcessRegistry } from './processRegistry'
@@ -10,7 +16,8 @@ interface KernelRecord {
 
 /**
  * Just like an actual OS kernel, a Kernel controls all of the processes
- * happening in our Screeps codebase.
+ * happening in our Screeps codebase. It manages the tasks of the processes and the
+ * in-game objects - most notably memory and CPU time.
  *
  * @export
  * @class Kernel

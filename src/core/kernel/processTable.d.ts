@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2016 Dessix.
+ *
+ * Original code here: https://github.com/Dessix/Primal/blob/master/src/kernel/processTable.d.ts
+ */
+
 /**
  * The base object for a process' memory. Extend this interface for any
  * custom process memories that we have.

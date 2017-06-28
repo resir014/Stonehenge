@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2016 Dessix.
+ *
+ * Original code here: https://github.com/Dessix/Primal/blob/master/src/kernel/ikernel.g.d.ts
+ */
+
 declare type ProcessId = number
 
 /**
@@ -12,17 +18,79 @@ declare const enum ProcessStatus {
   RUN
 }
 
+/**
+ * Interface for the Process object.
+ *
+ * @interface IProcess
+ * @template TMemory The process memory type.
+ * @template ProcessMemory The process memory type.
+ */
 interface IProcess<TMemory extends ProcessMemory = ProcessMemory> {
+  /**
+   * A shorthand to the `className` of the process.
+   *
+   * @type {string}
+   * @memberof IProcess
+   */
   readonly className: string
+  /**
+   * The process ID.
+   *
+   * @type {ProcessId}
+   * @memberof IProcess
+   */
   readonly pid: ProcessId
+  /**
+   * If the process has a parent, this will contain the `ProcessId` of said process.
+   * Otherwise, it's set to the root process (PID 0).
+   *
+   * @type {ProcessId}
+   * @memberof IProcess
+   */
   readonly parentPid: ProcessId
+  /**
+   * The kernel object this process is running in
+   *
+   * @type {IKernel}
+   * @memberof IProcess
+   */
   readonly kernel: IKernel
+  /**
+   * The base heat level of the process.
+   *
+   * @type {number}
+   * @memberof IProcess
+   */
   readonly baseHeat: number
+  /**
+   * Set to `true` if the process is a Service.
+   *
+   * @deprecated
+   * @type {boolean}
+   * @memberof IProcess
+   */
   readonly service: boolean
+  /**
+   * The process memory entry
+   *
+   * @type {TMemory}
+   * @memberof IProcess
+   */
   readonly memory: TMemory
 
+  /**
+   * One of the `ProcessStatus` constants: `TERM`, `EXIT`, or `RUN`.
+   *
+   * @type {ProcessStatus}
+   * @memberof IProcess
+   */
   status: ProcessStatus
 
+  /**
+   * Runs the process.
+   *
+   * @memberof IProcess
+   */
   run(): void
 }
 
@@ -70,16 +138,27 @@ interface KernelMemory {
    */
   kpar?: KernelParameters
   /**
-   * The process table
+   * The process table.
    *
    * @type {(SerializedProcessTable | null)}
    * @memberof KernelMemory
    */
   proc?: SerializedProcessTable | null
+  /**
+   * The process memory.
+   *
+   * @type {({ [pid: number]: ProcessMemory | null | undefined })}
+   * @memberof KernelMemory
+   */
   pmem?: { [pid: number/** {ProcessId} */]: ProcessMemory | null | undefined }
 }
 
 
+/**
+ * Portion of the kernel that deals with task (process) management.
+ *
+ * @interface ITaskManager
+ */
 interface ITaskManager {
   spawnProcess<TPROCESS, TCPROC extends TPROCESS & IProcess>(processCtor: MetaProcessCtor<TPROCESS, TCPROC>, parentPid: ProcessId): TPROCESS
   spawnProcessByClassName(processName: string, parentPid?: ProcessId): IProcess | undefined
@@ -95,6 +174,11 @@ interface ITaskManager {
   run(maxCpu: number): void
 }
 
+/**
+ * Portion of the kernel that deals with memory management.
+ *
+ * @interface IMemoryManager
+ */
 interface IMemoryManager {
   getProcessMemory<TMEMORY extends ProcessMemory>(pid: ProcessId): TMEMORY
   getProcessMemory(pid: ProcessId): ProcessMemory
@@ -102,6 +186,13 @@ interface IMemoryManager {
   deleteProcessMemory(pid: ProcessId): void
 }
 
+/**
+ * Default interface for the Kernel object.
+ *
+ * @interface IKernel
+ * @extends {ITaskManager}
+ * @extends {IMemoryManager}
+ */
 interface IKernel extends ITaskManager, IMemoryManager {
   readonly mem: KernelMemory
   kernelLog(logLevel: LogLevel, message: string): void

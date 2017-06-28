@@ -1,4 +1,8 @@
-// import { Process } from './process'
+/*
+ * Copyright (c) 2016 Dessix.
+ *
+ * Original code here: https://github.com/Dessix/Primal/blob/master/src/kernel/processRegistry.ts
+ */
 
 export class ProcessRegistry {
   private static readonly registry: { [procName: string]: ProcessConstructor | undefined } = {}

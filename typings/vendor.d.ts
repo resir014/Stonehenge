@@ -8,17 +8,50 @@ declare namespace NodeJS {
    */
   interface Global {
     /**
-     * Tweak your Logger settings using this global.
+     * The accessible global object of the kernel.
+     *
+     * @type {IKernel}
+     * @memberof Global
      */
-    log: {
-      level: number,
-      showSource: boolean,
-      showTick: boolean
-    }
+    kernel: IKernel
+    /**
+     * Shorthand to the accessible global kernel object.
+     *
+     * @type {IKernel}
+     * @memberof Global
+     */
+    k: IKernel
+    /**
+     * Spawns a new process.
+     *
+     * @param {string} className
+     * @returns {(ProcessId | undefined)}
+     * @memberof Global
+     */
+    launchNew(className: string): ProcessId | undefined
+    /**
+     * Reboots the kernel.
+     *
+     * @memberof Global
+     */
+    reset(): void
+    /**
+     * Launch the kernel!
+     *
+     * @memberof Global
+     */
+    showBuildQueue(room: Room): void
+
+    c: { [creepName: string]: Creep | undefined }
+    s: { [spawnName: string]: Spawn | undefined }
+    f: { [flagName: string]: Flag | undefined }
+    // id: CliIdProxy;
+    sinspect: (val: any) => string
+    inspect: (val: any) => void
   }
 }
 
 // shim uglify-js for webpack
 declare module "uglify-js" {
-  export interface MinifyOptions {}
+  export interface MinifyOptions { }
 }

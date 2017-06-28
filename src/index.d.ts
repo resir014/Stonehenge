@@ -50,12 +50,11 @@ interface StructureSpawn {
  * Extended memory objects.
  */
 interface Memory {
-  creeps: { [key: string]: any }
-  flags: { [key: string]: any }
-  rooms: { [key: string]: any }
-  spawns: { [key: string]: any }
-  guid: number
-  log: any
+  [name: string]: any
+  creeps: { [key: string]: CreepMemory }
+  flags: { [key: string]: FlagMemory }
+  rooms: { [key: string]: RoomMemory }
+  spawns: { [key: string]: SpawnMemory }
   profiler: any
 }
 

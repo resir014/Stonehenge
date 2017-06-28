@@ -2,21 +2,35 @@
  * Stonehenge - A modular colony management engine for Screeps.
  *
  * Stonehenge is a next-generation colony management system for the game Screeps.
- * It is developed in TypeScript, and designed with modularity in mind.
+ * It is developed in TypeScript, and runs on an operating system (OS) architecture.
+ *
+ * In the future, we will work on making the kernel POSIS-compliant[1], which will
+ * provide a standardised interface for improved modularity.
+ *
+ * Portions of kernel code (c) 2016 Dessix.
+ *
+ * [1]: https://github.com/screepers/POSIS
  */
 
 import * as Profiler from 'screeps-profiler'
-
 import * as Config from './config/config'
-import { RoomManager } from './room/roomManager'
-import { log } from './lib/logger/log'
+import { Kernel } from './core/kernel'
+import initCli from './core/cli'
+import { boot } from './core/bootstrap'
+import { log } from './lib/logger'
+
+import { InitProcess } from './processes/InitProcess'
 
 import { loadStructureSpawnPrototypes } from './prototypes/StructureSpawn.prototype'
 
-// This is an example for using a config variable from `config.ts`.
-// NOTE: this is used as an example, you may have better performance
-// by setting USE_PROFILER through webpack, if you want to permanently
-// remove it on deploy
+// Initialise the kernel + memory.
+const kmem = Memory as KernelMemory
+if (!kmem.pmem) kmem.pmem = {}
+const kernel: IKernel = global.kernel = new Kernel(() => kmem)
+
+// Initialise command-line tool.
+initCli(global, Memory, kernel)
+
 // Start the profiler
 if (Config.USE_PROFILER) {
   Profiler.enable()
@@ -25,41 +39,25 @@ if (Config.USE_PROFILER) {
 // Prototype extensions
 loadStructureSpawnPrototypes()
 
-log.info(`loading revision: ${__REVISION__}`)
+log.info(`bootstrapping code | revision: ${__REVISION__} | current CPU: ${Game.cpu.getUsed()}`)
+
+let isInitTick = true
+const minCpuAlloc = 0.35
+const minCpuAllocInverseFactor = (1 - minCpuAlloc) * 10e-8
 
 function mloop(): void {
-  // Check memory for null or out of bounds custom objects.
-  checkOutOfBoundsMemory()
+  const bucket = Game.cpu.bucket
+  const cpuLimitRatio = (bucket * bucket) * minCpuAllocInverseFactor + minCpuAlloc
 
-  // For each controlled room, run colony actions.
-  for (const i in Game.rooms) {
-    const room: Room = Game.rooms[i]
+  // TODO: Consider skipping load if on the same shard as last time? Consider costs of loss of one-tick-volatility storage.
+  kernel.loadProcessTable()
+  kernel.run(Game.cpu.limit * cpuLimitRatio)
+  kernel.saveProcessTable()
 
-    const colony = new RoomManager(room)
-    colony.run()
+  if (kernel.getProcessCount() === 0) {
+    boot(kernel, InitProcess)
   }
-}
-
-/**
- * Check memory for null or out of bounds custom objects
- */
-function checkOutOfBoundsMemory(): void {
-  if (!Memory.guid) {
-    Memory.guid = 0
-  }
-
-  if (!Memory.creeps) {
-    Memory.creeps = {}
-  }
-  if (!Memory.flags) {
-    Memory.flags = {}
-  }
-  if (!Memory.rooms) {
-    Memory.rooms = {}
-  }
-  if (!Memory.spawns) {
-    Memory.spawns = {}
-  }
+  isInitTick = false
 }
 
 /**
@@ -70,4 +68,4 @@ function checkOutOfBoundsMemory(): void {
  *
  * @export
  */
-export const loop = !Config.USE_PROFILER ? mloop : Profiler.wrap(mloop);
+export const loop = !Config.USE_PROFILER ? mloop : () => { Profiler.wrap(mloop) }

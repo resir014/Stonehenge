@@ -5,6 +5,11 @@
 export const ENABLE_DEBUG_MODE: boolean = true
 
 /**
+ * The default symbol used in kernel-related logs.
+ */
+export const KERNEL_SYMBOL: string = '//'
+
+/**
  * Enable this to enable screeps profiler
  */
 export const USE_PROFILER: boolean = true

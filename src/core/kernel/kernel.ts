@@ -24,9 +24,30 @@ interface KernelRecord {
  * @implements {IKernel}
  */
 export class Kernel implements IKernel {
-  public static readonly PID_MAX: number = 1E6 // Max PID before looping back
-  public static readonly PID_WARN_LEVEL: number = 1E3 // At which point do we warn at the number remaining
-  public static readonly PID_WARN_RATE: number = 1E1 // How often do we warn, by creation of new IDs?
+  /**
+   * Maximum PID before looping back.
+   *
+   * @static
+   * @type {number}
+   * @memberof Kernel
+   */
+  public static readonly PID_MAX: number = 1E6
+  /**
+   * At which point do we warn at the number remaining
+   *
+   * @static
+   * @type {number}
+   * @memberof Kernel
+   */
+  public static readonly PID_WARN_LEVEL: number = 1E3
+  /**
+   * How often do we warn, by creation of new IDs?
+   *
+   * @static
+   * @type {number}
+   * @memberof Kernel
+   */
+  public static readonly PID_WARN_RATE: number = 1E1
   private processTable: (Map<ProcessId, KernelRecord>)
   private readonly kernelSymbol: string = Config.KERNEL_SYMBOL ? Config.KERNEL_SYMBOL : '//'
   private readonly getKmem: () => KernelMemory

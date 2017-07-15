@@ -18,6 +18,11 @@ declare const enum ProcessStatus {
   RUN
 }
 
+interface ProcInit<TPROC extends IProcess & { init: Function }, TINIT extends TPROC['init'] = TPROC['init']> {
+  init: TINIT;
+  pid: IProcess['pid'];
+}
+
 /**
  * Interface for the Process object.
  *
@@ -33,6 +38,13 @@ interface IProcess<TMemory extends ProcessMemory = ProcessMemory> {
    * @memberof IProcess
    */
   readonly className: string
+  /**
+   * The `classPath` of the process
+   *
+   * @type {string}
+   * @memberof IProcess
+   */
+  readonly classPath: string
   /**
    * The process ID.
    *
@@ -94,9 +106,18 @@ interface IProcess<TMemory extends ProcessMemory = ProcessMemory> {
   run(): void
 }
 
+interface Initialized<T> { }
+
+interface INeedInitialized<T> {
+  init(...args: any[]): T & Initialized<T>;
+}
+
 type ProcessConstructor<TPROCESS extends IProcess = IProcess> = {
-  new (kernel: IKernel, pid: ProcessId, parentPid: ProcessId): TPROCESS
+  new (kernel: IKernel, pid: ProcessId, parentPid: ProcessId): TPROCESS & { init: Function }
+  readonly rawClassName: string
   readonly className: string
+  readonly classPath: string
+  prefixedClassName?: string
 }
 
 type MetaProcessCtor<TPROCESS, TCPROC extends TPROCESS & IProcess> = (new (k: IKernel, pid: ProcessId, parentPid: ProcessId) => TPROCESS) & ProcessConstructor<TCPROC>
@@ -160,8 +181,8 @@ interface KernelMemory {
  * @interface ITaskManager
  */
 interface ITaskManager {
-  spawnProcess<TPROCESS, TCPROC extends TPROCESS & IProcess>(processCtor: MetaProcessCtor<TPROCESS, TCPROC>, parentPid: ProcessId): TPROCESS
-  spawnProcessByClassName(processName: string, parentPid?: ProcessId): IProcess | undefined
+  spawnProcess<TPROCESS, TCPROC extends TPROCESS & IProcess & { init: Function }>(processCtor: MetaProcessCtor<TPROCESS, TCPROC>, parentPid: ProcessId): ProcInit<TCPROC>
+  spawnProcessByClassName(processName: string, parentPid?: ProcessId): ProcInit<IProcess & { init: Function }> | undefined
   addProcess<TPROCESS extends IProcess>(process: TPROCESS): TPROCESS
   killProcess(processId: ProcessId): void
 

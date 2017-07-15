@@ -11,6 +11,7 @@
       "statements"
     ],
     "ban": false,
+    "ban-types": false,
     "class-name": true,
     "comment-format": [
       true,
@@ -33,9 +34,16 @@
     ],
     "member-ordering": [
       true,
-      "public-before-private",
-      "static-before-instance",
-      "variables-before-functions"
+      {
+        "order": [
+          "static-field",
+          "instance-field",
+          "constructor",
+          "public-instance-method",
+          "protected-instance-method",
+          "private-instance-method"
+        ]
+      }
     ],
     "no-any": false,
     "no-arg": true,

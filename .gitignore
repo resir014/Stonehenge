@@ -2,6 +2,9 @@
 /dist
 /node_modules
 
+# We use yarn, so don't commit the npm lockfile.
+/package-lock.json
+
 # Screeps config file
 /config.json
 

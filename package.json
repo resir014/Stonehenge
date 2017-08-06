@@ -46,6 +46,7 @@
   },
   "dependencies": {
     "@types/screeps-profiler": "^1.2.0",
+    "@types/source-map": "^0.5.1",
     "screeps-profiler": "^1.3.0",
     "source-map": "^0.5.6"
   },

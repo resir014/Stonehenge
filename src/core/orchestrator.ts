@@ -2,19 +2,21 @@ import * as Config from '../config/config'
 import { log } from '../lib/logger/log'
 import { controlledRoomJobs, bodyTemplates } from '../config/jobs'
 
+import { IOrchestrator } from './types'
+
 /**
  * Orchestrator is the brain of each Colony. It provides several useful APIs to
  * perform global managerial tasks within a Colony, including managing memory,
  * job assignment, job priorities, mining/construction positions, etc.
  */
-namespace Orchestrator {
+class Orchestrator implements IOrchestrator {
   /**
    * Creates a unique guid for a creep/queued task.
    *
-   * @export
    * @returns {number} The current guid.
+   * @memberof Orchestrator
    */
-  export function getGuid(): number {
+  public getGuid(): number {
     if (!Memory.guid || Memory.guid > 10000) {
       Memory.guid = 0
     }
@@ -29,10 +31,10 @@ namespace Orchestrator {
    * going to invoke a method which will ~automagically~ define job assignments
    * based on some parameters. We don't even have that function yet.
    *
-   * @export
    * @param {Room} room The target room.
+   * @memberof Orchestrator
    */
-  export function refreshJobAssignments(room: Room): void {
+  public refreshJobAssignments(room: Room): void {
     // Check if all job assignments are initialised properly.
     if (_.keys(room.memory.jobs).length !== _.keys(controlledRoomJobs).length) {
       const jobsToAdd = _.difference(controlledRoomJobs, _.keys(room.memory.jobs))
@@ -46,12 +48,12 @@ namespace Orchestrator {
    * Calculates the body part for the creeps we'll have to spawn. Should return
    * body parts which are proportional to a creep's role.
    *
-   * @export
    * @param {string} role The expected creep role.
    * @param {Spawn} spawn The expected spawn where the creep is going to spawn.
    * @returns {string[]} The body parts proportional to a creep's role
+   * @memberof Orchestrator
    */
-  export function getBodyParts(role: string, spawn: Spawn): string[] {
+  public getBodyParts(role: string, spawn: Spawn): string[] {
     // So here we have an API call to build the required bodyparts for our
     // creep. This utilizes tinnvec's super-useful spawn prototype extensions,
     // where you can generate the largest bodypart a room can build based on a
@@ -92,22 +94,22 @@ namespace Orchestrator {
   /**
    * Converts global control level (GCL) to control points.
    *
-   * @export
    * @param {number} gcl The GCL to convert
    * @returns {number} The control points.
+   * @memberof Orchestrator
    */
-  export function gclToControlPoints(gcl: number): number {
+  public gclToControlPoints(gcl: number): number {
     return Math.pow(gcl - 1, GCL_POW) * GCL_MULTIPLY
   }
 
   /**
    * Converts control points to GCL.
    *
-   * @export
    * @param {number} points The points to convert.
    * @returns {number} The GCL.
+   * @memberof Orchestrator
    */
-  export function controlPointsToGcl(points: number): number {
+  public controlPointsToGcl(points: number): number {
     return Math.floor(Math.pow(points / GCL_MULTIPLY, 1 / GCL_POW) + 1)
   }
 }

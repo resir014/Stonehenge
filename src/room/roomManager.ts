@@ -1,9 +1,11 @@
-import Orchestrator from '../core/orchestrator'
+import { IOrchestrator } from '../core/types'
 import { Profile } from '../lib/profiler/profile'
 import { log } from '../lib/logger/log'
 
 import { SourceManager } from '../shared/sourceManager'
 import { CreepManager } from './creep/creepManager'
+
+declare const Orchestrator: IOrchestrator
 
 /**
  * In a Stonehenge perspective, the centre of a Screeps colony lies in the room.

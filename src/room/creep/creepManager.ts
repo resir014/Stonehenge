@@ -1,7 +1,7 @@
 import * as Config from '../../config/config'
 import { log } from '../../lib/logger/log'
 import { Profile } from '../../lib/profiler/profile'
-import Orchestrator from '../../core/orchestrator'
+import { IOrchestrator } from '../../core/types'
 
 import { Harvester } from './role/harvester'
 import { Hauler } from './role/hauler'
@@ -10,6 +10,8 @@ import { Builder } from './role/builder'
 import { Repairer } from './role/repairer'
 import { WallMaintainer } from './role/wallMaintainer'
 import { RoadMaintainer } from './role/roadMaintainer'
+
+declare const Orchestrator: IOrchestrator
 
 /**
  * This class is basically a "creep manager" - it's nearly the same in

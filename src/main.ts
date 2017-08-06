@@ -8,6 +8,7 @@
 import * as Profiler from 'screeps-profiler'
 
 import * as Config from './config/config'
+import Orchestrator from './core/orchestrator'
 import { RoomManager } from './room/roomManager'
 import { log } from './lib/logger/log'
 
@@ -24,6 +25,8 @@ if (Config.USE_PROFILER) {
 
 // Prototype extensions
 loadStructureSpawnPrototypes()
+
+global.Orchestrator = new Orchestrator()
 
 log.info(`loading revision: ${__REVISION__}`)
 

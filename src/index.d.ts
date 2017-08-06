@@ -46,6 +46,24 @@ interface StructureSpawn {
 
 // END Extended prototypes
 
+// add objects to `global` here
+declare namespace NodeJS {
+  /**
+   * Interface for the global objects.
+   */
+  interface Global {
+    Orchestrator: any
+    /**
+     * Tweak your Logger settings using this global.
+     */
+    log: {
+      level: number,
+      showSource: boolean,
+      showTick: boolean
+    }
+  }
+}
+
 /**
  * Extended memory objects.
  */

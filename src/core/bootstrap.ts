@@ -14,7 +14,7 @@ import { ProcessRegistry } from './kernel'
  * @export
  * @param {IKernel} kernel The kernel object we're attempting to boot up.
  */
-export const boot = (kernel: IKernel, rootProcess: ProcessConstructor) => {
+export const boot = (kernel: IKernel, rootProcess: any) => {
   kernel.kLog(LogLevel.INFO, 'Welcome to Stonehenge!')
   kernel.kLog(LogLevel.INFO, 'Starting the init process for you...')
   ProcessRegistry.register(rootProcess)

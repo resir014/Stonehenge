@@ -1,4 +1,4 @@
-import { MemoryCleanerProcess } from './MemoryCleanerProcess'
+import { /* MemoryCleanerProcess */ } from './MemoryCleanerProcess'
 // import { RoomProc } from './roomProc'
 // import { log } from '../lib/logger'
 import { Process, registerProc } from '../core/kernel/process'

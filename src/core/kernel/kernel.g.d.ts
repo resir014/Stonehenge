@@ -110,6 +110,7 @@ interface ILogger {
 interface IKernel extends ITaskManager, IMemoryManager, ILogger {
   readonly mem: KernelMemory;
 
+  getProcessCount(): number;
   loadProcessTable(): void;
   saveProcessTable(): void;
   reboot(): void;

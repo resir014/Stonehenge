@@ -177,8 +177,8 @@ export class Kernel implements IKernel {
     this.kLog(LogLevel.INFO, "Rebooting...");
     this.processTable = new Map<ProcessId, KernelRecord>();
     this.applyKMemDefaults(this.getKmem(), true);
-    for(let room of Object.values(Game.rooms)) {
-      const rmem = Memory.rooms[room.name];
+    for(let room of _.values(Game.rooms)) {
+      const rmem = Memory.rooms[(room as Room).name];
       if(rmem === undefined) { continue; }
       delete rmem.r;
     }

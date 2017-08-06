@@ -3,6 +3,7 @@
 > Next-generation AI scripts for the game [Screeps](https://screeps.com/). Written in [TypeScript](http://www.typescriptlang.org/).
 
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 Stonehenge is a next-generation AI system for the game [Screeps](https://screeps.com/). It is developed in [TypeScript](https://www.typescriptlang.org/), and designed with modularity in mind.
 
@@ -23,7 +24,7 @@ The codebase has to be simple and easily readable in order for the code to be ea
 
 ### Modularity
 
-Stonehenge acts as the "core engine" which drives the modular game logic. The `Orchestrator` object contains a shared API used for colony-wide managerial tasks, which allows each colony to be independently managed if need be. A common class structure is also established to improve modularity.
+The Stonehenge core engine is currently in development, and by design follows the Redux pattern. This means expanding on the codebase could be done with minimal overhead.
 
 ### Configuration over Convention
 
@@ -36,8 +37,6 @@ Anyone who wants to build their Screeps colony with with Stonehenge must not be 
 * [Node.js](https://nodejs.org/en/) (latest LTS is recommended)
 * [Typings](https://github.com/typings/typings)
 * [Yarn](https://yarnpkg.com/en/) - Optional. You can use `npm` if you don't want to, but this is for your own sanity.
-
-For testing **NOTE** _Testing is currently a work-in-progress_:
 
 * [Mocha](https://mochajs.org/) test runner and [NYC](https://istanbul.js.org/) for code coverage - `yarn global add nyc mocha`
 
@@ -177,50 +176,11 @@ const credentials: Credentials = require("./credentials.json");
 credentials.branch = git.branch();
 
 config.plugin("screeps").use(ScreepsWebpackPlugin, [credentials]);
-
 ```
 
 The above example will automatically set your upload branch to be the same as your active git branch.  This is functionally equivalent to the option `"autobranch": true` in older versions.
 
 You still have to create matching branch in screeps client by cloning an existing branch (API limitation). This is useful when setting up deployment pipelines that upload on commit after successful build (so a commit to `major_refactoring` branch doesn't overwrite your default branch in the middle of epic alliance action just because you forgot to update a pipeline configuration).
-
-## Testing
-
-### Running Tests
-
-**WARNING** _Testing functionality is currently not finished in the 2.0 build of the Starter._
-
-To enable tests as part of the build and deploy process, flip the `test` flag in your `config.json` to `true`.
-
-You can always run tests by running `npm test`. You can get a code coverage report by running
-`npm test:coverage`. Then opening `coverage/index.html` in your browser.
-
-### Writing Tests
-
-All tests should go in the `test/` directory and end in the extension `.test.ts`.
-
-All constants are available globally as normal.
-
-The game state is no simulated, so you must mock all game objects and state that your code requires.
-As part of this project, we hope to provide some helpers for generating game objects.
-
-It is recommended to test the smallest pieces of your code at a time. That is, write tests that
-assert the behavior of single, small functions. The advantages of this are:
-
-1. less mocking to setup and maintain
-2. allows you to test behavior, not implementation
-
-See [test/components/creeps/creepActions.test.ts](test/components/creeps/creepActions.test.ts) as
-an example on how to write a test, including the latest game object mocking support.
-
-For writing assertions we provide [chai](http://chaijs.com). Check out their
-[documentation](http://chaijs.com/guide/styles/) to learn how to write assertions in your tests.
-
-**Important:** In your tests, if you want to use lodash you must import it explicitly to avoid errors:
-
-```js
-import * as _  from "lodash"
-```
 
 ## To-Do
 
@@ -228,8 +188,6 @@ List of things that need to be finished.
 
 ### High-Priority Tasks
 
-* `scsh` (command-line for the Screeps console)
-* Write tests.
 * Actual defensive/war code
 * Creep State code
 * Controlled room job assignments:
@@ -251,8 +209,6 @@ List of things that need to be finished.
 These might not be implemented in the near future, but we thought these would be cool things to have in the codebase.
 
 * Improved job system.
-* Create a robust core engine which manages job assignment, structure priority, etc.
-* Look into implementing a Redux-like flow for Screeps.
 * Migration support (no more cleaning up your entire field before deploying).
 * Write up a proper documentation of code.
 

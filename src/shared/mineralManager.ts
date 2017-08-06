@@ -10,7 +10,7 @@ export class MineralManager {
     this.mineralCount = _.size(this.minerals)
 
     if (Config.ENABLE_DEBUG_MODE) {
-      log.debug('[MineralManager] ' + this.mineralCount + ' minerals found.')
+      log.debug(`[MineralManager] ${this.mineralCount} minerals found.`)
     }
   }
 }

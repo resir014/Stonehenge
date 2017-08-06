@@ -10,7 +10,7 @@ export class ResourceManager {
     this.resourceCount = _.size(this.resources)
 
     if (Config.ENABLE_DEBUG_MODE) {
-      log.debug('[ResourceManager]' + this.resourceCount + ' dropped resources found.')
+      log.debug(`[ResourceManager] ${this.resourceCount} dropped resources found.`)
     }
   }
 }

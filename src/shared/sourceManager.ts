@@ -25,7 +25,7 @@ export class SourceManager {
     this.sourceCount = _.size(this.sources)
 
     if (Config.ENABLE_DEBUG_MODE) {
-      log.debug('[SourceManager] ' + this.sourceCount + ' source mining jobs available in room.')
+      log.debug(`[SourceManager] ${this.sourceCount} source mining jobs available in room.`)
     }
   }
 

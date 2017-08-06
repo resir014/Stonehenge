@@ -14,9 +14,10 @@ interface InitProcessMemory extends ProcessMemory {
  * @class InitProcess
  * @extends {Process<InitProcessMemory>}
  */
-@registerProc
+@registerProc()
 export class InitProcess extends Process<InitProcessMemory> {
   public readonly baseHeat: number = 1000
+  public readonly rawClassName: string = this.constructor.name
 
   public run (): void {
     // const kernel = this.kernel
@@ -27,7 +28,7 @@ export class InitProcess extends Process<InitProcessMemory> {
 
   private initCleanerProcess(): void {
     if (!this.memory.mc || !this.kernel.getProcessById(this.memory.mc)) {
-      this.memory.mc = this.spawnChildProcess(MemoryCleanerProcess).pid
+      // this.memory.mc = this.spawnChildProcess(MemoryCleanerProcess).pid
     }
   }
 
@@ -42,7 +43,7 @@ export class InitProcess extends Process<InitProcessMemory> {
     })
   }
 
-  private createRoomProcess (room: Room, rmem: Readonly<RoomMemory>): IRoomProc {
-    return this.spawnIndependentProcess(RoomProc).init(room);
-  }
+  // private createRoomProcess (room: Room, rmem: Readonly<RoomMemory>): IRoomProc {
+  //   return this.spawnIndependentProcess(RoomProc).init(room)
+  // }
 }

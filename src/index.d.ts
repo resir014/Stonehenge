@@ -51,10 +51,10 @@ interface StructureSpawn {
  */
 interface Memory {
   [name: string]: any
-  creeps: { [key: string]: CreepMemory }
-  flags: { [key: string]: FlagMemory }
-  rooms: { [key: string]: RoomMemory }
-  spawns: { [key: string]: SpawnMemory }
+  creeps: { [key: string]: any }
+  flags: { [key: string]: any }
+  rooms: { [key: string]: any }
+  spawns: { [key: string]: any }
   profiler: any
 }
 

@@ -11,7 +11,12 @@ export class ProcessRegistry {
     return this.registry as Readonly<typeof ProcessRegistry.registry>
   }
 
-  public static register(ctor: ProcessConstructor): void {
+  public static register(ctor: ProcessConstructor, prefix?: string): void {
+    if (prefix !== undefined) {
+      ctor.prefixedClassName = `${prefix}/${ctor.rawClassName}`
+    } else {
+      ctor.prefixedClassName = undefined
+    }
     ProcessRegistry.registry[ctor.className] = ctor
   }
 

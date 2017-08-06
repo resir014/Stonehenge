@@ -15,8 +15,8 @@ import { ProcessRegistry } from './kernel'
  * @param {IKernel} kernel The kernel object we're attempting to boot up.
  */
 export const boot = (kernel: IKernel, rootProcess: ProcessConstructor) => {
-  kernel.kernelLog(LogLevel.INFO, 'Welcome to Stonehenge!')
-  kernel.kernelLog(LogLevel.INFO, 'Starting the init process for you...')
+  kernel.kLog(LogLevel.INFO, 'Welcome to Stonehenge!')
+  kernel.kLog(LogLevel.INFO, 'Starting the init process for you...')
   ProcessRegistry.register(rootProcess)
   launchNew(kernel, rootProcess.className)
 }
@@ -31,10 +31,10 @@ export const boot = (kernel: IKernel, rootProcess: ProcessConstructor) => {
 const launchNew = (kernel: IKernel, className: string): ProcessId | undefined => {
   const p = kernel.spawnProcessByClassName(className, 0)
   if (p === undefined) {
-    kernel.kernelLog(LogLevel.ERROR, 'Could not find specified process to spawn.')
+    kernel.kLog(LogLevel.ERROR, 'Could not find specified process to spawn.')
     return
   }
-  kernel.kernelLog(LogLevel.INFO, `Spawned process ${p.pid}:${p.className}`)
+  kernel.kLog(LogLevel.INFO, `Spawned process ${p.pid}`)
   kernel.saveProcessTable()
   return p.pid
 }

@@ -3,7 +3,7 @@
 import { log } from '../lib/logger'
 import { Process, registerProc } from '../core/kernel/process'
 
-@registerProc
+@registerProc()
 export class MemoryCleanerProcess extends Process<ProcessMemory> {
   public readonly baseHeat: number = 2
 

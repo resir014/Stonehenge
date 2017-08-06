@@ -1,6 +1,6 @@
 const initCli = (g: NodeJS.Global, m: Memory, kernel: IKernel): void => {
   g.reset = function (): void {
-    kernel.kernelLog(LogLevel.INFO, 'Rebooting...')
+    kernel.kLog(LogLevel.INFO, 'Rebooting...')
     kernel.mem.proc = null
     kernel.mem.pmem = {}
     kernel.reboot()
@@ -14,10 +14,10 @@ const initCli = (g: NodeJS.Global, m: Memory, kernel: IKernel): void => {
   g.launchNew = function (className: string): ProcessId | undefined {
     const p = kernel.spawnProcessByClassName(className, 0)
     if (p === undefined) {
-      kernel.kernelLog(LogLevel.ERROR, 'Could not find specified process to spawn.')
+      kernel.kLog(LogLevel.ERROR, 'Could not find specified process to spawn.')
       return
     }
-    kernel.kernelLog(LogLevel.INFO, `Spawned process ${p.pid}:${p.className}`)
+    kernel.kLog(LogLevel.INFO, `Spawned process ${p.pid}:${className}`)
     kernel.saveProcessTable() // Because we're called after the kernel for some reason (TODO: Verify still true, it's been a while)
     return p.pid
   }

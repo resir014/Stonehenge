@@ -1,7 +1,7 @@
 /**
  * Loads all extended `StructureSpawn` prototypes.
  */
-export const loadStructureSpawnPrototypes = () => {
+export function loadStructureSpawnPrototypes(): void {
   StructureSpawn.prototype.getLargestBuildableBodyFromSet = function (
     this: StructureSpawn,
     potentialBodies: string[][]

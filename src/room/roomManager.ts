@@ -5,6 +5,7 @@ import { log } from '../lib/logger/log'
 import { SourceManager } from '../shared/sourceManager'
 import { CreepManager } from './creep/creepManager'
 
+// We use this global variable for this object, so let's declare it.
 declare const Orchestrator: IOrchestrator
 
 /**

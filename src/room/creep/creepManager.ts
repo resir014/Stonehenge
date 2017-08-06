@@ -11,6 +11,7 @@ import { Repairer } from './role/repairer'
 import { WallMaintainer } from './role/wallMaintainer'
 import { RoadMaintainer } from './role/roadMaintainer'
 
+// We use this global variable for this object, so let's declare it.
 declare const Orchestrator: IOrchestrator
 
 /**

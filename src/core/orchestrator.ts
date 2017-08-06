@@ -97,7 +97,7 @@ namespace Orchestrator {
    * @returns {number} The control points.
    */
   export function gclToControlPoints(gcl: number): number {
-    return Math.pow(gcl - 1, GCL_POW) * GCL_MULTIPLY;
+    return Math.pow(gcl - 1, GCL_POW) * GCL_MULTIPLY
   }
 
   /**
@@ -108,7 +108,7 @@ namespace Orchestrator {
    * @returns {number} The GCL.
    */
   export function controlPointsToGcl(points: number): number {
-    return Math.floor(Math.pow(points / GCL_MULTIPLY, 1 / GCL_POW) + 1);
+    return Math.floor(Math.pow(points / GCL_MULTIPLY, 1 / GCL_POW) + 1)
   }
 }
 

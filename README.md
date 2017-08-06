@@ -24,7 +24,7 @@ The codebase has to be simple and easily readable in order for the code to be ea
 
 ### Modularity
 
-The Stonehenge core engine is currently in development, and by design follows the Redux pattern. This means expanding on the codebase could be done with minimal overhead.
+The Stonehenge core engine is currently in development, and by design implements a Redux-like approach in creep memory (store) management. This means expanding on the codebase could be done with minimal overhead.
 
 ### Configuration over Convention
 

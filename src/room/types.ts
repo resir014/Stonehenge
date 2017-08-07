@@ -1,5 +1,6 @@
-// tslint:disable-next-line
-export interface IRoomOrchestrator {}
+export interface IRoomOrchestrator {
+  refreshJobAssignments(): void
+}
 
 export interface IRoomRunner {
   run(): void

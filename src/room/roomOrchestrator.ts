@@ -18,7 +18,6 @@ export class RoomOrchestrator implements IRoomOrchestrator {
 
     this.initialiseMemory()
     this.refreshMiningPositions()
-    this.refreshJobAssignments()
     this.refreshRoomObjects()
     this.cleanupCreepMemory()
   }

@@ -11,6 +11,6 @@ export class RoomRunner implements IRoomRunner {
   }
 
   public run(): void {
-    //
+    this.orchestrator.refreshJobAssignments()
   }
 }

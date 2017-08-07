@@ -1,4 +1,4 @@
-import { IOrchestrator } from '../core/types'
+import { IOrchestrator } from '../core/orchestrator'
 import { Profile } from '../lib/profiler/profile'
 import { log } from '../lib/logger/log'
 

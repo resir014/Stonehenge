@@ -1,6 +1,6 @@
-import * as Config from '../config/config'
-import { log } from '../lib/logger/log'
-import { controlledRoomJobs, bodyTemplates } from '../config/jobs'
+import * as Config from '../../config/config'
+import { log } from '../../lib/logger/log'
+import { controlledRoomJobs, bodyTemplates } from '../../config/jobs'
 
 import { IOrchestrator } from './types'
 
@@ -9,7 +9,7 @@ import { IOrchestrator } from './types'
  * perform global managerial tasks within a Colony, including managing memory,
  * job assignment, job priorities, mining/construction positions, etc.
  */
-class Orchestrator implements IOrchestrator {
+export class Orchestrator implements IOrchestrator {
   /**
    * Creates a unique guid for a creep/queued task.
    *
@@ -113,5 +113,3 @@ class Orchestrator implements IOrchestrator {
     return Math.floor(Math.pow(points / GCL_MULTIPLY, 1 / GCL_POW) + 1)
   }
 }
-
-export default Orchestrator

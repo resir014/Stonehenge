@@ -1,7 +1,7 @@
 import * as Config from '../../config/config'
 import { log } from '../../lib/logger/log'
 import { Profile } from '../../lib/profiler/profile'
-import { IOrchestrator } from '../../core/types'
+import { IOrchestrator } from '../../core/orchestrator'
 
 import { Harvester } from './role/harvester'
 import { Hauler } from './role/hauler'

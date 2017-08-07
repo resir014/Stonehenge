@@ -1,5 +1,5 @@
 import { IRoomOrchestrator } from './types'
-import { controlledRoomJobs } from '../config/jobs'
+import { controlledRoomJobs } from '../../config/jobs'
 
 export class RoomOrchestrator implements IRoomOrchestrator {
   /**

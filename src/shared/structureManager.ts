@@ -1,5 +1,5 @@
 import * as Config from '../config/config'
-import { log } from '../lib/logger/log'
+// import { log } from '../lib/logger/log'
 
 export class StructureManager {
   public structures: Structure[]
@@ -10,7 +10,7 @@ export class StructureManager {
     this.structureCount = _.size(this.structures)
 
     if (Config.ENABLE_DEBUG_MODE) {
-      log.debug(`[StructureManager] ${this.structureCount} structures found.`)
+      // log.debug(`[StructureManager] ${this.structureCount} structures found.`)
     }
   }
 

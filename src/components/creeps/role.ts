@@ -1,4 +1,4 @@
-import { StructureManager } from '../../shared/structureManager'
+import * as StructureManager from '../structures/structureManager'
 
 /**
  * Shared role for all Creeps.
@@ -6,8 +6,8 @@ import { StructureManager } from '../../shared/structureManager'
 export class Role {
   protected memory: Memory
   protected creep: Creep
+  protected room: Room
   protected state: string
-  protected structureManager: StructureManager
 
   /**
    * Creates an instance of Role.
@@ -17,9 +17,9 @@ export class Role {
    */
   constructor(creep: Creep) {
     this.creep = creep
+    this.room = this.creep.room
     this.memory = creep.memory
     this.state = this.memory.state
-    this.structureManager = new StructureManager(creep.room)
   }
 
   /**
@@ -103,7 +103,7 @@ export class Role {
    */
   public tryRetrieveEnergy(): void {
     // Locate a container, for starter.
-    const targets: Structure[] | undefined = this.structureManager.getSourceWithdrawalPoints()
+    const targets: Structure[] | undefined = StructureManager.getSourceWithdrawalPoints(this.room)
 
     if (targets) {
       const thisTarget = targets[0]

@@ -1,6 +1,6 @@
-import { SourceMapConsumer } from "source-map"
 import * as Config from "../../config/config";
-import { LogLevels } from "./logLevels";
+import { LogLevel } from "./logLevel";
+import { SourceMapConsumer } from "source-map";
 
 // <caller> (<source>:<line>:<column>)
 const stackLineRe = /([^ ]*) \(([^:]*):([0-9]*):([0-9]*)\)/;
@@ -25,15 +25,30 @@ export function resolve(fileLine: string): SourcePos {
   const original = Log.sourceMap.originalPositionFor(pos);
   const line = `${split[1]} (${original.source}:${original.line})`;
   const out = {
-      caller: split[1],
-      compiled: fileLine,
-      final: line,
-      line: original.line,
-      original: line,
-      path: original.source,
-    };
+    caller: split[1],
+    compiled: fileLine,
+    final: line,
+    line: original.line,
+    original: line,
+    path: original.source,
+  };
 
   return out;
+}
+
+/**
+ * Initialise the logger memory.
+ *
+ * @export
+ */
+export function initLoggerMemory(): void {
+  _.defaultsDeep(Memory, {
+    log: {
+      level: Config.LOG_LEVEL,
+      showSource: Config.LOG_PRINT_LINES,
+      showTick: Config.LOG_PRINT_TICK,
+    }
+  });
 }
 
 function makeVSCLink(pos: SourcePos): string {
@@ -64,39 +79,53 @@ function time(): string {
   return color(Game.time.toString(), "gray");
 }
 
+/**
+ * The Logger provides a more detailed logs to the Screeps console, which
+ * includes the tick number, as well as a link back to the source code (if
+ * configured).
+ *
+ * Log level and output can be controlled from console by setting `level`,
+ * `showSource` and `showTick` properties on the global `log` object.
+ *
+ * @export
+ * @class Log
+ */
 export class Log {
   public static sourceMap: any;
 
   public static loadSourceMap() {
     try {
+      // tslint:disable-next-line
       const map = require("main.js.map");
       if (map) {
-        Log.sourceMap = new SourceMapConsumer(map);
+        this.sourceMap = new SourceMapConsumer(map);
       }
     } catch (err) {
       console.log("failed to load source map", err);
     }
   }
 
-  public get level(): number { return Memory.log.level; }
-  public set level(value: number) { Memory.log.level = value; }
-  public get showSource(): boolean { return Memory.log.showSource; }
-  public set showSource(value: boolean) { Memory.log.showSource = value; }
-  public get showTick(): boolean { return Memory.log.showTick; }
-  public set showTick(value: boolean) { Memory.log.showTick = value; }
-
   private _maxFileString: number = 0;
 
-  constructor() {
-    _.defaultsDeep(Memory, { log: {
-      level: Config.LOG_LEVEL,
-      showSource: Config.LOG_PRINT_LINES,
-      showTick: Config.LOG_PRINT_TICK,
-    }});
+  public print(logLevel: LogLevel, message: string): void {
+    switch (logLevel) {
+      case LogLevel.ERROR: {
+        return this.debug(message)
+      }
+      case LogLevel.WARNING: {
+        return this.warning(message)
+      }
+      case LogLevel.INFO: {
+        return this.info(message)
+      }
+      default: {
+        return this.debug(message)
+      }
+    }
   }
 
   public trace(error: Error): Log {
-    if (this.level >= LogLevels.ERROR && error.stack) {
+    if (Config.LOG_LEVEL >= LogLevel.ERROR && error.stack) {
       console.log(this.resolveStack(error.stack));
     }
 
@@ -104,26 +133,26 @@ export class Log {
   }
 
   public error(...args: any[]) {
-    if (this.level >= LogLevels.ERROR) {
-      console.log.apply(this, this.buildArguments(LogLevels.ERROR).concat([].slice.call(args)));
+    if (Config.LOG_LEVEL >= LogLevel.ERROR) {
+      console.log.apply(this, this.buildArguments(LogLevel.ERROR).concat([].slice.call(args)));
     }
   }
 
   public warning(...args: any[]) {
-    if (this.level >= LogLevels.WARNING) {
-      console.log.apply(this, this.buildArguments(LogLevels.WARNING).concat([].slice.call(args)));
+    if (Config.LOG_LEVEL >= LogLevel.WARNING) {
+      console.log.apply(this, this.buildArguments(LogLevel.WARNING).concat([].slice.call(args)));
     }
   }
 
   public info(...args: any[]) {
-    if (this.level >= LogLevels.INFO) {
-      console.log.apply(this, this.buildArguments(LogLevels.INFO).concat([].slice.call(args)));
+    if (Config.LOG_LEVEL >= LogLevel.INFO) {
+      console.log.apply(this, this.buildArguments(LogLevel.INFO).concat([].slice.call(args)));
     }
   }
 
   public debug(...args: any[]) {
-    if (this.level >= LogLevels.DEBUG) {
-      console.log.apply(this, this.buildArguments(LogLevels.DEBUG).concat([].slice.call(args)));
+    if (Config.LOG_LEVEL >= LogLevel.DEBUG) {
+      console.log.apply(this, this.buildArguments(LogLevel.DEBUG).concat([].slice.call(args)));
     }
   }
 
@@ -148,25 +177,25 @@ export class Log {
   private buildArguments(level: number): string[] {
     const out: string[] = [];
     switch (level) {
-      case LogLevels.ERROR:
+      case LogLevel.ERROR:
         out.push(color("ERROR  ", "red"));
         break;
-      case LogLevels.WARNING:
+      case LogLevel.WARNING:
         out.push(color("WARNING", "yellow"));
         break;
-      case LogLevels.INFO:
+      case LogLevel.INFO:
         out.push(color("INFO   ", "green"));
         break;
-      case LogLevels.DEBUG:
+      case LogLevel.DEBUG:
         out.push(color("DEBUG  ", "gray"));
         break;
       default:
         break;
     }
-    if (this.showTick) {
+    if (Config.LOG_PRINT_TICK) {
       out.push(time());
     }
-    if (this.showSource) {
+    if (Config.LOG_PRINT_LINES) {
       out.push(this.getFileLine());
     }
     return out;
@@ -188,10 +217,4 @@ export class Log {
   }
 }
 
-if (Config.LOG_LOAD_SOURCE_MAP) {
-  Log.loadSourceMap();
-}
-
 export const log = new Log();
-
-global.log = log;

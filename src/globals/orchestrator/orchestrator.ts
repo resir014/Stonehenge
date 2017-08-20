@@ -1,21 +1,68 @@
 import * as Config from '../../config/config'
-import { log } from '../../lib/logger/log'
+import { log } from '../../lib/logger'
 import { controlledRoomJobs, bodyTemplates } from '../../config/jobs'
-
-import { IOrchestrator } from './types'
 
 /**
  * Orchestrator is the brain of each Colony. It provides several useful APIs to
  * perform global managerial tasks within a Colony, including managing memory,
  * job assignment, job priorities, mining/construction positions, etc.
+ *
+ * @export
+ * @interface IOrchestrator
  */
-export class Orchestrator implements IOrchestrator {
+export interface IOrchestrator {
   /**
    * Creates a unique guid for a creep/queued task.
    *
-   * @returns {number} The current guid.
-   * @memberof Orchestrator
+   * @returns {number} The current free guid.
+   * @memberof IOrchestrator
    */
+  getGuid(): number
+  /**
+   * Refreshes the job assignment available in a room.
+   *
+   * @param {Room} room The target room.
+   * @memberof IOrchestrator
+   */
+  refreshJobAssignments(room: Room): void
+  /**
+   * Calculates the body part for the creeps we'll have to spawn. Should return
+   * body parts which are proportional to a creep's role.
+   *
+   * @param {string} role The expected creep role.
+   * @param {Spawn} spawn The expected spawn where the creep is going to spawn.
+   * @returns {string[]} The body parts proportional to a creep's role
+   * @memberof IOrchestrator
+   */
+  getBodyParts(role: string, spawn: Spawn): string[]
+  /**
+   * Converts global control level (GCL) to control points.
+   *
+   * @param {number} gcl The GCL to convert
+   * @returns {number} The control points.
+   * @memberof IOrchestrator
+   */
+  gclToControlPoints(gcl: number): number
+  /**
+   * Converts control points to GCL.
+   *
+   * @param {number} points The points to convert.
+   * @returns {number} The GCL.
+   * @memberof IOrchestrator
+   */
+  controlPointsToGcl(points: number): number
+}
+
+/**
+ * Orchestrator is the brain of each Colony. It provides several useful APIs to
+ * perform global managerial tasks within a Colony, including managing memory,
+ * job assignment, job priorities, mining/construction positions, etc.
+ *
+ * @export
+ * @class Orchestrator
+ * @implements {IOrchestrator}
+ */
+export class Orchestrator implements IOrchestrator {
   public getGuid(): number {
     if (!Memory.guid || Memory.guid > 10000) {
       Memory.guid = 0
@@ -24,16 +71,6 @@ export class Orchestrator implements IOrchestrator {
     return Memory.guid
   }
 
-  /**
-   * Refreshes the job assignment available in a room.
-   *
-   * @todo If `manualJobControl` is set to `false` in the room memory, it's
-   * going to invoke a method which will ~automagically~ define job assignments
-   * based on some parameters. We don't even have that function yet.
-   *
-   * @param {Room} room The target room.
-   * @memberof Orchestrator
-   */
   public refreshJobAssignments(room: Room): void {
     // Check if all job assignments are initialised properly.
     if (_.keys(room.memory.jobs).length !== _.keys(controlledRoomJobs).length) {
@@ -44,15 +81,6 @@ export class Orchestrator implements IOrchestrator {
     }
   }
 
-  /**
-   * Calculates the body part for the creeps we'll have to spawn. Should return
-   * body parts which are proportional to a creep's role.
-   *
-   * @param {string} role The expected creep role.
-   * @param {Spawn} spawn The expected spawn where the creep is going to spawn.
-   * @returns {string[]} The body parts proportional to a creep's role
-   * @memberof Orchestrator
-   */
   public getBodyParts(role: string, spawn: Spawn): string[] {
     // So here we have an API call to build the required bodyparts for our
     // creep. This utilizes tinnvec's super-useful spawn prototype extensions,
@@ -91,24 +119,10 @@ export class Orchestrator implements IOrchestrator {
     return bodyParts
   }
 
-  /**
-   * Converts global control level (GCL) to control points.
-   *
-   * @param {number} gcl The GCL to convert
-   * @returns {number} The control points.
-   * @memberof Orchestrator
-   */
   public gclToControlPoints(gcl: number): number {
     return Math.pow(gcl - 1, GCL_POW) * GCL_MULTIPLY
   }
 
-  /**
-   * Converts control points to GCL.
-   *
-   * @param {number} points The points to convert.
-   * @returns {number} The GCL.
-   * @memberof Orchestrator
-   */
   public controlPointsToGcl(points: number): number {
     return Math.floor(Math.pow(points / GCL_MULTIPLY, 1 / GCL_POW) + 1)
   }

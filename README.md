@@ -2,7 +2,6 @@
 
 > Next-generation AI scripts for the game [Screeps](https://screeps.com/). Written in [TypeScript](http://www.typescriptlang.org/).
 
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 Stonehenge is a next-generation AI system for the game [Screeps](https://screeps.com/). It is developed in [TypeScript](https://www.typescriptlang.org/), and designed with modularity in mind.
@@ -24,7 +23,7 @@ The codebase has to be simple and easily readable in order for the code to be ea
 
 ### Modularity
 
-The Stonehenge core engine is currently in development, and by design implements a Redux-like approach in creep memory (store) management. This means expanding on the codebase could be done with minimal overhead.
+The code is structured by modules, which means expanding on the codebase could be done with minimal overhead.
 
 ### Configuration over Convention
 

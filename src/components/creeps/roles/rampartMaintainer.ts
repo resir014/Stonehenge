@@ -1,17 +1,18 @@
+import * as StructureManager from '../../structures/structureManager'
 import { Profile } from '../../../lib/profiler/profile'
 import { Role } from '../role'
 
 /**
- * An WallMaintainer repairs roads in their room.
+ * A RampartMaintainer repairs ramparts in their room.
  *
  * @todo Refactor this.
  */
-export class WallMaintainer extends Role {
+export class RampartMaintainer extends Role {
   /**
-   * Creates an instance of WallMaintainer.
+   * Creates an instance of RampartMaintainer.
    * @param {Creep} creep The current creep.
    *
-   * @memberOf WallMaintainer
+   * @memberOf RampartMaintainer
    */
   constructor(creep: Creep) {
     super(creep)
@@ -23,7 +24,7 @@ export class WallMaintainer extends Role {
   @Profile()
   public run(): void {
     if (_.sum(this.creep.carry) > 0) {
-      const structuresToRepair = this.getStructuresToRepair(this.structureManager.structures)
+      const structuresToRepair = this.getStructuresToRepair(StructureManager.loadStructures(this.room))
 
       if (structuresToRepair) {
         if (this.creep.pos.isNearTo(structuresToRepair[0])) {
@@ -46,12 +47,12 @@ export class WallMaintainer extends Role {
    * @param {Structure[]} structures The list of structures.
    * @returns {(Structure[] | undefined)} an array of roads to repair.
    *
-   * @memberOf WallMaintainer
+   * @memberOf RampartMaintainer
    */
   @Profile()
   private getStructuresToRepair(structures: Structure[]): Structure[] | undefined {
     const targets: Structure[] = structures.filter((structure: Structure) => {
-      return ((structure.structureType === STRUCTURE_WALL) && structure.hits < 700000)
+      return ((structure.structureType === STRUCTURE_RAMPART) && structure.hits < (structure.hits * 0.3))
     })
 
     return targets

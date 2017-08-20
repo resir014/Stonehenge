@@ -1,25 +1,30 @@
-/*
- * Stonehenge - A modular colony management engine for Screeps.
- *
- * Stonehenge is a next-generation colony management system for the game Screeps.
- * It is developed in TypeScript, and designed with modularity in mind.
- */
-
 import * as Profiler from 'screeps-profiler'
+import { USE_PROFILER } from './config/config'
+import { Orchestrator } from './globals/orchestrator'
 
-import * as Config from './config/config'
-import { Orchestrator } from './core/orchestrator'
-import { RoomManager } from './room/roomManager'
-import { log } from './lib/logger/log'
+import { runCreeps } from './components/creeps/creepManager'
+import { refreshAvailableSources } from './components/sources/sourceManager'
+import { refreshJobAssignments } from './shared/jobManager'
+import {
+  checkOutOfBoundsMemory,
+  initialiseRoomMemory,
+  refreshMiningPositions,
+  cleanupCreepMemory
+} from './shared/memoryManager'
 
-import { loadStructureSpawnPrototypes } from './prototypes/StructureSpawn.prototype'
+import { log, initLoggerMemory } from './lib/logger'
+import { loadStructureSpawnPrototypes } from './prototypes/StructureSpawn'
 
-// This is an example for using a config variable from `config.ts`.
-// NOTE: this is used as an example, you may have better performance
-// by setting USE_PROFILER through webpack, if you want to permanently
-// remove it on deploy
-// Start the profiler
-if (Config.USE_PROFILER) {
+// Any code written outside the `loop()` method is executed only when the
+// Screeps system reloads your script.
+// Use this bootstrap wisely. You can cache some of your stuff to save CPU.
+// You should extend prototypes before the game loop executes here.
+
+// Initialise logger memory.
+initLoggerMemory()
+
+// Start the profiler.
+if (USE_PROFILER) {
   Profiler.enable()
 }
 
@@ -31,37 +36,23 @@ global.Orchestrator = new Orchestrator()
 log.info(`loading revision: ${__REVISION__}`)
 
 function mloop(): void {
-  // Check memory for null or out of bounds custom objects.
+  // Check memory for null or out of bounds custom objects
   checkOutOfBoundsMemory()
 
-  // For each controlled room, run colony actions.
   for (const i in Game.rooms) {
     const room: Room = Game.rooms[i]
 
-    const colony = new RoomManager(room)
-    colony.run()
-  }
-}
+    // Memory cleanup tasks
+    initialiseRoomMemory(room)
+    refreshMiningPositions(room)
+    cleanupCreepMemory(room)
+    refreshJobAssignments(room)
 
-/**
- * Check memory for null or out of bounds custom objects
- */
-function checkOutOfBoundsMemory(): void {
-  if (!Memory.guid) {
-    Memory.guid = 0
-  }
+    // Component initialisation tasks
+    refreshAvailableSources(room);
 
-  if (!Memory.creeps) {
-    Memory.creeps = {}
-  }
-  if (!Memory.flags) {
-    Memory.flags = {}
-  }
-  if (!Memory.rooms) {
-    Memory.rooms = {}
-  }
-  if (!Memory.spawns) {
-    Memory.spawns = {}
+    // For each tick, run managed creeps/structures
+    runCreeps(room)
   }
 }
 
@@ -73,4 +64,4 @@ function checkOutOfBoundsMemory(): void {
  *
  * @export
  */
-export const loop = !Config.USE_PROFILER ? mloop : Profiler.wrap(mloop)
+export const loop = !USE_PROFILER ? mloop : () => { Profiler.wrap(mloop) }

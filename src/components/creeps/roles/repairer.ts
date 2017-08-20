@@ -1,3 +1,4 @@
+import * as StructureManager from '../../structures/structureManager'
 import { Profile } from '../../../lib/profiler/profile'
 import { Role } from '../role'
 
@@ -23,7 +24,7 @@ export class Repairer extends Role {
   @Profile()
   public run(): void {
     if (_.sum(this.creep.carry) > 0) {
-      const structuresToRepair = this.getStructuresToRepair(this.structureManager.structures)
+      const structuresToRepair = this.getStructuresToRepair(StructureManager.loadStructures(this.room))
 
       if (structuresToRepair) {
         if (this.creep.pos.isNearTo(structuresToRepair[0])) {

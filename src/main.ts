@@ -4,6 +4,7 @@ import { Orchestrator } from './globals/orchestrator'
 
 import { runCreeps } from './components/creeps/creepManager'
 import { refreshAvailableSources } from './components/sources/sourceManager'
+import { runTowers } from './components/towers/towerManager'
 import { refreshJobAssignments } from './shared/jobManager'
 import {
   checkOutOfBoundsMemory,
@@ -49,10 +50,11 @@ function mloop(): void {
     refreshJobAssignments(room)
 
     // Component initialisation tasks
-    refreshAvailableSources(room);
+    refreshAvailableSources(room)
 
     // For each tick, run managed creeps/structures
     runCreeps(room)
+    runTowers(room)
   }
 }
 

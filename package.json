@@ -10,6 +10,7 @@
     "local": "webpack --colors --env.ENV=local",
     "watch-local": "webpack --colors --watch --env.ENV=local",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "tslint \"src/**/*.ts\"",
     "typings": "typings"
   },
   "repository": {

@@ -99,14 +99,7 @@
       true,
       "allow-null-check"
     ],
-    "typedef": [
-      true,
-      "call-signature",
-      "parameter",
-      "arrow-parameter",
-      "property-declaration",
-      "member-variable-declaration"
-    ],
+    "typedef": [false],
     "typedef-whitespace": [
       true, {
         "call-signature": "nospace",

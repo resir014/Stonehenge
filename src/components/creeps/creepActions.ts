@@ -33,7 +33,7 @@ export function needsRenew(creep: Creep): boolean {
  * @returns {number}
  */
 export function tryRenew(creep: Creep, spawn: Spawn): number {
-  return spawn.renewCreep(creep);
+  return spawn.renewCreep(creep)
 }
 
 /**
@@ -45,7 +45,7 @@ export function tryRenew(creep: Creep, spawn: Spawn): number {
  */
 export function moveToRenew(creep: Creep, spawn: Spawn): void {
   if (tryRenew(creep, spawn) === ERR_NOT_IN_RANGE) {
-    creep.moveTo(spawn);
+    creep.moveTo(spawn)
   }
 }
 
@@ -61,9 +61,9 @@ export function getEnergy(creep: Creep, roomObject: RoomObject): void {
 
   if (energy) {
     if (creep.pos.isNearTo(energy)) {
-      creep.pickup(energy);
+      creep.pickup(energy)
     } else {
-      moveTo(creep, energy.pos);
+      moveTo(creep, energy.pos)
     }
   }
 }
@@ -77,15 +77,15 @@ export function getEnergy(creep: Creep, roomObject: RoomObject): void {
  * @returns {boolean}
  */
 export function canWork(creep: Creep): boolean {
-  const working = creep.memory.working;
+  const working = creep.memory.working
 
   if (working && _.sum(creep.carry) === 0) {
-    creep.memory.working = false;
-    return false;
+    creep.memory.working = false
+    return false
   } else if (!working && _.sum(creep.carry) === creep.carryCapacity) {
-    creep.memory.working = true;
-    return true;
+    creep.memory.working = true
+    return true
   } else {
-    return creep.memory.working;
+    return creep.memory.working
   }
 }

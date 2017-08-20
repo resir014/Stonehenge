@@ -1,5 +1,5 @@
-import { ENABLE_DEBUG_MODE } from '../../config/config';
-import { log } from '../../lib/logger';
+import { ENABLE_DEBUG_MODE } from '../../config/config'
+import { log } from '../../lib/logger'
 
 /**
  * Create an array of all sources in the room and update job entries where

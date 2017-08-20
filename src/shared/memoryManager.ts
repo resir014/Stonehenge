@@ -1,4 +1,4 @@
-import { log } from '../lib/logger';
+import { log } from '../lib/logger'
 
 /**
  * Check memory for null or out of bounds custom objects
@@ -7,20 +7,20 @@ import { log } from '../lib/logger';
  */
 export function checkOutOfBoundsMemory(): void {
   if (!Memory.uuid || Memory.uuid > 100) {
-    Memory.uuid = 0;
+    Memory.uuid = 0
   }
 
   if (!Memory.creeps) {
-    Memory.creeps = {};
+    Memory.creeps = {}
   }
   if (!Memory.flags) {
-    Memory.flags = {};
+    Memory.flags = {}
   }
   if (!Memory.rooms) {
-    Memory.rooms = {};
+    Memory.rooms = {}
   }
   if (!Memory.spawns) {
-    Memory.spawns = {};
+    Memory.spawns = {}
   }
 }
 

@@ -64,7 +64,7 @@ export function runCreeps(room: Room): void {
 function _manageCreeps(room: Room, creeps: Creep[]): void {
   const spawns: Spawn[] = room.find<Spawn>(FIND_MY_SPAWNS, {
     filter: (spawn: Spawn) => {
-      return spawn.spawning === null;
+      return spawn.spawning === null
     },
   })
 

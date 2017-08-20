@@ -1,5 +1,5 @@
 import { ENABLE_DEBUG_MODE } from '../../config/config'
-import { IOrchestrator } from '../../globals/orchestrator'
+import { IOrchestrator } from '../../core/orchestrator'
 import { log } from '../../lib/logger'
 
 import { Harvester } from './roles/harvester'

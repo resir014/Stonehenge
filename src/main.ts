@@ -1,6 +1,6 @@
 import * as Profiler from 'screeps-profiler'
 import { USE_PROFILER } from './config/config'
-import { Orchestrator } from './globals/orchestrator'
+import { Orchestrator } from './core/orchestrator'
 
 import { runCreeps } from './components/creeps/creepManager'
 import { refreshAvailableSources } from './components/sources/sourceManager'

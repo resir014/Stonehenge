@@ -60,7 +60,7 @@ $ npm install
 
 Create a copy of `config/credentials.example.json` and rename it to `config/credentials.json`.
 
-**WARNING**  _**DO NOT** commit this file into your repository!_
+**WARNING:** _**DO NOT** commit this file into your repository!_
 
 ```bash
 # config/credentials.json
@@ -84,8 +84,6 @@ $ npm run deploy
 ### Post-Deploy
 
 After deploying, you should manually set the build priorities for your rooms. Go to your respective room's memory in the memory tree, go to `jobs`, and set the number of creeps you'd like each role.
-
-(TBA) If you have `manualJobControl` set to `false`, the core engine will procedurally generate job assignments based on the room's conditions.
 
 ## Configuration
 

@@ -13,8 +13,8 @@ export function refreshAvailableSources(room: Room): void {
 
   if (room.memory.sources.length === 0) {
     sources.forEach((source: Source) => {
-      // Create an array of all sources in the room
-      room.memory.sources.push(source)
+      // Create an array of all source IDs in the room
+      room.memory.sources.push(source.id)
     })
   }
 

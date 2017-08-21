@@ -91,7 +91,7 @@
       "jsx-double"
     ],
     "radix": true,
-    "semicolon": [false],
+    "semicolon": [true, "never"],
     "space-before-function-paren": [true, {"anonymous": "always", "named": "never", "asyncArrow": "always"}],
     "switch-default": true,
     "trailing-comma": [false],

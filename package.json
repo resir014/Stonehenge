@@ -4,14 +4,16 @@
   "description": "Next-generation AI scripts for the game Screeps. Written in TypeScript.",
   "main": "./dist/main.js",
   "scripts": {
-    "postinstall": "typings install",
-    "deploy": "webpack --colors --env.ENV=dev",
-    "start": "webpack --colors --watch",
-    "local": "webpack --colors --env.ENV=local",
-    "watch-local": "webpack --colors --watch --env.ENV=local",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --colors --env.ENV=dev",
+    "deploy": "webpack --colors --env.ENV=prod",
     "lint": "tslint \"src/**/*.ts\" -e \"**/src/lib/**/*.ts\"",
-    "typings": "typings"
+    "local": "webpack --colors --env.ENV=local",
+    "postinstall": "typings install",
+    "start": "npm run watch",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "typings": "typings",
+    "watch": "webpack --colors --watch",
+    "watch-local": "webpack --colors --watch --env.ENV=local"
   },
   "repository": {
     "type": "git",

@@ -1,17 +1,8 @@
 import * as Profiler from 'screeps-profiler'
 import { USE_PROFILER } from './config/config'
 import { Orchestrator } from './core/orchestrator'
-
-import { runCreeps } from './components/creeps/creepManager'
-import { refreshAvailableSources } from './components/sources/sourceManager'
-import { runTowers } from './components/towers/towerManager'
-import { refreshJobAssignments } from './shared/jobManager'
-import {
-  checkOutOfBoundsMemory,
-  initialiseRoomMemory,
-  refreshMiningPositions,
-  cleanupCreepMemory
-} from './shared/memoryManager'
+import { initialiseRooms } from './room/roomManager'
+import { checkOutOfBoundsMemory } from './shared/memoryManager'
 
 import { log, initLoggerMemory } from './lib/logger'
 import { loadStructureSpawnPrototypes } from './prototypes/StructureSpawn'
@@ -40,22 +31,8 @@ function mloop(): void {
   // Check memory for null or out of bounds custom objects
   checkOutOfBoundsMemory()
 
-  for (const i in Game.rooms) {
-    const room: Room = Game.rooms[i]
-
-    // Memory cleanup tasks
-    initialiseRoomMemory(room)
-    refreshMiningPositions(room)
-    cleanupCreepMemory(room)
-    refreshJobAssignments(room)
-
-    // Component initialisation tasks
-    refreshAvailableSources(room)
-
-    // For each tick, run managed creeps/structures
-    runCreeps(room)
-    runTowers(room)
-  }
+  // Initialise all controlled rooms.
+  initialiseRooms()
 }
 
 /**

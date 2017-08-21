@@ -1,6 +1,6 @@
 import * as Config from '../../config/config'
 import { log } from '../../lib/logger'
-import { controlledRoomJobs, bodyTemplates } from '../../config/jobs'
+import { bodyTemplates } from '../../config/jobs'
 
 /**
  * Orchestrator is the brain of each Colony. It provides several useful APIs to
@@ -18,13 +18,6 @@ export interface IOrchestrator {
    * @memberof IOrchestrator
    */
   getGuid(): number
-  /**
-   * Refreshes the job assignment available in a room.
-   *
-   * @param {Room} room The target room.
-   * @memberof IOrchestrator
-   */
-  refreshJobAssignments(room: Room): void
   /**
    * Calculates the body part for the creeps we'll have to spawn. Should return
    * body parts which are proportional to a creep's role.
@@ -69,16 +62,6 @@ export class Orchestrator implements IOrchestrator {
     }
 
     return Memory.guid
-  }
-
-  public refreshJobAssignments(room: Room): void {
-    // Check if all job assignments are initialised properly.
-    if (_.keys(room.memory.jobs).length !== _.keys(controlledRoomJobs).length) {
-      const jobsToAdd = _.difference(controlledRoomJobs, _.keys(room.memory.jobs))
-      for (const i in jobsToAdd) {
-        room.memory.jobs[jobsToAdd[i]] = 0
-      }
-    }
   }
 
   public getBodyParts(role: string, spawn: Spawn): string[] {
